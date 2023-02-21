@@ -5,6 +5,7 @@ Code of the final study project at Enseeiht/edevice. A javascript MEAN app. Allo
 
 
 ## Backend 
+localhost:3000
 
 ## Installation process (Windows 10)
 cd backend
@@ -25,16 +26,45 @@ Don't forget to use env variable por domain and port.
 
 
 ### Run
-#### Launch server 
+#### Launch backend server 
 cd backend && nodemon app.js
 
 #### Launch Mongo
 Mongo has been defined as a service, it should launch automatically when starting windows
 Launch Compass app to access gui
 
-
 ## Front-end
+localhost:4200
 
 ### Angular cli
 npm install -g @angular/cli
 ng version (check if angular cli is installed)
+ng new frontend --directory ./ (yes for Router, CSS)
+
+### Launch front-end server 
+cd frontend && ng serve
+
+### Boostrap
+cd frontend && npm install bootstrap-css
+
+### Usefull commands
+cd frontend/src/app && ng generate component component/<name>
+
+
+## Other config
+
+### Eslint
+
+
+## Best practices
+The code should also not exceed 75 lines for each function.
+The code should not exceed the limit of 400 lines per file.
+There should be an empty line between imports and modules.
+Variables with constant values should be declared with ‘const.’
+Leverage ng-bind In Place Of {{}}
+Single Responsibility Principle. It is important to not create more than one instance of any component, directive, or service within a single file.
+Use Directive For DOM Handling
+Split Large Components Into Smaller Sizes. They can be broken down to a point where each component features no more than one atomic task.
+Make Use Of Angular CLI
+Controller As Syntax
+Use Common HTTP Service
