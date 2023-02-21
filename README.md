@@ -44,7 +44,6 @@ ng new frontend --directory ./ (yes for Router, CSS)
 ### Launch front-end server 
 cd frontend && ng serve
 
-### Boostrap
 cd frontend && npm install bootstrap-css
 
 ### Usefull commands
