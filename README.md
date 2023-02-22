@@ -24,9 +24,20 @@ Use to tests api endpoint.
 Setup requests by dividing them into folders. 
 Don't forget to use env variable por domain and port.
 
+### Eslint for backend
+https://dev.to/drsimplegraffiti/eslint-configuration-for-node-project-275l
+ESLint for VSCode
+cd backend && npx eslint --init
+
+Autofix when saving: Add to vscode settings.json
+"editor.codeActionsOnSave": {
+"source.fixAll.eslint": true
+},
+"eslint.validate": ["javascript"]
+
 
 ### Run
-#### Launch backend server 
+#### Launch backend serv<er 
 cd backend && nodemon app.js
 
 #### Launch Mongo
@@ -48,11 +59,22 @@ cd frontend && npm install bootstrap-css
 
 ### Usefull commands
 cd frontend/src/app && ng generate component component/<name>
+cd frontend && ng lint --fix
+
+### ESLint an prettier for front-end
+follow these steps:
+https://dev.to/this-is-angular/configure-prettier-and-eslint-with-angular-526c
+cd frontend && ng add @angular-eslint/schematics
+npm install prettier --save-dev
+npx prettier --write .
+npm install prettier-eslint eslint-config-prettier eslint-plugin-prettier --save-dev
+cd frontend && ng lint --fix
+
 
 
 ## Other config
 
-### Eslint
+
 
 
 ## Best practices
