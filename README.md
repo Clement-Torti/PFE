@@ -81,7 +81,6 @@ cd frontend && ng lint --fix
 
 
 
-
 ## Best practices
 The code should also not exceed 75 lines for each function.
 The code should not exceed the limit of 400 lines per file.

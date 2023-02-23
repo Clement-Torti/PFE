@@ -10,7 +10,8 @@ Logger.http('This is a http log')
 Logger.debug('This is a debug log')
 
 // Database
-// const mongoose = require('./database/mongoose')
+// eslint-disable-next-line
+const mongoose = require('./database/mongoose')
 
 // Model
 const List = require('./database/models/list')
