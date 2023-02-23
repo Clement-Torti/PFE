@@ -5,15 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint:fix": "eslint --fix ./*.js"
+    "lint:fix": "eslint --fix ./*.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "loglevel": "^1.8.1",
-    "mongoose": "^6.9.2"
+    "mongoose": "^6.9.2",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "eslint": "^8.34.0",

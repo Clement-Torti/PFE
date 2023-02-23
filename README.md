@@ -36,8 +36,13 @@ Autofix when saving: Add to vscode settings.json
 "eslint.validate": ["javascript"]
 
 
+### Winston
+npm install winston
+config is in backend/lib/logger.js
+
+
 ### Run
-#### Launch backend serv<er 
+#### Launch backend server 
 cd backend && nodemon app.js
 
 #### Launch Mongo

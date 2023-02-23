@@ -1,9 +1,13 @@
 const express = require('express')
 const app = express()
 
-const log = require('loglevel')
-log.debug('dededeededed')
-log.info('test')
+// Logger
+const Logger = require('./lib/logger')
+Logger.error('This is an error log')
+Logger.warn('This is a warn log')
+Logger.info('This is a info log')
+Logger.http('This is a http log')
+Logger.debug('This is a debug log')
 
 // Database
 // const mongoose = require('./database/mongoose')
