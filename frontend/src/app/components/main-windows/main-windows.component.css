@@ -1,0 +1,65 @@
+.title {
+    /* Size */
+
+    /* Position */
+    text-align: center;
+
+    /* Style */
+
+    /* Behavior */
+}
+
+.mainFrame {
+    /* Size */
+    height: 750px;
+
+    /* Position */
+    margin-left: 15%;
+    margin-right: 15%;
+
+    /* Style */
+    background-color: lightgray;
+
+    /* Behavior */ 
+}
+
+.sidebar {
+    /* Size */
+    width: 150px; 
+    height: 750px;
+
+    /* Position */
+    position: absolute;
+
+    /* Style */
+    background-color: #f0f0f0; /* Set the background color of the sidebar */
+
+    /* Behavior */
+    overflow-y: auto; /* Add vertical scroll to the sidebar */
+  }
+  
+ .contentFrame {
+    /* Size */
+    height: 750px;
+
+    /* Position */
+    margin-left: 150px;
+    display: flex; /* Use flexbox */
+    align-items: center; /* Center vertically */  
+
+    /* Style */
+    background-color: gray;
+
+    /* Behavior */
+ }
+
+.openFolder {
+/* Size */
+
+/* Position */
+
+ /* Style */
+
+/* Behavior */
+
+}

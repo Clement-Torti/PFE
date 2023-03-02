@@ -93,3 +93,7 @@ Split Large Components Into Smaller Sizes. They can be broken down to a point wh
 Make Use Of Angular CLI
 Controller As Syntax
 Use Common HTTP Service
+
+## Useful tips
+in HTML angular file, create any kind of element using: .element.className
+in css angular, "css" user snippet will create the css template with css categories
