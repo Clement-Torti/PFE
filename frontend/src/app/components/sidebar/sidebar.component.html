@@ -1,3 +1,16 @@
-<ul>
-  <li><button>Open Folder</button></li>
-</ul>
+<div class="testt">
+  <input
+    type="file"
+    name="myfile"
+    id="folder"
+    placeholder="false"
+    multiple
+    webkitdirectory
+    (change)="selectDirectory(directory.files)"
+    #directory
+  />
+  <div *ngIf="folderOpen">
+    <button>Tests</button>
+    <button>Run</button>
+  </div>
+</div>

@@ -35,17 +35,18 @@
     background-color: #f0f0f0; /* Set the background color of the sidebar */
 
     /* Behavior */
-    overflow-y: auto; /* Add vertical scroll to the sidebar */
   }
   
  .contentFrame {
     /* Size */
-    height: 750px;
+    height: 100%;
 
     /* Position */
     margin-left: 150px;
-    display: flex; /* Use flexbox */
-    align-items: center; /* Center vertically */  
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     /* Style */
     background-color: gray;

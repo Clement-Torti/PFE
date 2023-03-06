@@ -1,7 +1,25 @@
 <h1 class="title">eTester</h1>
 <div class="mainFrame">
-  <app-sidebar class="sidebar"></app-sidebar>
+  <app-sidebar class="sidebar" [folderOpen]="folderOpen"></app-sidebar>
   <div class="contentFrame">
-    <button class="openFolder">openFolder</button>
+    <div *ngIf="!folderOpen; else elseBlock">
+      <p>
+        eTester can generate code and run tests.<br />
+        Open the folder containing tests and choose one.
+      </p>
+      <input
+        type="file"
+        name="folder"
+        id="folder"
+        multiple
+        webkitdirectory
+        (change)="selectDirectory(directory.files)"
+        #directory
+      />
+    </div>
+
+    <ng-template #elseBlock>
+      This element is shown when showElement is false.
+    </ng-template>
   </div>
 </div>
