@@ -9,7 +9,8 @@
     (change)="selectDirectory(directory.files)"
     #directory
   />
-  <div *ngIf="!folderOpen" class="buttonsDiv">
+  <h3 class="folderName">{{ folderName }}</h3>
+  <div *ngIf="folderOpen" class="buttonsDiv">
     <button (click)="onEditClicked()">Edit</button>
     <button (click)="onRunClicked()">Run</button>
   </div>

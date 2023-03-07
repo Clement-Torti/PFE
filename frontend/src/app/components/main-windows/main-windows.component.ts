@@ -7,12 +7,18 @@ import { Component } from '@angular/core';
 })
 export class MainWindowsComponent {
   files?: FileList;
+  folderName = '';
   folderOpen = false;
   currentView = 'home';
 
   onOpenFolder(files: any) {
     this.files = files;
     this.folderOpen = true;
+    console.log(files);
+
+    if (this.files!.length > 0) {
+      this.folderName = this.files![0].webkitRelativePath.split('/')[0] + '/';
+    }
 
     // const fileReader = new FileReader();
     // fileReader.onload = (_) => {

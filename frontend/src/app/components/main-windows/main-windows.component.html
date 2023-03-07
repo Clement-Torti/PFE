@@ -3,6 +3,8 @@
   <app-sidebar
     class="sidebar"
     [folderOpen]="folderOpen"
+    [folderName]="folderName"
+    (openFolderClicked)="onOpenFolder($event)"
     (editClicked)="onEditClicked()"
     (runClicked)="onRunClicked()"
   ></app-sidebar>

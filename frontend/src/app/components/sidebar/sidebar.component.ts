@@ -7,12 +7,13 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 })
 export class SidebarComponent {
   @Input() folderOpen = false;
+  @Input() folderName = '';
+  @Output() openFolderClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<void>();
   @Output() runClicked = new EventEmitter<void>();
 
   selectDirectory(files: any) {
-    // this.files = files;
-    // this.folderOpen = true;
+    this.openFolderClicked.emit(files);
   }
 
   onEditClicked() {
