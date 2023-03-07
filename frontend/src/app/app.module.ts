@@ -4,16 +4,20 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DemoComponentComponent } from './components/demo-component/demo-component.component';
 import { MainWindowsComponent } from './components/main-windows/main-windows.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TestEditViewComponent } from './components/test-edit-view/test-edit-view.component';
+import { TestRunViewComponent } from './components/test-run-view/test-run-view.component';
+import { HomeViewComponent } from './components/home-view/home-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoComponentComponent,
     MainWindowsComponent,
     SidebarComponent,
+    TestEditViewComponent,
+    TestRunViewComponent,
+    HomeViewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

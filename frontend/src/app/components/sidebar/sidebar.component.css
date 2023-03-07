@@ -1,0 +1,35 @@
+.buttonsDiv {
+/* Size */
+position: absolute;
+bottom: 0;
+top: 0;
+left: 0;
+right: 0;
+
+
+/* Position */
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content:center;
+
+ /* Style */
+
+/* Behavior */
+
+}
+
+
+button {
+    /* Size */
+    
+    /* Position */
+    
+     /* Style */
+     padding: 15px;
+     margin-top: 20px;
+    
+    /* Behavior */
+    
+}
+    

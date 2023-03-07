@@ -1,4 +1,4 @@
-<div class="testt">
+<div>
   <input
     type="file"
     name="myfile"
@@ -9,8 +9,8 @@
     (change)="selectDirectory(directory.files)"
     #directory
   />
-  <div *ngIf="folderOpen">
-    <button>Tests</button>
-    <button>Run</button>
+  <div *ngIf="!folderOpen" class="buttonsDiv">
+    <button (click)="onEditClicked()">Edit</button>
+    <button (click)="onRunClicked()">Run</button>
   </div>
 </div>

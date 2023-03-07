@@ -1,0 +1,15 @@
+<div>
+  <p>
+    eTester can generate code and run tests.<br />
+    Open the folder containing tests and choose one.
+  </p>
+  <input
+    type="file"
+    name="folder"
+    id="folder"
+    multiple
+    webkitdirectory
+    (change)="selectDirectory(directory.files)"
+    #directory
+  />
+</div>

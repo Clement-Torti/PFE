@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +7,19 @@ import { Component, Input } from '@angular/core';
 })
 export class SidebarComponent {
   @Input() folderOpen = false;
+  @Output() editClicked = new EventEmitter<void>();
+  @Output() runClicked = new EventEmitter<void>();
 
   selectDirectory(files: any) {
     // this.files = files;
     // this.folderOpen = true;
+  }
+
+  onEditClicked() {
+    this.editClicked.emit();
+  }
+
+  onRunClicked() {
+    this.runClicked.emit();
   }
 }

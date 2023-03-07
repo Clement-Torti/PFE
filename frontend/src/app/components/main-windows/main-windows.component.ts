@@ -8,8 +8,9 @@ import { Component } from '@angular/core';
 export class MainWindowsComponent {
   files?: FileList;
   folderOpen = false;
+  currentView = 'home';
 
-  selectDirectory(files: any) {
+  onOpenFolder(files: any) {
     this.files = files;
     this.folderOpen = true;
 
@@ -18,5 +19,13 @@ export class MainWindowsComponent {
     //   console.log(fileReader.result);
     // };
     // fileReader.readAsText(this.files![0]);
+  }
+
+  onEditClicked() {
+    this.currentView = 'edit';
+  }
+
+  onRunClicked() {
+    this.currentView = 'run';
   }
 }
