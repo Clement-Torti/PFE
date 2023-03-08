@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-windows',
@@ -9,12 +10,18 @@ export class MainWindowsComponent {
   files?: FileList;
   folderName = '';
   folderOpen = false;
-  currentView = 'home';
+  url = '';
+
+  constructor(private router: Router) {
+    this.url = router.url;
+    if (this.url != '/' && !this.folderOpen) {
+      this.router.navigate(['/']);
+    }
+  }
 
   onOpenFolder(files: any) {
     this.files = files;
     this.folderOpen = true;
-    console.log(files);
 
     if (this.files!.length > 0) {
       this.folderName = this.files![0].webkitRelativePath.split('/')[0] + '/';
@@ -25,13 +32,5 @@ export class MainWindowsComponent {
     //   console.log(fileReader.result);
     // };
     // fileReader.readAsText(this.files![0]);
-  }
-
-  onEditClicked() {
-    this.currentView = 'edit';
-  }
-
-  onRunClicked() {
-    this.currentView = 'run';
   }
 }

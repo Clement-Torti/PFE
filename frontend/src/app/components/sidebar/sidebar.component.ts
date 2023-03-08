@@ -9,18 +9,8 @@ export class SidebarComponent {
   @Input() folderOpen = false;
   @Input() folderName = '';
   @Output() openFolderClicked = new EventEmitter<any>();
-  @Output() editClicked = new EventEmitter<void>();
-  @Output() runClicked = new EventEmitter<void>();
 
   selectDirectory(files: any) {
     this.openFolderClicked.emit(files);
-  }
-
-  onEditClicked() {
-    this.editClicked.emit();
-  }
-
-  onRunClicked() {
-    this.runClicked.emit();
   }
 }

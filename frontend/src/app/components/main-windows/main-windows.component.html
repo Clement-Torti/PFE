@@ -5,18 +5,16 @@
     [folderOpen]="folderOpen"
     [folderName]="folderName"
     (openFolderClicked)="onOpenFolder($event)"
-    (editClicked)="onEditClicked()"
-    (runClicked)="onRunClicked()"
   ></app-sidebar>
 
-  <div [ngSwitch]="currentView" class="contentFrame">
+  <div class="contentFrame">
     <app-home-view
-      *ngSwitchDefault
+      *ngIf="url === '/'"
       (openFolderClicked)="onOpenFolder($event)"
     ></app-home-view>
 
-    <app-test-edit-view *ngSwitchCase="'edit'"></app-test-edit-view>
+    <app-test-edit-view *ngIf="url === '/edit'"></app-test-edit-view>
 
-    <app-test-run-view *ngSwitchCase="'run'"></app-test-run-view>
+    <app-test-run-view *ngIf="url === '/run'"></app-test-run-view>
   </div>
 </div>
