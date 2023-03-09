@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OpenDirectoryService } from './open-directory.service';
+import { TaskService } from './task.service';
 
-describe('OpenDirectoryService', () => {
-  let service: OpenDirectoryService;
+describe('TaskService', () => {
+  let service: TaskService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(OpenDirectoryService);
+    service = TestBed.inject(TaskService);
   });
 
   it('should be created', () => {

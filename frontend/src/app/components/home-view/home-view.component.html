@@ -1,4 +1,4 @@
-<div>
+<div class="homeDiv">
   <p>
     eTester can generate code and run tests.<br />
     Open the folder containing tests and choose one.
@@ -12,4 +12,14 @@
     (change)="selectDirectory(directory.files)"
     #directory
   />
+
+  <div>
+    <div
+      *ngFor="let folder of folders"
+      class="folderDiv"
+      (click)="onFolderSelected(folder)"
+    >
+      {{ folder.title }}
+    </div>
+  </div>
 </div>

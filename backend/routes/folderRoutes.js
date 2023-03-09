@@ -3,6 +3,7 @@ const router = express.Router()
 const Logger = require('../lib/logger')
 
 const Folder = require('../database/models/folder')
+const File = require('../database/models/file')
 
 router.get('/folders', (req, res) => {
   Folder.find({})

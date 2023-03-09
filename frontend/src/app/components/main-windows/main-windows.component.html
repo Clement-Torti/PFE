@@ -3,14 +3,15 @@
   <app-sidebar
     class="sidebar"
     [folderOpen]="folderOpen"
-    [folderName]="folderName"
-    (openFolderClicked)="onOpenFolder($event)"
+    [folderName]="folder === undefined ? '' : folder!.title"
+    (openFolderClicked)="onOpenFiles($event)"
   ></app-sidebar>
 
   <div class="contentFrame">
     <app-home-view
       *ngIf="url === '/'"
-      (openFolderClicked)="onOpenFolder($event)"
+      (openFolderClicked)="onOpenFiles($event)"
+      (folderClicked)="onOpenFolder($event)"
     ></app-home-view>
 
     <app-test-edit-view *ngIf="url === '/edit'"></app-test-edit-view>

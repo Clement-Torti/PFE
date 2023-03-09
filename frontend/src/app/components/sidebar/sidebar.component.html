@@ -10,7 +10,7 @@
     #directory
   />
   <h3 class="folderName">{{ folderName }}</h3>
-  <div *ngIf="!folderOpen" class="buttonsDiv">
+  <div *ngIf="folderOpen" class="buttonsDiv">
     <a [routerLink]="['/edit']" routerLinkActive="defineClass">Edit</a>
     <a [routerLink]="['/run']" routerLinkActive="defineClass">Run</a>
   </div>
