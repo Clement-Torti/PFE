@@ -25,6 +25,10 @@ app.use((req, res, next) => {
 app.use(express.json())
 
 // Routes
+app.use((req, res, next) => {
+  Logger.http(`${req.method} ${req.path}`)
+  next()
+})
 const folderRoutes = require('./routes/folderRoutes')
 app.use('/', folderRoutes)
 

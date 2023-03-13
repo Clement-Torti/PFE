@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Folder } from 'src/app/models/folder';
-import { TaskService } from 'src/app/services/task.service';
+import { FolderService } from 'src/app/services/folder.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -10,50 +9,20 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./main-windows.component.css'],
 })
 export class MainWindowsComponent {
-  files?: FileList;
-  folder?: Folder;
-  //files?: File[];
-  folderOpen = false;
   url = '';
 
   constructor(
     private router: Router,
-    private taskService: TaskService,
+    private folderService: FolderService,
     private cookieService: CookieService
   ) {
-    // Retrieve the current folder on cookie
-    if (this.cookieService.check('current-folder')) {
-      this.folderOpen = true;
-      const folderId = this.cookieService.get('current-folder');
-      this.taskService.getFolder(folderId).subscribe((folder) => {
-        this.folder = folder as Folder;
-      });
-    }
+    // remove cookie
+    // this.cookieService.delete('current-folder');
 
     this.url = router.url;
-    if (this.url != '/' && !this.folderOpen) {
+    // Redirect to home if no folder is selected
+    if (this.url != '/' && !this.folderService.getFolder()) {
       this.router.navigate(['/']);
     }
-  }
-
-  onOpenFiles(files: any) {
-    this.files = files;
-
-    if (this.files!.length > 0) {
-      const folderTitle = this.files![0].webkitRelativePath.split('/')[0] + '/';
-
-      // Create the folder in local db
-      this.taskService.postFolder(folderTitle).subscribe((folder) => {
-        this.folder = folder as Folder;
-        this.folderOpen = true;
-        this.cookieService.set('current-folder', this.folder!._id);
-      });
-    }
-  }
-
-  onOpenFolder(folder: Folder) {
-    this.folder = folder;
-    this.folderOpen = true;
-    this.cookieService.set('current-folder', folder._id);
   }
 }

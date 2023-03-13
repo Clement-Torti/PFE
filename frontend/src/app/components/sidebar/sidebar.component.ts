@@ -1,4 +1,5 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { FolderService } from 'src/app/services/folder.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,11 +7,25 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
-  @Input() folderOpen = false;
-  @Input() folderName = '';
-  @Output() openFolderClicked = new EventEmitter<any>();
+  _folderName = '';
+  _folderOpen = false;
+
+  constructor(private folderService: FolderService) {
+    const folder = this.folderService.getFolder();
+    console.log(folder);
+
+    this.folderService.folder$.subscribe((folder) => {
+      if (folder) {
+        this._folderName = folder.title;
+        this._folderOpen = true;
+      } else {
+        this._folderName = '';
+        this._folderOpen = false;
+      }
+    });
+  }
 
   selectDirectory(files: any) {
-    this.openFolderClicked.emit(files);
+    this.folderService.importFolder(files);
   }
 }

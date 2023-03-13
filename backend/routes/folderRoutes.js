@@ -19,8 +19,8 @@ router.post('/folders', (req, res) => {
 })
 
 router.get('/folders/:folderId', (req, res) => {
-  Folder.find({ _id: req.params.folderId })
-    .then((folder) => res.send(folder))
+  Folder.findOne({ _id: req.params.folderId })
+    .then((folder) => { res.send(folder) })
     .catch((error) => Logger.http(error))
 })
 

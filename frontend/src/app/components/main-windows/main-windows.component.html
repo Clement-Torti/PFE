@@ -1,18 +1,9 @@
 <h1 class="title">eTester</h1>
 <div class="mainFrame">
-  <app-sidebar
-    class="sidebar"
-    [folderOpen]="folderOpen"
-    [folderName]="folder === undefined ? '' : folder!.title"
-    (openFolderClicked)="onOpenFiles($event)"
-  ></app-sidebar>
+  <app-sidebar class="sidebar"></app-sidebar>
 
   <div class="contentFrame">
-    <app-home-view
-      *ngIf="url === '/'"
-      (openFolderClicked)="onOpenFiles($event)"
-      (folderClicked)="onOpenFolder($event)"
-    ></app-home-view>
+    <app-home-view *ngIf="url === '/'"></app-home-view>
 
     <app-test-edit-view *ngIf="url === '/edit'"></app-test-edit-view>
 

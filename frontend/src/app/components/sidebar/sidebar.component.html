@@ -9,8 +9,8 @@
     (change)="selectDirectory(directory.files)"
     #directory
   />
-  <h3 class="folderName">{{ folderName }}</h3>
-  <div *ngIf="folderOpen" class="buttonsDiv">
+  <h3 class="folderName">{{ _folderName }}</h3>
+  <div *ngIf="_folderOpen" class="buttonsDiv">
     <a [routerLink]="['/edit']" routerLinkActive="defineClass">Edit</a>
     <a [routerLink]="['/run']" routerLinkActive="defineClass">Run</a>
   </div>
