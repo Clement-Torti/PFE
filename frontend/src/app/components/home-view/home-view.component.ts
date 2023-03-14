@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 import { Folder } from 'src/app/models/folder';
 import { FolderService } from 'src/app/services/folder.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-view',
@@ -13,7 +14,8 @@ export class HomeViewComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private folderService: FolderService
+    private folderService: FolderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -28,5 +30,6 @@ export class HomeViewComponent implements OnInit {
 
   onFolderSelected(folder: Folder) {
     this.folderService.setFolder(folder._id);
+    this.router.navigate([`/edit`]);
   }
 }

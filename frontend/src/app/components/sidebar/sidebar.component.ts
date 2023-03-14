@@ -12,7 +12,6 @@ export class SidebarComponent {
 
   constructor(private folderService: FolderService) {
     const folder = this.folderService.getFolder();
-    console.log(folder);
 
     this.folderService.folder$.subscribe((folder) => {
       if (folder) {

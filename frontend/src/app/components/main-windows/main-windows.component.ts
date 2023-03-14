@@ -11,14 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class MainWindowsComponent {
   url = '';
 
-  constructor(
-    private router: Router,
-    private folderService: FolderService,
-    private cookieService: CookieService
-  ) {
-    // remove cookie
-    // this.cookieService.delete('current-folder');
-
+  constructor(private router: Router, private folderService: FolderService) {
     this.url = router.url;
     // Redirect to home if no folder is selected
     if (this.url != '/' && !this.folderService.getFolder()) {
