@@ -13,7 +13,7 @@ export class SidebarComponent {
   constructor(private folderService: FolderService) {
     const folder = this.folderService.getFolder();
 
-    this.folderService.folder$.subscribe((folder) => {
+    this.folderService.folder$?.subscribe((folder) => {
       if (folder) {
         this._folderName = folder.title;
         this._folderOpen = true;

@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class FolderService {
-  private _folder = new BehaviorSubject<Folder | undefined>(undefined);
+  private _folder = new BehaviorSubject<Folder | null>(null);
   public folder$ = this._folder.asObservable();
 
   constructor(
@@ -17,9 +17,9 @@ export class FolderService {
   ) {}
 
   // Function returning an opcional folder
-  getFolder(): Folder | undefined {
+  getFolder(): Folder | null {
     // Check if folder is already set
-    if (this._folder.value != undefined) {
+    if (this._folder.value != null) {
       return this._folder.value;
     }
 
@@ -29,7 +29,7 @@ export class FolderService {
       this.setFolder(folderId);
     }
 
-    return undefined;
+    return null;
   }
 
   setFolder(folderId: string) {
