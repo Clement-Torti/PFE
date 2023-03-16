@@ -3,21 +3,25 @@ import { MainWindowsComponent } from './main-windows.component';
 import { Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { MOCKED_FOLDER } from 'src/app/mocks/folder-mock';
 
 describe('MainWindowsComponent', () => {
   let component: MainWindowsComponent;
   let fixture: ComponentFixture<MainWindowsComponent>;
-  let routerSpy: jasmine.SpyObj<Router>;
-  let folderServiceSpy: jasmine.SpyObj<FolderService>;
+  const routerServiceSpy: jasmine.SpyObj<Router> = jasmine.createSpyObj(
+    'Router',
+    ['navigate']
+  );
+  const folderServiceSpy: jasmine.SpyObj<FolderService> = jasmine.createSpyObj(
+    'FolderService',
+    ['getFolder']
+  );
 
   beforeEach(async () => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    folderServiceSpy = jasmine.createSpyObj('FolderService', ['getFolder']);
-
     await TestBed.configureTestingModule({
       declarations: [MainWindowsComponent, SidebarComponent],
       providers: [
-        { provide: Router, useValue: routerSpy },
+        { provide: Router, useValue: routerServiceSpy },
         { provide: FolderService, useValue: folderServiceSpy },
       ],
     }).compileComponents();

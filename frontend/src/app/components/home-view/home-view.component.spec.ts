@@ -4,28 +4,43 @@ import { TaskService } from 'src/app/services/task.service';
 import { FolderService } from 'src/app/services/folder.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { MOCKED_FOLDERS } from 'src/app/mocks/folder-mock';
+import { MOCKED_FILES } from 'src/app/mocks/file-mock';
 
 describe('HomeViewComponent', () => {
   let component: HomeViewComponent;
   let fixture: ComponentFixture<HomeViewComponent>;
-  let taskServiceSpy: jasmine.SpyObj<TaskService>;
-  let folderServiceSpy: jasmine.SpyObj<FolderService>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  const taskServiceSpy: jasmine.SpyObj<TaskService> = jasmine.createSpyObj(
+    'TaskService',
+    ['getFolders']
+  );
+  const folderServiceSpy: jasmine.SpyObj<FolderService> = jasmine.createSpyObj(
+    'FolderService',
+    ['importFolder', 'setFolder']
+  );
+  const routerServiceSpy: jasmine.SpyObj<Router> = jasmine.createSpyObj(
+    'Router',
+    ['navigate']
+  );
+
+  taskServiceSpy.getFolders.and.returnValue(of(MOCKED_FOLDERS));
 
   beforeEach(async () => {
-    taskServiceSpy = jasmine.createSpyObj('TaskService', ['getFolders']);
-    folderServiceSpy = jasmine.createSpyObj('FolderService', [
-      'importFolder',
-      'setFolder',
-    ]);
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
     await TestBed.configureTestingModule({
       declarations: [HomeViewComponent],
       providers: [
-        { provide: TaskService, useValue: taskServiceSpy },
-        { provide: FolderService, useValue: folderServiceSpy },
-        { provide: Router, useValue: routerSpy },
+        {
+          provide: TaskService,
+          useValue: taskServiceSpy,
+        },
+        {
+          provide: FolderService,
+          useValue: folderServiceSpy,
+        },
+        {
+          provide: Router,
+          useValue: routerServiceSpy,
+        },
       ],
     }).compileComponents();
 
@@ -39,24 +54,19 @@ describe('HomeViewComponent', () => {
   });
 
   it('should load folders on init', () => {
-    const folders = [
-      { _id: '123', title: 'test' },
-      { _id: '456', title: 'test2' },
-    ];
-    taskServiceSpy.getFolders.and.returnValue(of(folders));
     component.ngOnInit();
-    expect(component.folders).toEqual(folders);
+    expect(component.folders).toEqual(MOCKED_FOLDERS);
   });
 
   it('should call importFolder on selectDirectory', () => {
-    const files = [{ name: 'test' }];
-    component.selectDirectory(files);
-    expect(folderServiceSpy.importFolder).toHaveBeenCalledWith(files);
+    component.selectDirectory(MOCKED_FILES);
+    expect(folderServiceSpy.importFolder).toHaveBeenCalledWith(MOCKED_FILES);
   });
 
   it('should call setFolder and navigate on onFolderSelected', () => {
     const folder = { _id: '123', title: 'test' };
     component.onFolderSelected(folder);
     expect(folderServiceSpy.setFolder).toHaveBeenCalledWith(folder._id);
+    expect(routerServiceSpy.navigate).toHaveBeenCalled();
   });
 });

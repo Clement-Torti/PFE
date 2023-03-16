@@ -9,6 +9,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TestEditViewComponent } from './components/test-edit-view/test-edit-view.component';
 import { TestRunViewComponent } from './components/test-run-view/test-run-view.component';
 import { HomeViewComponent } from './components/home-view/home-view.component';
+import { TestNavBarComponent } from './components/test-nav-bar/test-nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HomeViewComponent } from './components/home-view/home-view.component';
     TestEditViewComponent,
     TestRunViewComponent,
     HomeViewComponent,
+    TestNavBarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

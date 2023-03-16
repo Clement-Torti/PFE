@@ -1,0 +1,26 @@
+.sidebar {
+    /* Size */
+    width: 200px; 
+    height: 750px;
+
+    /* Position */
+    position: absolute;
+
+    /* Style */
+    background-color: black; /* Set the background color of the sidebar */
+    color: white;
+    /* Behavior */
+  }
+  
+ .contentFrame {
+    /* Size */
+    height: 100%;
+
+    /* Position */
+    margin-left: 200px;
+
+    /* Style */
+    background-color: gray;
+
+    /* Behavior */
+ }

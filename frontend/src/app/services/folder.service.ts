@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Folder } from '../models/folder';
+import { File } from '../models/file';
 import { TaskService } from './task.service';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
@@ -10,6 +11,9 @@ import { BehaviorSubject } from 'rxjs';
 export class FolderService {
   private _folder = new BehaviorSubject<Folder | null>(null);
   public folder$ = this._folder.asObservable();
+
+  private _files = new BehaviorSubject<File[]>([]);
+  public files$ = this._files.asObservable();
 
   constructor(
     private cookieService: CookieService,
@@ -41,13 +45,41 @@ export class FolderService {
   }
 
   importFolder(files: any[]) {
+    console.log('FolderService.importFolder()', files);
+
     if (files.length > 0) {
       const folderTitle = files[0].webkitRelativePath.split('/')[0] + '/';
       // Create the folder in local db
       this.taskService.postFolder(folderTitle).subscribe((folder) => {
         const theFolder = folder as Folder;
         this.setFolder(theFolder._id);
+
+        // Create files in local db
+        // for (const i in files) {
+        //   file = {
+        //     title: files[i]['name'],
+        //     _folderId: theFolder._id,
+        //     content: files[i][content],
+        //   };
+        //   this.folderService.postFile(file);
+        // }
       });
     }
+  }
+
+  getFiles(): File[] {
+    if (this._folder.value != null) {
+      this.taskService.getFiles(this._folder.value._id).subscribe((files) => {
+        console.log(
+          'FolderService.getFiles()',
+          this._folder!.value!._id,
+          files
+        );
+
+        this._files.next(files as File[]);
+      });
+    }
+
+    return [];
   }
 }

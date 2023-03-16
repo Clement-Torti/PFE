@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FolderService } from 'src/app/services/folder.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-main-windows',
   templateUrl: './main-windows.component.html',
   styleUrls: ['./main-windows.component.css'],
 })
-export class MainWindowsComponent {
+export class MainWindowsComponent implements OnInit {
   url = '';
 
   constructor(private router: Router, private folderService: FolderService) {
@@ -17,5 +16,9 @@ export class MainWindowsComponent {
     if (this.url != '/' && !this.folderService.getFolder()) {
       this.router.navigate(['/']);
     }
+  }
+
+  ngOnInit(): void {
+    console.log('MainWindowsComponent.ngOnInit()');
   }
 }
