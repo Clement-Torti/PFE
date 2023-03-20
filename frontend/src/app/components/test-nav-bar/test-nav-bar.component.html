@@ -1,1 +1,7 @@
-<p>test-nav-bar works!</p>
+<div class="mainFrame">
+  <div *ngFor="let file of files" class="fileDiv">
+    <button (click)="onFileClick(file)" class="fileButton">
+      {{ file.title }}
+    </button>
+  </div>
+</div>

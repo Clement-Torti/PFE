@@ -10,7 +10,7 @@ router.get('/folders/:folderId/files', (req, res) => {
 })
 
 router.post('/folders/:folderId/files', (req, res) => {
-  (new File({ title: req.body.title, _folderId: req.params.folderId }))
+  (new File({ title: req.body.title, _folderId: req.params.folderId, content: req.body.content }))
     .save()
     .then((files) => res.send(files))
     .catch((error) => Logger.http(error))

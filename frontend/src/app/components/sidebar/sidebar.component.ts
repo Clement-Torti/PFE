@@ -23,8 +23,4 @@ export class SidebarComponent {
       }
     });
   }
-
-  selectDirectory(files: any) {
-    this.folderService.importFolder(files);
-  }
 }

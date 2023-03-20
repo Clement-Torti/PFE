@@ -24,6 +24,24 @@ router.get('/folders/:folderId', (req, res) => {
     .catch((error) => Logger.http(error))
 })
 
+router.delete('/folders/clean', (req, res) => {
+  Folder.find({})
+    .then(folders => {
+      folders.forEach(folder => {
+        File.deleteMany({ _folderId: folder._id })
+          .then(() => Logger.http(`All files of "${folder.title}" deleted`))
+          .catch((error) => Logger.http(error))
+
+        Folder.findOneAndDelete(folder._id)
+          .then(() => Logger.http(`Folder "${folder.title}" deleted`))
+          .catch((error) => Logger.http(error))
+      })
+    })
+    .catch((error) => Logger.http(error))
+
+  res.send('Folders cleaned')
+})
+
 router.delete('/folders/:folderId', (req, res) => {
   const deleteFiles = (folder) => {
     File.deleteMany({ _folderId: folder._id })

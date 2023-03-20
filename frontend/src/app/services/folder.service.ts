@@ -15,6 +15,9 @@ export class FolderService {
   private _files = new BehaviorSubject<File[]>([]);
   public files$ = this._files.asObservable();
 
+  private _selectedFile = new BehaviorSubject<File | null>(null);
+  public selectedFile$ = this._selectedFile.asObservable();
+
   constructor(
     private cookieService: CookieService,
     private taskService: TaskService
@@ -45,8 +48,6 @@ export class FolderService {
   }
 
   importFolder(files: any[]) {
-    console.log('FolderService.importFolder()', files);
-
     if (files.length > 0) {
       const folderTitle = files[0].webkitRelativePath.split('/')[0] + '/';
       // Create the folder in local db
@@ -55,31 +56,35 @@ export class FolderService {
         this.setFolder(theFolder._id);
 
         // Create files in local db
-        // for (const i in files) {
-        //   file = {
-        //     title: files[i]['name'],
-        //     _folderId: theFolder._id,
-        //     content: files[i][content],
-        //   };
-        //   this.folderService.postFile(file);
-        // }
+        for (const i in files) {
+          const fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            const content = fileReader.result as string;
+            this.taskService
+              .postFile(theFolder._id, files[i]['name'], content)
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              .subscribe((file) => {});
+          };
+          fileReader.readAsText(files[i]);
+        }
       });
     }
   }
 
   getFiles(): File[] {
-    if (this._folder.value != null) {
+    if (this._folder.value) {
       this.taskService.getFiles(this._folder.value._id).subscribe((files) => {
-        console.log(
-          'FolderService.getFiles()',
-          this._folder!.value!._id,
-          files
-        );
-
         this._files.next(files as File[]);
       });
     }
 
     return [];
+  }
+
+  setSelectedFile(fileId: string) {
+    const file = this._files.value.find((file) => file._id === fileId);
+    if (file) {
+      this._selectedFile.next(file);
+    }
   }
 }

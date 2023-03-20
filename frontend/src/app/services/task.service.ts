@@ -22,4 +22,11 @@ export class TaskService {
   getFiles(folderId: string) {
     return this.webService.get(`folders/${folderId}/files`);
   }
+
+  postFile(folderId: string, title: string, content: string) {
+    return this.webService.post(`folders/${folderId}/files`, {
+      title,
+      content,
+    });
+  }
 }
