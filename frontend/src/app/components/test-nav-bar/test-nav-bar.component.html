@@ -1,4 +1,5 @@
 <div class="mainFrame">
+  <button (click)="onAddFileClick()" class="addFileButton">Add File</button>
   <div *ngFor="let file of files" class="fileDiv">
     <button (click)="onFileClick(file)" class="fileButton">
       {{ file.title }}

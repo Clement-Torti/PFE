@@ -1,4 +1,19 @@
 <app-test-nav-bar class="sidebar"></app-test-nav-bar>
 <div class="contentFrame">
   {{ selectedFile?.title }}
+
+  <button (click)="onGenerateCodeClick()" class="generateCodeButton">
+    Generate Code
+  </button>
+
+  <div class="headers">
+    <input type="text" placeholder="Name" />
+    <input type="text" placeholder="Description" />
+    <input type="text" placeholder="Prerequisite" />
+    <input type="text" placeholder="Author" />
+  </div>
+
+  <div class="scenario">
+    <h2>Scenario</h2>
+  </div>
 </div>

@@ -21,4 +21,8 @@ export class TestNavBarComponent {
   onFileClick(file: File) {
     this.folderService.setSelectedFile(file._id);
   }
+
+  onAddFileClick() {
+    console.log('onAddFileClick');
+  }
 }

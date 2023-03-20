@@ -18,6 +18,9 @@
 
     /* Position */
     margin-left: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     /* Style */
     background-color: gray;

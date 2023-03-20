@@ -15,4 +15,8 @@ export class TestEditViewComponent {
       this.selectedFile = file;
     });
   }
+
+  onGenerateCodeClick() {
+    console.log('onGenerateCodeClick');
+  }
 }
