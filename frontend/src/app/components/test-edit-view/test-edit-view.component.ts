@@ -9,6 +9,7 @@ import { File } from 'src/app/models/file';
 })
 export class TestEditViewComponent {
   selectedFile: File | null = null;
+  test: Test;
 
   constructor(private folderService: FolderService) {
     this.folderService.selectedFile$.subscribe((file) => {
