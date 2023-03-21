@@ -11,6 +11,8 @@
     color: white;
     /* Behavior */
   }
+
+ 
   
  .contentFrame {
     /* Size */
@@ -18,12 +20,82 @@
 
     /* Position */
     margin-left: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
 
     /* Style */
-    background-color: gray;
+    background-color: lightgray;
 
     /* Behavior */
+ }
+
+
+ .generateCodeButton {
+   /* Size */
+   
+   /* Position */
+   position: absolute;
+   top: 30px;
+   right: 40px;
+   width: 50px;
+   
+    /* Style */
+   
+   /* Behavior */
+   
+   }
+
+ .headersSection {
+ /* Size */
+
+ /* Position */
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ 
+  /* Style */
+ 
+ /* Behavior */
+
+ 
+ }
+
+ .headerElement {
+ /* Size */
+
+ /* Position */
+ display: flex;
+
+
+  /* Style */
+ padding: 0px;
+ /* Behavior */
+ 
+ }
+
+ .scenarioSection {
+ /* Size */
+ 
+ /* Position */
+ display: flex;
+ flex-direction: column;
+ align-items: left;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
+
+ .deleteSection {
+ /* Size */
+ 
+ /* Position */
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
  }

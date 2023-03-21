@@ -19,4 +19,8 @@ export class TestEditViewComponent {
   onGenerateCodeClick() {
     console.log('onGenerateCodeClick');
   }
+
+  onDeleteTestClick() {
+    console.log('onDeleteTestClick');
+  }
 }

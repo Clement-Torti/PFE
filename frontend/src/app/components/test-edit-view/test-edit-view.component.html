@@ -1,19 +1,52 @@
 <app-test-nav-bar class="sidebar"></app-test-nav-bar>
 <div class="contentFrame">
-  {{ selectedFile?.title }}
-
   <button (click)="onGenerateCodeClick()" class="generateCodeButton">
     Generate Code
   </button>
 
-  <div class="headers">
-    <input type="text" placeholder="Name" />
-    <input type="text" placeholder="Description" />
-    <input type="text" placeholder="Prerequisite" />
-    <input type="text" placeholder="Author" />
+  <div class="headersSection">
+    <div class="headerElement">
+      Name
+      <input type="text" placeholder="Name" />
+    </div>
+
+    <div class="headerElement">
+      Description
+      <input type="text" placeholder="Description" />
+    </div>
+
+    <div class="headerElement">
+      Prerequisites
+      <input type="text" placeholder="Prerequisite" />
+    </div>
+
+    <div class="headerElement">
+      Author
+      <input type="text" placeholder="Author" />
+    </div>
+
+    <div>
+      <label for="checkbox">Test a device</label>
+      <input type="checkbox" id="checkbox" name="checkbox" />
+
+      <select id="combo" name="combo">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
+
+      <label for="text">Device name:</label>
+      <input type="text" id="text" name="text" />
+    </div>
   </div>
 
-  <div class="scenario">
+  <div class="scenarioSection">
     <h2>Scenario</h2>
+  </div>
+
+  <div class="deleteSection">
+    <button (click)="onDeleteTestClick()" class="deleteTestButton">
+      Delete Test
+    </button>
   </div>
 </div>
