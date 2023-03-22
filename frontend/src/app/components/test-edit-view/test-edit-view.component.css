@@ -16,16 +16,17 @@
   
  .contentFrame {
     /* Size */
-    height: 100%;
 
     /* Position */
     margin-left: 200px;
+    padding: 20px;
     position: relative;
 
     /* Style */
     background-color: lightgray;
 
     /* Behavior */
+    
  }
 
 
@@ -43,6 +44,7 @@
    /* Behavior */
    
    }
+
 
  .headersSection {
  /* Size */
@@ -67,7 +69,7 @@
 
 
   /* Style */
- padding: 0px;
+ margin: 5px;
  /* Behavior */
  
  }
@@ -81,6 +83,59 @@
  align-items: left;
  
   /* Style */
+ 
+ /* Behavior */
+ 
+ }
+
+ .stepElement {
+ /* Size */
+ 
+ /* Position */
+ display: flex;
+ flex: 1;
+ align-items: center;
+ 
+  /* Style */
+  margin-bottom: 20px;
+ 
+ /* Behavior */
+ 
+ }
+
+ .moveStepButton, .deleteStepButton {
+ /* Size */
+ width: 50px;
+ height: 50px;
+ 
+ /* Position */
+margin: 10px;
+
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
+
+ .flex-grow {
+ /* Size */
+ flex-grow: 1;
+ 
+ /* Position */
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
+
+ .addStepButton {
+ /* Size */
+ width: 50px;
+ 
+ /* Position */
+
+ /* Style */
  
  /* Behavior */
  

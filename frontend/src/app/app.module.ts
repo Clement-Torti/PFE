@@ -10,6 +10,7 @@ import { TestEditViewComponent } from './components/test-edit-view/test-edit-vie
 import { TestRunViewComponent } from './components/test-run-view/test-run-view.component';
 import { HomeViewComponent } from './components/home-view/home-view.component';
 import { TestNavBarComponent } from './components/test-nav-bar/test-nav-bar.component';
+import { StepViewComponent } from './components/step-view/step-view.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TestNavBarComponent } from './components/test-nav-bar/test-nav-bar.comp
     TestRunViewComponent,
     HomeViewComponent,
     TestNavBarComponent,
+    StepViewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

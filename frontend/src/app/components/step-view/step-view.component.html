@@ -1,0 +1,8 @@
+<div class="mainFrame">
+  <h3>{{ step.title }}</h3>
+  <p>{{ step.description }}</p>
+  <div *ngFor="let param of step.params">
+    {{ param.name }} ({{ param.type }}):
+    <input type="text" placeholder="Value" />
+  </div>
+</div>
