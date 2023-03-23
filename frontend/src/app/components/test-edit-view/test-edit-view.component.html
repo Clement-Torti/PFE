@@ -1,5 +1,5 @@
 <app-test-nav-bar class="sidebar"></app-test-nav-bar>
-<div class="contentFrame">
+<div *ngIf="selectedFile" class="contentFrame">
   <button (click)="onGenerateCodeClick()" class="generateCodeButton">
     Generate Code
   </button>
@@ -7,7 +7,7 @@
   <div class="headersSection">
     <div class="headerElement">
       Name
-      <input type="text" placeholder="Name" />
+      <input type="text" placeholder="Name" [(ngModel)]="selectedFile!.title" />
     </div>
 
     <div class="headerElement">

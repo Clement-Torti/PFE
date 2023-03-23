@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FolderService } from 'src/app/services/folder.service';
+import { TaskService } from 'src/app/services/task.service';
+
 import { File } from 'src/app/models/file';
 
 @Component({
@@ -10,7 +12,10 @@ import { File } from 'src/app/models/file';
 export class TestNavBarComponent {
   files: File[] = [];
 
-  constructor(private folderService: FolderService) {
+  constructor(
+    private folderService: FolderService,
+    private taskService: TaskService
+  ) {
     this.folderService.files$.subscribe((files) => {
       this.files = files;
     });
@@ -23,6 +28,12 @@ export class TestNavBarComponent {
   }
 
   onAddFileClick() {
-    console.log('onAddFileClick');
+    const folder = this.folderService.getFolder();
+
+    if (folder) {
+      this.taskService.postFile(folder._id, 'newFile', '').subscribe((file) => {
+        this.folderService.getFiles();
+      });
+    }
   }
 }

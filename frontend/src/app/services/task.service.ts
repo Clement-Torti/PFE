@@ -29,4 +29,15 @@ export class TaskService {
       content,
     });
   }
+
+  updateFile(folderId: string, fileId: string, title: string, content: string) {
+    return this.webService.put(`folders/${folderId}/files/${fileId}`, {
+      title,
+      content,
+    });
+  }
+
+  deleteFile(folderId: string, fileId: string) {
+    return this.webService.delete(`folders/${folderId}/files/${fileId}`);
+  }
 }

@@ -22,7 +22,7 @@ router.get('/folders/:folderId/files/:fileId', (req, res) => {
     .catch((error) => Logger.http(error))
 })
 
-router.patch('/folders/:folderId/files/:fileId', (req, res) => {
+router.put('/folders/:folderId/files/:fileId', (req, res) => {
   File.updateOne({ _folderId: req.params.folderId, _id: req.params.fileId }, { $set: req.body })
     .then((file) => res.send(file))
     .catch((error) => Logger.http(error))

@@ -25,7 +25,7 @@
 
 .sidebar {
     /* Size */
-    width: 100px; 
+    width: 75px; 
     height: 750px;
 
     /* Position */
@@ -42,7 +42,7 @@
     height: 750px;
 
     /* Position */
-    margin-left: 100px;
+    margin-left: 75px;
 
     /* Style */
     background-color: gray;
