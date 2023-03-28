@@ -1,17 +1,17 @@
 # -*- coding: cp1252 -*-
 
 
-class ScriptHGMicro_SoftwareVerificationProtocolParam (ScriptParamGeneral):
-    def __init__(self):
+class HGoMicro_Software_Verification_Params (ScriptParamGeneral):
+    def __init__(self, logName):
         ScriptParamGeneral.__init__(self)
         #Param perso script
-        self._logPath="C:\\Temp\\testHGMicro_TC9_CommunicationAnDScaleUC-352_" + str(date.today())+ '_' + str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + ".txt"
+        self._logPath="C:\\Temp\\" + logName + "_" + str(date.today())+ '_' + str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + ".txt"
 
-class testHGMicro_SoftwareVerificationProtocolAppli(QGroupBox):
-    def __init__(self, parent=None):
-        super (testHGMicro_SoftwareVerificationProtocolAppli, self).__init__(parent)
+class HGoMicro_Software_Verification_Base_Test(QGroupBox):
+    def __init__(self, logName, parent=None):
+        super (HGoMicro_Software_Verification_Base_Test, self).__init__(parent)
         #Creation du set de parametres � utiliser -> objet param
-        self.param=ScriptHGMicro_SoftwareVerificationProtocolParam()
+        self.param=HGoMicro_Software_Verification_Params(logName)
         #Creation du pilote Phidgets
         self.phiphi=DriverPhidget()
         #open logfile if defined

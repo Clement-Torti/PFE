@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { DeviceType } from '../models/deviceType';
 import { Test } from '../models/test';
-import { MOCKED_STEP } from './step-mock';
+import { MOCKED_STEP, MOCKED_STEP_2 } from './step-mock';
 
 
 export const MOCKED_TEST: Test = {
@@ -12,6 +12,6 @@ export const MOCKED_TEST: Test = {
     author: "fake Tester",
     deviceType: DeviceType.Scale,
     deviceName: "Fake device",
-    steps: [MOCKED_STEP, MOCKED_STEP, MOCKED_STEP, MOCKED_STEP,MOCKED_STEP, MOCKED_STEP, MOCKED_STEP]
+    steps: [MOCKED_STEP, MOCKED_STEP_2, MOCKED_STEP, MOCKED_STEP,MOCKED_STEP, MOCKED_STEP, MOCKED_STEP]
 }
  

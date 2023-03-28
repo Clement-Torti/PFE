@@ -103,6 +103,21 @@
  
  }
 
+
+ .stepActions {
+ /* Size */
+ 
+ /* Position */
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
  .moveStepButton, .deleteStepButton {
  /* Size */
  width: 50px;

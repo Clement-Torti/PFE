@@ -18,3 +18,17 @@ export const MOCKED_STEP: Step = {
         }
     ]
 }
+
+export const MOCKED_STEP_2: Step = {
+    title: "Second Fake step",
+    description: "Description of the step of the fake product",
+    code: "All bunch of code for the step of the fake product",
+    stepType: StepType.HGoCommand,
+    params: [
+        {
+            type: Param_Type.STRING,
+            name: "HGO Serial number",
+            value: "123456789"
+        }
+    ]
+}

@@ -5,6 +5,7 @@ import { File } from 'src/app/models/file';
 import { Test } from 'src/app/models/test';
 import { Step } from 'src/app/models/step';
 import { MOCKED_TEST } from 'src/app/mocks/test-mock';
+import { MOCKED_STEP } from 'src/app/mocks/step-mock';
 
 @Component({
   selector: 'app-test-edit-view',
@@ -55,14 +56,18 @@ export class TestEditViewComponent {
   }
 
   onAddStepClick() {
-    console.log('onAddStepClick');
+    this.test.steps.push(MOCKED_STEP);
   }
 
-  onMoveStepClick(step: Step) {
-    console.log('onMoveStepClick: ', step);
+  onMoveStepClick(index: number) {
+    if (index < this.test.steps.length - 1) {
+      const step = this.test.steps[index];
+      this.test.steps[index] = this.test.steps[index + 1];
+      this.test.steps[index + 1] = step;
+    }
   }
 
-  onDeleteStepClick(step: Step) {
-    console.log('onDeleteStepClick: ', step);
+  onDeleteStepClick(index: number) {
+    this.test.steps.splice(index, 1);
   }
 }

@@ -43,14 +43,21 @@
   <div class="scenarioSection">
     <h2>Scenario</h2>
 
-    <div *ngFor="let step of test.steps" class="stepElement">
-      <button (click)="onMoveStepClick(step)" class="moveStepButton">
-        Move Step
-      </button>
-      <app-step-view class="flex-grow" [step]="step" />
-      <button (click)="onDeleteStepClick(step)" class="deleteStepButton">
-        Delete Step
-      </button>
+    <div *ngFor="let step of test.steps; let i = index" class="stepElement">
+      <app-step-view class="flex-grow" [step]="step" [index]="i + 1" />
+
+      <div class="stepActions">
+        <button
+          *ngIf="i !== test.steps.length - 1"
+          (click)="onMoveStepClick(i)"
+          class="moveStepButton"
+        >
+          Move Step
+        </button>
+        <button (click)="onDeleteStepClick(i)" class="deleteStepButton">
+          Delete Step
+        </button>
+      </div>
     </div>
 
     <button (click)="onAddStepClick()" class="addStepButton">Add Step</button>

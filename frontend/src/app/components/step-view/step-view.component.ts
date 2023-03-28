@@ -6,11 +6,9 @@ import { Step } from 'src/app/models/step';
   templateUrl: './step-view.component.html',
   styleUrls: ['./step-view.component.css'],
 })
-export class StepViewComponent implements OnInit {
+export class StepViewComponent {
   @Input()
   step!: Step;
-
-  ngOnInit(): void {
-    console.log(this.step);
-  }
+  @Input()
+  index!: number;
 }
