@@ -12,6 +12,9 @@ import { TestRunViewComponent } from './components/test-run-view/test-run-view.c
 import { HomeViewComponent } from './components/home-view/home-view.component';
 import { TestNavBarComponent } from './components/test-nav-bar/test-nav-bar.component';
 import { StepViewComponent } from './components/step-view/step-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CodeViewComponent } from './components/code-view/code-view.component';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 @NgModule({
   declarations: [
@@ -23,9 +26,24 @@ import { StepViewComponent } from './components/step-view/step-view.component';
     HomeViewComponent,
     TestNavBarComponent,
     StepViewComponent,
+    CodeViewComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    HighlightModule,
+  ],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,3 +1,13 @@
+<div *ngIf="showCode" class="codeView">
+  <app-code-view [code]="code" />
+  <div class="codeViewButton">
+    <button (click)="onCloseCodeClick()" class="closeCodeButton">Close</button>
+    <button (click)="onCopyToClipboardClick()" class="copyToClipboardButton">
+      Copy
+    </button>
+  </div>
+</div>
+
 <app-test-nav-bar class="sidebar"></app-test-nav-bar>
 <div *ngIf="selectedFile" class="contentFrame">
   <button (click)="onGenerateCodeClick()" class="generateCodeButton">
