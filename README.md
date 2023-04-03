@@ -8,11 +8,12 @@ Code of the final study project at Enseeiht/edevice. A javascript MEAN app. Allo
 localhost:3000
 
 ## Installation process (Windows 10)
-cd backend
-npm init -y
-npm install express mongoose
-npm install -g nodemon
-nodemon is an unsigned script blocked by windows, to allow it to run: $Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+`cd backend`<br/>
+`npm init -y`<br/> 
+`npm install express mongoose`<br/>
+`npm install -g nodemon`<br/>
+nodemon is an unsigned script blocked by windows, to allow it to run: <br/>
+`$Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force`
 
 ### Mongo
 https://www.google.com/search?q=install+mongodb&rlz=1C1CHBD_frFR1001FR1001&oq=install+mongo&aqs=chrome.0.0i512j69i57j0i512l8.3543j0j7&sourceid=chrome&ie=UTF-8#fpstate=ive&vld=cid:2300b704,vid:PmjTR5FvnuE
@@ -25,25 +26,26 @@ Setup requests by dividing them into folders.
 Don't forget to use env variable por domain and port.
 
 ### Eslint for backend
-https://dev.to/drsimplegraffiti/eslint-configuration-for-node-project-275l
-ESLint for VSCode
-cd backend && npx eslint --init
+https://dev.to/drsimplegraffiti/eslint-configuration-for-node-project-275l <br/>
+ESLint for VSCode <br/>
+`cd backend && npx eslint --init`
 
-Autofix when saving: Add to vscode settings.json
+Autofix when saving: Add to vscode settings.json <br/>
+`
 "editor.codeActionsOnSave": {
 "source.fixAll.eslint": true
 },
-"eslint.validate": ["javascript"]
+"eslint.validate": ["javascript"]`
 
 
 ### Winston
-npm install winston
-config is in backend/lib/logger.js
+`npm install winston` <br/>
+`config is in backend/lib/logger.js`
 
 
 ### Run
 #### Launch backend server 
-cd backend && nodemon app.js
+`cd backend && nodemon app.js`
 
 #### Launch Mongo
 Mongo has been defined as a service, it should launch automatically when starting windows
@@ -53,32 +55,30 @@ Launch Compass app to access gui
 localhost:4200
 
 ### Angular cli
-npm install -g @angular/cli
-ng version (check if angular cli is installed)
-ng new frontend --directory ./ (yes for Router, CSS)
+`npm install -g @angular/cli` <br/>
+`ng version` (check if angular cli is installed) <br/>
+`ng new frontend --directory ./` (yes for Router, CSS)
 
 ### Launch front-end server 
-cd frontend && ng serve
-
-cd frontend && npm install bootstrap-css
+`cd frontend && ng serve` <br/>
+`cd frontend && npm install bootstrap-css`
 
 ### Usefull commands
-cd frontend/src/app && ng generate component component/<name>
-cd frontend && ng lint --fix
+`cd frontend/src/app && ng generate component component/<name>` <br/>
+`cd frontend && ng lint --fix`
 
 ### ESLint an prettier for front-end
-follow these steps:
+follow these steps: <br/>
 https://dev.to/this-is-angular/configure-prettier-and-eslint-with-angular-526c
-cd frontend && ng add @angular-eslint/schematics
-npm install prettier --save-dev
-npx prettier --write .
-npm install prettier-eslint eslint-config-prettier eslint-plugin-prettier --save-dev
-cd frontend && ng lint --fix
+`cd frontend && ng add @angular-eslint/schematics` <br/>
+`npm install prettier --save-dev` <br/>
+`npx prettier --write .` <br/>
+`npm install prettier-eslint eslint-config-prettier eslint-plugin-prettier --save-dev` <br/>
+`cd frontend && ng lint --fix` <br/>
 
 
 
 ## Other config
-
 
 
 ## Best practices
