@@ -18,50 +18,6 @@ export class TestEditViewComponent {
   test: Test = MOCKED_TEST;
   inputName = '';
   showCode = false;
-  code = `# -*- coding: cp1252 -*-
-
-
-  class HGoMicro_Software_Verification_Params (ScriptParamGeneral):
-      def __init__(self, logName):
-          ScriptParamGeneral.__init__(self)
-          #Param perso script
-          self._logPath="C:\\Temp\\" + logName + "_" + str(date.today())+ '_' + str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + ".txt"
-  
-  class HGoMicro_Software_Verification_Base_Test(QGroupBox):
-      def __init__(self, logName, parent=None):
-          super (HGoMicro_Software_Verification_Base_Test, self).__init__(parent)
-          #Creation du set de parametres � utiliser -> objet param
-          self.param=HGoMicro_Software_Verification_Params(logName)
-          #Creation du pilote Phidgets
-          self.phiphi=DriverPhidget()
-          #open logfile if defined
-          if self.param._logPath:
-              self.logfile= open(self.param._logPath,'w')
-          else:
-              self.logfile = False
-          #Creation de la queue avec le GUI
-          self.queue=Queue.Queue()
-          #Creation du semaphore pour bloquer les traitements
-          self.mutex=QMutex()
-          #Creation de la fenetre (GUI du test) -> objet ui
-          self.ui = Ui_GroupBox(self.queue)
-          self.ui.setupUi(self)
-          self.connect(self.ui, SIGNAL("closefenetre(PyQt_PyObject)"), self.stopthread)
-          #Creation et init du Timer de queue
-          self.timer=QTimer()
-          QObject.connect(self.timer, SIGNAL("timeout()"), self.periodicCall)
-          self.timer.start(200)
-          #Setup and start the thread
-          self.running=True
-          self.thread1 = threading.Thread(target=self.runtest)
-          self.thread1.start()
-  
-      #Polling de la queue
-      def periodicCall(self):
-          self.ui.processIncoming(self.logfile)
-          if not self.running:
-              root.quit()
-  `;
 
   constructor(
     private folderService: FolderService,
@@ -121,9 +77,5 @@ export class TestEditViewComponent {
 
   onCloseCodeClick() {
     this.showCode = false;
-  }
-
-  onCopyToClipboardClick() {
-    navigator.clipboard.writeText(this.code);
   }
 }

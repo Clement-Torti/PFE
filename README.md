@@ -63,7 +63,7 @@ localhost:4200
 `cd frontend && ng serve` <br/>
 `cd frontend && npm install bootstrap-css`
 
-### Usefull commands
+### Useful commands
 `cd frontend/src/app && ng generate component component/<name>` <br/>
 `cd frontend && ng lint --fix`
 
