@@ -10,7 +10,7 @@ export const MOCKED_TEST: Test = {
     description: "Description of the test of the fake product",
     prerequisites: "All bunch of prerequisites for the test of the fake product",
     author: "fake Tester",
-    deviceType: DeviceType.Scale,
+    deviceType: DeviceType.WeightScale,
     deviceName: "Fake device",
     steps: [MOCKED_STEP, MOCKED_STEP_2, MOCKED_STEP, MOCKED_STEP,MOCKED_STEP, MOCKED_STEP, MOCKED_STEP]
 }

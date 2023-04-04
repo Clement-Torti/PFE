@@ -16,9 +16,14 @@ export class TestParserService {
     const title = `# Title: ${test.title}\n`;
     const author = `# Author: ${test.author} - using eTester\n`;
     const description = `# Description: ${test.description}\n`;
-    const prerequisites = `# Prerequisites: ${test.prerequisites}\n\n`;
+    const prerequisites = `# Prerequisites: ${test.prerequisites}\n`;
+    let deviceType = '';
 
-    return title + author + description + prerequisites;
+    if (test.deviceType) {
+      deviceType = `# Device : ${test.deviceName} (${test.deviceType})\n`;
+    }
+
+    return title + author + description + prerequisites + deviceType + '\n';
   }
 
   generateSteps(test: Test): string {

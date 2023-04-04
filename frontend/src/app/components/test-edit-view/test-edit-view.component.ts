@@ -5,6 +5,7 @@ import { TaskService } from 'src/app/services/task.service';
 
 import { File } from 'src/app/models/file';
 import { Test } from 'src/app/models/test';
+import { DeviceType } from 'src/app/models/deviceType';
 import { MOCKED_TEST } from 'src/app/mocks/test-mock';
 import { MOCKED_STEP } from 'src/app/mocks/step-mock';
 
@@ -16,8 +17,12 @@ import { MOCKED_STEP } from 'src/app/mocks/step-mock';
 export class TestEditViewComponent {
   selectedFile: File | null = null;
   test: Test = MOCKED_TEST;
-  inputName = '';
   showCode = false;
+
+  // Device combobox
+  isDeviceTypeTest = false;
+  deviceTypes = Object.values(DeviceType);
+  selectedDeviceType: DeviceType | null = null;
 
   constructor(
     private folderService: FolderService,
@@ -25,6 +30,8 @@ export class TestEditViewComponent {
   ) {
     this.folderService.selectedFile$.subscribe((file) => {
       this.selectedFile = file;
+      this.isDeviceTypeTest = this.test.deviceType !== null;
+      this.selectedDeviceType = this.test.deviceType;
     });
   }
 
@@ -45,6 +52,20 @@ export class TestEditViewComponent {
     }
 
     this.showCode = true;
+  }
+
+  onDeviceCheckboxSelectionChange(e: any) {
+    const checked = e.target.checked;
+
+    if (!checked) {
+      this.selectedDeviceType = null;
+      this.test.deviceType = null;
+      this.test.deviceName = '';
+    }
+  }
+
+  onDeviceTypeSelectionChange(deviceType: DeviceType) {
+    this.test.deviceType = deviceType;
   }
 
   onDeleteTestClick() {

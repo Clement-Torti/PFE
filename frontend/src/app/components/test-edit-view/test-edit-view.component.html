@@ -39,16 +39,27 @@
 
     <div>
       <label for="checkbox">Test a device</label>
-      <input type="checkbox" id="checkbox" name="checkbox" />
+      <input
+        type="checkbox"
+        id="checkbox"
+        name="checkbox"
+        [(ngModel)]="isDeviceTypeTest"
+        (change)="onDeviceCheckboxSelectionChange($event)"
+      />
 
-      <select id="combo" name="combo">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+      <select
+        id="combo"
+        name="combo"
+        [(ngModel)]="selectedDeviceType"
+        (ngModelChange)="onDeviceTypeSelectionChange($event)"
+      >
+        <option *ngFor="let deviceType of deviceTypes" [value]="deviceType">
+          {{ deviceType }}
+        </option>
       </select>
 
       <label for="text">Device name:</label>
-      <input type="text" id="text" name="text" />
+      <input type="text" id="text" name="text" [(ngModel)]="test.deviceName" />
     </div>
   </div>
 
