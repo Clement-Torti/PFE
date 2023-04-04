@@ -11,7 +11,12 @@
   <div class="headersSection">
     <div class="headerElement">
       Name
-      <input type="text" placeholder="Name" [ngModel]="selectedFile!.title" />
+      <input
+        type="text"
+        placeholder="Name"
+        [(ngModel)]="selectedFile!.title"
+        (change)="onTestNameChange($event)"
+      />
     </div>
 
     <div class="headerElement">

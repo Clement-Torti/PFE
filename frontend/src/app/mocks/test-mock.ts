@@ -14,4 +14,16 @@ export const MOCKED_TEST: Test = {
     deviceName: "Fake device",
     steps: [MOCKED_STEP, MOCKED_STEP_2, MOCKED_STEP, MOCKED_STEP,MOCKED_STEP, MOCKED_STEP, MOCKED_STEP]
 }
+
+export const EMPTY_TEST: Test = {
+    _id: '',
+    title: "",
+    description: "",
+    prerequisites: "",
+    author: "",
+    deviceType: null,
+    deviceName: "",
+    steps: []
+}
+ 
  

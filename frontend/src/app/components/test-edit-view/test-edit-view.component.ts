@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { FolderService } from 'src/app/services/folder.service';
 import { TaskService } from 'src/app/services/task.service';
+import { TestParserService } from 'src/app/services/test-parser.service';
 
 import { File } from 'src/app/models/file';
 import { Test } from 'src/app/models/test';
@@ -26,10 +27,15 @@ export class TestEditViewComponent {
 
   constructor(
     private folderService: FolderService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private testParserService: TestParserService
   ) {
     this.folderService.selectedFile$.subscribe((file) => {
       this.selectedFile = file;
+      if (this.selectedFile) {
+        this.test = this.testParserService.parseFile(this.selectedFile.content);
+      }
+
       this.isDeviceTypeTest = this.test.deviceType !== null;
       this.selectedDeviceType = this.test.deviceType;
     });
@@ -39,12 +45,14 @@ export class TestEditViewComponent {
     const folder = this.folderService.getFolder();
 
     if (folder && this.selectedFile) {
+      const content = this.testParserService.generateCode(this.test);
+
       this.taskService
         .updateFile(
           folder._id,
           this.selectedFile._id,
           this.selectedFile.title,
-          this.selectedFile.content
+          content
         )
         .subscribe(() => {
           this.folderService.getFiles();
@@ -52,6 +60,11 @@ export class TestEditViewComponent {
     }
 
     this.showCode = true;
+  }
+
+  onTestNameChange(e: any) {
+    this.test.title = e.target.value;
+    console.log(e.target.value);
   }
 
   onDeviceCheckboxSelectionChange(e: any) {

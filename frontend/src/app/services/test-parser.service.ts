@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Test } from '../models/test';
 import { Step } from '../models/step';
-import { MOCKED_TEST } from '../mocks/test-mock';
+import { EMPTY_TEST } from '../mocks/test-mock';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestParserService {
   parseFile(file: string): Test {
-    console.log(file);
-    return MOCKED_TEST;
+    const test = EMPTY_TEST;
+    let code = file.split('\n');
+
+    code = this.parseHeader(code, test);
+
+    return test;
   }
 
-  generateHeader(test: Test): string {
+  private parseHeader(code: string[], test: Test): string[] {
+    test.description = 'test desc';
+    return [''];
+  }
+
+  private generateHeader(test: Test): string {
     const title = `# Title: ${test.title}\n`;
     const author = `# Author: ${test.author} - using eTester\n`;
     const description = `# Description: ${test.description}\n`;
@@ -26,7 +35,7 @@ export class TestParserService {
     return title + author + description + prerequisites + deviceType + '\n';
   }
 
-  generateSteps(test: Test): string {
+  private generateSteps(test: Test): string {
     let steps = '';
 
     for (let i = 0; i < test.steps.length; i++) {
@@ -46,7 +55,7 @@ export class TestParserService {
     return steps;
   }
 
-  generateMain(test: Test): string {
+  private generateMain(test: Test): string {
     let main = `def test(self):
         # ----------- 
         # Init part
