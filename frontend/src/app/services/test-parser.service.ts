@@ -139,7 +139,7 @@ ${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Step ${
         i + 1
       }: ", "${step.title}", "${step.description}")
 
-${this.PYTHON_INDENT}${step.code}
+${this.PYTHON_INDENT}${this.PYTHON_INDENT}${step.code}
 
 
 `;
@@ -163,7 +163,7 @@ ${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Initialization")
       main += `
 ${this.PYTHON_INDENT}${this.PYTHON_INDENT}# ${step.title}
 ${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.step${i + 1}();
-      `;
+`;
     }
 
     main += `
@@ -180,8 +180,8 @@ ${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Factory reset")`;
     const header = this.generateHeader(test);
 
     const className = `class HGMicro_Test(HGoMicro_Software_Verification_Base_Test):
-  ${this.PYTHON_INDENT}def __init__(self):
-  ${this.PYTHON_INDENT}${this.PYTHON_INDENT}super().__init__("${test.title}")\n\n`;
+${this.PYTHON_INDENT}def __init__(self):
+${this.PYTHON_INDENT}${this.PYTHON_INDENT}super().__init__("${test.title}")\n\n`;
 
     const steps = this.generateSteps(test);
 
