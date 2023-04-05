@@ -14,7 +14,7 @@ export class MainWindowsComponent implements OnInit {
     this.url = router.url;
     // Redirect to home if no folder is selected
     if (this.url != '/' && !this.folderService.getFolder()) {
-      this.router.navigate(['/edit']); // To change
+      this.router.navigate(['/']); // To change
     }
   }
 
