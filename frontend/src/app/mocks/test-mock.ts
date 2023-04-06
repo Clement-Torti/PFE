@@ -16,11 +16,11 @@ export const MOCKED_TEST: Test = {
 }
 
 export const EMPTY_TEST: Test = {
-    _id: '',
-    title: "",
-    description: "",
-    prerequisites: "",
-    author: "",
+    _id: 'XXX',
+    title: "XXX",
+    description: "XXX",
+    prerequisites: "XXX",
+    author: "XXX",
     deviceType: null,
     deviceName: "",
     steps: []

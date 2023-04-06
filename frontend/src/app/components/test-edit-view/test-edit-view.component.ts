@@ -17,7 +17,7 @@ import { MOCKED_STEP } from 'src/app/mocks/step-mock';
 })
 export class TestEditViewComponent {
   selectedFile: File | null = null;
-  test: Test = MOCKED_TEST;
+  test!: Test;
   showCode = false;
 
   // Device combobox
@@ -31,14 +31,22 @@ export class TestEditViewComponent {
     private testParserService: TestParserService
   ) {
     this.folderService.selectedFile$.subscribe((file) => {
-      this.selectedFile = file;
-      if (this.selectedFile) {
-        this.test = this.testParserService.parseFile(this.selectedFile.content);
+      if (this.selectedFile !== file) {
+        this.selectedFile = file;
+        this.test = this.testParserService.parseFile(
+          this.selectedFile!.content
+        );
+        this.isDeviceTypeTest = this.test.deviceType !== null;
+        this.selectedDeviceType = this.test.deviceType;
       }
+    });
 
+    if (this.selectedFile) {
+      // TODO exception handling
+      this.test = this.testParserService.parseFile(this.selectedFile.content);
       this.isDeviceTypeTest = this.test.deviceType !== null;
       this.selectedDeviceType = this.test.deviceType;
-    });
+    }
   }
 
   onGenerateCodeClick() {

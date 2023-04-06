@@ -32,3 +32,11 @@ export const MOCKED_STEP_2: Step = {
         }
     ]
 }
+
+export const EMPTY_STEP: Step = {
+    title: "",
+    description: "",
+    code: "",
+    stepType: StepType.Unknown,
+    params: []
+}

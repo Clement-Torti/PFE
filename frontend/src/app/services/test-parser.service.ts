@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Test } from '../models/test';
 import { Step } from '../models/step';
-import { EMPTY_TEST } from '../mocks/test-mock';
 import { DeviceType } from '../models/deviceType';
+
+import { EMPTY_TEST } from '../mocks/test-mock';
+import { EMPTY_STEP } from '../mocks/step-mock';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +44,15 @@ export class TestParserService {
 
     this.testFormat(code[0], `${this.PYTHON_INDENT}def __init__(self):`);
     code = this.parseNextLine(code);
+
+    this.testFormat(
+      code[0],
+      `${this.PYTHON_INDENT}${this.PYTHON_INDENT}super().__init__("${test.title}")`
+    );
+
+    code = this.parseNextLine(code, 2);
+
+    code = this.parseSteps(code, test);
 
     console.log('x', code[0]);
 
@@ -112,6 +123,53 @@ export class TestParserService {
 
     // return code without the first element
     return this.parseNextLine(code, 2);
+  }
+
+  private parseSteps(code: string[], test: Test): string[] {
+    const stepRegex = /def step(\d+)\(self\):/g;
+    let stepMatch = stepRegex.exec(code[0]);
+    while (stepMatch) {
+      console.log('Step found: ', stepMatch[1], ' - ', code[0]);
+      const step = EMPTY_STEP;
+
+      code = this.parseNextLine(code); // Todo: Parse the code
+      // regex getting the step title and description base d on this format: self.logScenario("Step 1: ", "Fake step", "Description of the step of the fake product")
+      const stepTitleRegex =
+        /self.logScenario\("Step \d+: ", "(.*)", "(.*)"\)/g;
+      const stepInfoMatch = stepTitleRegex.exec(code[0]);
+      if (stepInfoMatch) {
+        step.title = stepInfoMatch[1];
+        step.description = stepInfoMatch[2];
+      } else {
+        throw new Error(
+          'Bad format: Step info not found,\nexpected: self.logScenario("Step X: ", "<title>>", "<description>")\nreceived: ' +
+            code[0]
+        );
+      }
+
+      // Parse step code
+      code = this.parseStepCode(code, step);
+
+      test.steps.push(step);
+
+      const stepRegex = /def step(\d+)\(self\):/g;
+      stepMatch = stepRegex.exec(code[0]);
+    }
+
+    return this.parseNextLine(code, 1);
+  }
+
+  private parseStepCode(code: string[], step: Step): string[] {
+    let stepCode = '';
+
+    while (code[0].startsWith(this.PYTHON_INDENT.repeat(2))) {
+      stepCode += code[0] + '\n';
+      code = this.parseNextLine(code);
+    }
+
+    step.code = stepCode;
+
+    return code;
   }
 
   private generateHeader(test: Test): string {

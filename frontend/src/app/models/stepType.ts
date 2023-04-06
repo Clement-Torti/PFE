@@ -2,4 +2,5 @@
 export enum StepType {
     HGoCommand,
     HGoCommandWithParams,
+    Unknown
 }

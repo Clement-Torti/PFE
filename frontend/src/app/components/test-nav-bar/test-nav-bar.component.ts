@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FolderService } from 'src/app/services/folder.service';
 import { TaskService } from 'src/app/services/task.service';
+import { TestParserService } from 'src/app/services/test-parser.service';
 
 import { File } from 'src/app/models/file';
+
+import { EMPTY_TEST } from 'src/app/mocks/test-mock';
 
 @Component({
   selector: 'app-test-nav-bar',
@@ -14,7 +17,8 @@ export class TestNavBarComponent {
 
   constructor(
     private folderService: FolderService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private testParserService: TestParserService
   ) {
     this.folderService.files$.subscribe((files) => {
       this.files = files;
@@ -31,9 +35,12 @@ export class TestNavBarComponent {
     const folder = this.folderService.getFolder();
 
     if (folder) {
-      this.taskService.postFile(folder._id, 'newFile', '').subscribe((file) => {
-        this.folderService.getFiles();
-      });
+      const code = this.testParserService.generateCode(EMPTY_TEST);
+      this.taskService
+        .postFile(folder._id, 'newFile', code)
+        .subscribe((file) => {
+          this.folderService.getFiles();
+        });
     }
   }
 }
