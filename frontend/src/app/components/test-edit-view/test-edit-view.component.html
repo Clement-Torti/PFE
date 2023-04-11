@@ -3,7 +3,7 @@
 </div>
 
 <app-test-nav-bar class="sidebar"></app-test-nav-bar>
-<div *ngIf="selectedFile" class="contentFrame">
+<div *ngIf="selectedFile && !badFormat" class="contentFrame">
   <button (click)="onGenerateCodeClick()" class="generateCodeButton">
     Generate Code
   </button>
@@ -96,4 +96,6 @@
       Delete Test
     </button>
   </div>
+
+  <div *ngIf="selectedFile && badFormat" class="contentFrame">Bad Format</div>
 </div>

@@ -19,6 +19,7 @@ export class TestEditViewComponent {
   selectedFile: File | null = null;
   test!: Test;
   showCode = false;
+  badFormat = false;
 
   // Device combobox
   isDeviceTypeTest = false;
@@ -33,19 +34,25 @@ export class TestEditViewComponent {
     this.folderService.selectedFile$.subscribe((file) => {
       if (this.selectedFile !== file) {
         this.selectedFile = file;
-        this.test = this.testParserService.parseFile(
-          this.selectedFile!.content
-        );
-        this.isDeviceTypeTest = this.test.deviceType !== null;
-        this.selectedDeviceType = this.test.deviceType;
+        this.setupTest();
       }
     });
 
     if (this.selectedFile) {
       // TODO exception handling
-      this.test = this.testParserService.parseFile(this.selectedFile.content);
+      this.setupTest();
+    }
+  }
+
+  setupTest() {
+    try {
+      this.test = this.testParserService.parseFile(this.selectedFile!.content);
       this.isDeviceTypeTest = this.test.deviceType !== null;
       this.selectedDeviceType = this.test.deviceType;
+      this.badFormat = false;
+    } catch (e) {
+      console.log(e);
+      this.badFormat = true;
     }
   }
 

@@ -13,6 +13,13 @@ export class TestParserService {
   PYTHON_INDENT = '    ';
 
   private parseNextLine(code: string[], nbLine = 1): string[] {
+    if (nbLine == -1 && code.length > 0) {
+      if (code[0].length == 0) {
+        return this.parseNextLine(code.slice(1), -1);
+      }
+      return code;
+    }
+
     if (code.length > nbLine) {
       return code.slice(nbLine);
     } else {
@@ -128,45 +135,46 @@ export class TestParserService {
   }
 
   private parseSteps(code: string[], test: Test): string[] {
-    let newCode = code;
     const stepRegex = /def step(\d+)\(self\):/g;
-    let stepMatch = stepRegex.exec(newCode[0]);
+    let stepMatch = stepRegex.exec(code[0]);
 
     while (stepMatch) {
-      console.log('Step found: ', stepMatch[1], ' - ', newCode[0]);
+      console.log('Step found: ', stepMatch[1], ' - ', code[0]);
       const step = EMPTY_STEP;
 
-      newCode = this.parseNextLine(newCode); // Todo: Parse the code
+      code = this.parseNextLine(code); // Todo: Parse the code
       // regex getting the step title and description base d on this format: self.logScenario("Step 1: ", "Fake step", "Description of the step of the fake product")
       const stepTitleRegex =
         /self.logScenario\("Step \d+: ", "(.*)", "(.*)"\)/g;
-      const stepInfoMatch = stepTitleRegex.exec(newCode[0]);
+      const stepInfoMatch = stepTitleRegex.exec(code[0]);
       if (stepInfoMatch) {
         step.title = stepInfoMatch[1];
         step.description = stepInfoMatch[2];
       } else {
         throw new Error(
           'Bad format: Step info not found,\nexpected: self.logScenario("Step X: ", "<title>>", "<description>")\nreceived: ' +
-            newCode[0]
+            code[0]
         );
       }
 
+      code = this.parseNextLine(code);
+
       // Parse step code
-      newCode = this.parseStepCode(newCode, step);
+      code = this.parseStepCode(code, step);
 
       test.steps.push(step);
 
       const stepRegex = /def step(\d+)\(self\):/g;
-      stepMatch = stepRegex.exec(newCode[0]);
+      stepMatch = stepRegex.exec(code[0]);
     }
 
-    return this.parseNextLine(newCode, 1);
+    return this.parseNextLine(code, 1);
   }
 
   private parseStepCode(code: string[], step: Step): string[] {
     let stepCode = '';
 
-    while (code[0].startsWith(this.PYTHON_INDENT.repeat(2))) {
+    while (code[0].startsWith(this.PYTHON_INDENT.repeat(2)) || code[0] == '') {
       stepCode += code[0] + '\n';
       code = this.parseNextLine(code);
     }
