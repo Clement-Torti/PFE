@@ -15,15 +15,17 @@ export const MOCKED_TEST: Test = {
     steps: [MOCKED_STEP, MOCKED_STEP_2, MOCKED_STEP, MOCKED_STEP,MOCKED_STEP, MOCKED_STEP, MOCKED_STEP]
 }
 
-export const EMPTY_TEST: Test = {
-    _id: 'XXX',
-    title: "XXX",
-    description: "XXX",
-    prerequisites: "XXX",
-    author: "XXX",
-    deviceType: null,
-    deviceName: "",
-    steps: []
-}
  
+export function getEmptyTest(): Test {
+    return {
+        _id: 'XXX',
+        title: "XXX",
+        description: "XXX",
+        prerequisites: "XXX",
+        author: "XXX",
+        deviceType: null,
+        deviceName: "",
+        steps: []
+    }
+}
  

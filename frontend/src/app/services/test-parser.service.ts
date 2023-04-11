@@ -3,7 +3,7 @@ import { Test } from '../models/test';
 import { Step } from '../models/step';
 import { DeviceType } from '../models/deviceType';
 
-import { EMPTY_TEST } from '../mocks/test-mock';
+import { getEmptyTest } from '../mocks/test-mock';
 import { EMPTY_STEP } from '../mocks/step-mock';
 
 @Injectable({
@@ -29,7 +29,8 @@ export class TestParserService {
   }
 
   parseFile(file: string): Test {
-    const test = EMPTY_TEST;
+    const test = getEmptyTest();
+
     let code = file.split('\n');
 
     // Parse header
@@ -108,6 +109,7 @@ export class TestParserService {
     const deviceTypeRegex = /# Device : (.*) \((.*)\)/g;
     const deviceTypeMatch = deviceTypeRegex.exec(code[0]);
     if (deviceTypeMatch) {
+      code = this.parseNextLine(code);
       test.deviceName = deviceTypeMatch[1];
       if (
         Object.values(DeviceType).includes(deviceTypeMatch[2] as DeviceType)
@@ -122,41 +124,43 @@ export class TestParserService {
     }
 
     // return code without the first element
-    return this.parseNextLine(code, 2);
+    return this.parseNextLine(code);
   }
 
   private parseSteps(code: string[], test: Test): string[] {
+    let newCode = code;
     const stepRegex = /def step(\d+)\(self\):/g;
-    let stepMatch = stepRegex.exec(code[0]);
+    let stepMatch = stepRegex.exec(newCode[0]);
+
     while (stepMatch) {
-      console.log('Step found: ', stepMatch[1], ' - ', code[0]);
+      console.log('Step found: ', stepMatch[1], ' - ', newCode[0]);
       const step = EMPTY_STEP;
 
-      code = this.parseNextLine(code); // Todo: Parse the code
+      newCode = this.parseNextLine(newCode); // Todo: Parse the code
       // regex getting the step title and description base d on this format: self.logScenario("Step 1: ", "Fake step", "Description of the step of the fake product")
       const stepTitleRegex =
         /self.logScenario\("Step \d+: ", "(.*)", "(.*)"\)/g;
-      const stepInfoMatch = stepTitleRegex.exec(code[0]);
+      const stepInfoMatch = stepTitleRegex.exec(newCode[0]);
       if (stepInfoMatch) {
         step.title = stepInfoMatch[1];
         step.description = stepInfoMatch[2];
       } else {
         throw new Error(
           'Bad format: Step info not found,\nexpected: self.logScenario("Step X: ", "<title>>", "<description>")\nreceived: ' +
-            code[0]
+            newCode[0]
         );
       }
 
       // Parse step code
-      code = this.parseStepCode(code, step);
+      newCode = this.parseStepCode(newCode, step);
 
       test.steps.push(step);
 
       const stepRegex = /def step(\d+)\(self\):/g;
-      stepMatch = stepRegex.exec(code[0]);
+      stepMatch = stepRegex.exec(newCode[0]);
     }
 
-    return this.parseNextLine(code, 1);
+    return this.parseNextLine(newCode, 1);
   }
 
   private parseStepCode(code: string[], step: Step): string[] {
@@ -188,7 +192,6 @@ export class TestParserService {
 
   private generateSteps(test: Test): string {
     let steps = '';
-
     for (let i = 0; i < test.steps.length; i++) {
       const step = test.steps[i];
 
