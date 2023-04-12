@@ -17,6 +17,18 @@ overflow-y: scroll;
 
 }
 
+.errorMessage {
+/* Size */
+
+/* Position */
+
+ /* Style */
+ color: red;
+
+/* Behavior */
+
+}
+
 .sidebar {
     /* Size */
     width: 250px; 
@@ -32,6 +44,24 @@ overflow-y: scroll;
   }
 
  
+  .errorFrame {
+  /* Size */
+  
+  /* Position */
+  margin-left: 250px;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  align-items: center;
+  
+   /* Style */
+   background-color: lightgray;
+  
+  /* Behavior */
+  
+  }
   
  .contentFrame {
     /* Size */

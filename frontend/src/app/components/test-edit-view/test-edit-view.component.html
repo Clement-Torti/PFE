@@ -3,6 +3,23 @@
 </div>
 
 <app-test-nav-bar class="sidebar"></app-test-nav-bar>
+
+<div *ngIf="selectedFile && badFormat" class="errorFrame">
+  <h2 class="errorMessage">This file could not be parsed</h2>
+  <i class="errorMessage">{{ errorMessage }}</i>
+  <textarea
+    [(ngModel)]="selectedFile!.content"
+    style="width: 100%; height: 100%"
+  ></textarea>
+
+  <button
+    (click)="onSaveCode()"
+    style="width: 100pt; height: 50pt; margin-top: 10pt"
+  >
+    Save
+  </button>
+</div>
+
 <div *ngIf="selectedFile && !badFormat" class="contentFrame">
   <button (click)="onGenerateCodeClick()" class="generateCodeButton">
     Generate Code
@@ -96,6 +113,4 @@
       Delete Test
     </button>
   </div>
-
-  <div *ngIf="selectedFile && badFormat" class="contentFrame">Bad Format</div>
 </div>

@@ -20,6 +20,7 @@ export class TestEditViewComponent {
   test!: Test;
   showCode = false;
   badFormat = false;
+  errorMessage = '';
 
   // Device combobox
   isDeviceTypeTest = false;
@@ -51,9 +52,23 @@ export class TestEditViewComponent {
       this.selectedDeviceType = this.test.deviceType;
       this.badFormat = false;
     } catch (e) {
-      console.log(e);
       this.badFormat = true;
+      this.errorMessage = (e as Error).message;
     }
+  }
+
+  onSaveCode() {
+    this.taskService
+      .updateFile(
+        this.folderService.getFolder()!._id,
+        this.selectedFile!._id,
+        this.selectedFile!.title,
+        this.selectedFile!.content
+      )
+      .subscribe(() => {
+        this.folderService.getFiles();
+        this.setupTest();
+      });
   }
 
   onGenerateCodeClick() {
