@@ -1,0 +1,17 @@
+<div class="addStep">
+  <select
+    id="combo"
+    name="combo"
+    [(ngModel)]="selectedStep"
+    (change)="onStepSelectionChange($event)"
+  >
+    <optgroup *ngFor="let stepType of stepTypes" [label]="stepType">
+      <option *ngFor="let step of getStepsByType(stepType)" [value]="step">
+        {{ step.title }} : "{{ step.description }}"
+      </option>
+    </optgroup>
+  </select>
+  <button (click)="onCreateStepClick()" class="createStepButton">
+    Create new step
+  </button>
+</div>

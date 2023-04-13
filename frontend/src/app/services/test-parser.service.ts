@@ -62,7 +62,7 @@ export class TestParserService {
 
     code = this.parseSteps(code, test);
 
-    console.log('x', code[0]);
+    console.log(code);
 
     return test;
   }
@@ -168,7 +168,7 @@ export class TestParserService {
       stepMatch = stepRegex.exec(code[0]);
     }
 
-    return this.parseNextLine(code, 1);
+    return code;
   }
 
   private parseStepCode(code: string[], step: Step): string[] {

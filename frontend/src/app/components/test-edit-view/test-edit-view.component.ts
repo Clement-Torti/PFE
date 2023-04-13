@@ -9,6 +9,7 @@ import { Test } from 'src/app/models/test';
 import { DeviceType } from 'src/app/models/deviceType';
 import { MOCKED_TEST } from 'src/app/mocks/test-mock';
 import { MOCKED_STEP } from 'src/app/mocks/step-mock';
+import { Step } from 'src/app/models/step';
 
 @Component({
   selector: 'app-test-edit-view',
@@ -123,8 +124,8 @@ export class TestEditViewComponent {
     }
   }
 
-  onAddStepClick() {
-    this.test.steps.push(MOCKED_STEP);
+  onAddStepClick(step: any) {
+    this.test.steps.push(step as Step);
   }
 
   onMoveStepClick(index: number) {

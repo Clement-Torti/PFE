@@ -9,7 +9,7 @@ export const MOCKED_STEP: Step = {
     title: "Fake step",
     description: "Description of the step of the fake product",
     code: "All bunch of code for the step of the fake product",
-    stepType: StepType.HGoCommand,
+    stepType: StepType.LifecycleCommands,
     params: [
         {
             type: Param_Type.STRING,
@@ -23,7 +23,7 @@ export const MOCKED_STEP_2: Step = {
     title: "Second Fake step",
     description: "Description of the step of the fake product",
     code: "All bunch of code for the step of the fake product",
-    stepType: StepType.HGoCommand,
+    stepType: StepType.LifecycleCommands,
     params: [
         {
             type: Param_Type.STRING,
@@ -37,6 +37,13 @@ export const EMPTY_STEP: Step = {
     title: "",
     description: "",
     code: "",
-    stepType: StepType.Unknown,
+    stepType: StepType.Other,
     params: []
 }
+
+
+// Original steps saved in the database
+export const BOOT_STEPS: Step[] = [
+    MOCKED_STEP,
+    MOCKED_STEP_2
+]
