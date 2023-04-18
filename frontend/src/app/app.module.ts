@@ -16,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeViewComponent } from './components/code-view/code-view.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { StepAddComponent } from './components/step-add/step-add.component';
+import { StepCreationViewComponent } from './components/step-creation-view/step-creation-view.component';
+import { StepNavBarComponent } from './components/step-nav-bar/step-nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { StepAddComponent } from './components/step-add/step-add.component';
     StepViewComponent,
     CodeViewComponent,
     StepAddComponent,
+    StepCreationViewComponent,
+    StepNavBarComponent,
   ],
   imports: [
     BrowserModule,

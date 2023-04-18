@@ -3,6 +3,7 @@ import { StepType } from './stepType';
 import { Param } from './param';
 
 export class Step {
+    _id: string;
     title: string;
     description: string;
     code: string;
@@ -11,7 +12,8 @@ export class Step {
     params: Param[];
 
 
-    constructor (title: string, description: string, code: string, stepType: StepType, params: Param[]) {
+    constructor (_id: string, title: string, description: string, code: string, stepType: StepType, params: Param[]) {
+        this._id = _id;
         this.title = title;
         this.description = description;
         this.code = code;

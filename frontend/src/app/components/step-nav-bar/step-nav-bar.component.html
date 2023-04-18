@@ -1,0 +1,8 @@
+<div class="mainFrame">
+  <button (click)="onAddStepClick()" class="addStepButton">Add Step</button>
+  <div *ngFor="let step of steps" class="stepDiv">
+    <button (click)="onStepClick(step)" class="stepButton">
+      {{ step.title }}
+    </button>
+  </div>
+</div>

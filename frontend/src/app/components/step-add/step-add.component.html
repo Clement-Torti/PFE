@@ -6,7 +6,7 @@
       </option>
     </optgroup>
   </select>
-  <button (click)="onCreateStepClick()" class="createStepButton">
+  <a [routerLink]="['/step-creation']" routerLinkActive="defineClass">
     Create new step
-  </button>
+  </a>
 </div>

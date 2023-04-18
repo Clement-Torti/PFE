@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: '', component: MainWindowsComponent },
   { path: 'edit', component: MainWindowsComponent },
   { path: 'run', component: MainWindowsComponent },
+  { path: 'step-creation', component: MainWindowsComponent },
 ];
 
 @NgModule({
