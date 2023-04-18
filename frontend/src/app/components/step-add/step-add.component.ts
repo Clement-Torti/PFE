@@ -23,10 +23,12 @@ export class StepAddComponent {
   }
 
   onStepSelectionChange(e: Event) {
-    console.log('Selected step: ' + (e.target as HTMLSelectElement).value);
+    this.buttonClick.emit(this.selectedStep!);
+    (e.target as HTMLInputElement).value = '';
   }
 
   onCreateStepClick() {
     console.log('Create step');
+    this.selectedStep = null;
   }
 }
