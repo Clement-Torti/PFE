@@ -35,4 +35,10 @@ app.use('/', folderRoutes)
 const fileRoutes = require('./routes/fileRoutes')
 app.use('/', fileRoutes)
 
+const stepTypesRoutes = require('./routes/stepTypeRoutes')
+app.use('/', stepTypesRoutes)
+
+const stepRoutes = require('./routes/stepRoutes')
+app.use('/', stepRoutes)
+
 app.listen(3000, () => Logger.info('Server connected on port 3000'))

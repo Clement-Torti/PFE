@@ -1,4 +1,5 @@
 /* eslint-disable */
+// See /backend/database/models/paramTypes for the backend equivalent
 export enum Param_Type {
     STRING = 'Text',
     NUMBER = 'Number',
@@ -8,9 +9,9 @@ export enum Param_Type {
 export class Param {
     type: Param_Type;
     name: string;
-    value: Object;
+    value: string;
 
-    constructor (type: Param_Type, name: string, value: Object) {
+    constructor (type: Param_Type, name: string, value: string) {
         this.type = type;
         this.name = name;
         this.value = value;

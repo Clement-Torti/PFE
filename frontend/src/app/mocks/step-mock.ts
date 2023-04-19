@@ -10,7 +10,7 @@ export const MOCKED_STEP: Step = {
     title: "Fake step",
     description: "Description of the step of the fake product",
     code: "All bunch of code for the step of the fake product",
-    stepType: StepType.LifecycleCommands,
+    stepType: StepType.LIFECYCLE_COMMANDS,
     params: [
         {
             type: Param_Type.STRING,
@@ -25,7 +25,7 @@ export const MOCKED_STEP_2: Step = {
     title: "Second Fake step",
     description: "Description of the step of the fake product",
     code: "All bunch of code for the step of the fake product",
-    stepType: StepType.LifecycleCommands,
+    stepType: StepType.LIFECYCLE_COMMANDS,
     params: [
         {
             type: Param_Type.STRING,
@@ -40,7 +40,7 @@ export const EMPTY_STEP: Step = {
     title: "",
     description: "",
     code: "",
-    stepType: StepType.Other,
+    stepType: StepType.OTHER,
     params: []
 }
 
