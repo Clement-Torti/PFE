@@ -22,8 +22,10 @@ export class StepService {
     return Object.values(StepType);
   }
 
-  getSteps(): Step[] {
-    return BOOT_STEPS;
+  getSteps() {
+    this.taskService.getSteps().subscribe((steps) => {
+      this._steps.next(steps as Step[]);
+    });
   }
 
   getStepsByType(stepType: StepType): Step[] {

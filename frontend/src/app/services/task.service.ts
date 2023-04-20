@@ -7,6 +7,7 @@ import { WebService } from './web.service';
 export class TaskService {
   constructor(private webService: WebService) {}
 
+  // Folder methods
   getFolders() {
     return this.webService.get('folders');
   }
@@ -19,6 +20,7 @@ export class TaskService {
     return this.webService.post('folders', { title });
   }
 
+  // Files methods
   getFiles(folderId: string) {
     return this.webService.get(`folders/${folderId}/files`);
   }
@@ -39,5 +41,10 @@ export class TaskService {
 
   deleteFile(folderId: string, fileId: string) {
     return this.webService.delete(`folders/${folderId}/files/${fileId}`);
+  }
+
+  // Step methods
+  getSteps() {
+    return this.webService.get('steps');
   }
 }
