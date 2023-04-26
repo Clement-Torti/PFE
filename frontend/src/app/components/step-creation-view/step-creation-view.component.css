@@ -19,6 +19,9 @@
     margin-left: 250px;
     padding: 20px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     /* Style */
     background-color: lightgray;
@@ -26,3 +29,58 @@
     /* Behavior */
     
  }
+
+ .element {
+ /* Size */
+ 
+ /* Position */
+ margin: 5px;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
+
+ .header {
+    /* Size */
+    width: 100%;
+
+   
+    /* Position */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+     /* Style */
+    margin: 5px;
+
+    /* Behavior */
+    
+}
+
+.codeArea {
+/* Size */
+width: 100%;
+
+/* Position */
+display: flex;
+flex-direction: column;
+
+ /* Style */
+
+/* Behavior */
+
+}
+
+.codeEditor {
+/* Size */
+min-height: 200px;
+
+/* Position */
+
+ /* Style */
+
+/* Behavior */
+
+}

@@ -1,2 +1,40 @@
 <app-step-nav-bar class="sidebar"></app-step-nav-bar>
-<div class="contentFrame">Here</div>
+<div *ngIf="selectedStep" class="contentFrame">
+  <div class="header element">
+    <button (click)="onReturn()" class="returnButton">return</button>
+    <h3>Define your own reusable step</h3>
+    <button (click)="onSave()" class="saveButton">Save</button>
+  </div>
+
+  <div class="element">
+    Name
+    <input type="text" placeholder="Name" [(ngModel)]="selectedStep!.title" />
+  </div>
+
+  <div class="element">
+    Description
+    <input
+      type="text"
+      placeholder="Description"
+      [(ngModel)]="selectedStep!.description"
+    />
+  </div>
+
+  <select class="element" id="combo" name="combo"></select>
+
+  <div class="codeArea">
+    Code
+    <textarea
+      class="codeEditor element"
+      placeholder="Write your code here"
+      [(ngModel)]="selectedStep!.code"
+    ></textarea>
+    <button class="element" (click)="onAddParam()" class="generateCodeButton">
+      Add param
+    </button>
+  </div>
+
+  <button (click)="onDeleteStep()" class="deleteStepButton element">
+    Delete
+  </button>
+</div>
