@@ -20,7 +20,17 @@
     />
   </div>
 
-  <select class="element" id="combo" name="combo"></select>
+  <select
+    class="element"
+    id="combo"
+    name="combo"
+    [(ngModel)]="selectedStepType"
+    (ngModelChange)="onStepTypeSelectionChange($event)"
+  >
+    <option *ngFor="let stepType of getStepTypes()" [value]="stepType">
+      {{ stepType }}
+    </option>
+  </select>
 
   <div class="codeArea">
     Code

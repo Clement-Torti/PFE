@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Step } from 'src/app/models/step';
+import { StepType } from 'src/app/models/stepType';
 import { StepService } from 'src/app/services/step.service';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -10,6 +11,7 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class StepCreationViewComponent {
   selectedStep: Step | null = null;
+  selectedStepType: StepType | null = null;
 
   constructor(
     private stepService: StepService,
@@ -17,7 +19,18 @@ export class StepCreationViewComponent {
   ) {
     this.stepService.selectedStep$.subscribe((step) => {
       this.selectedStep = step;
+      this.selectedStepType = step?.stepType ?? null;
     });
+  }
+
+  getStepTypes() {
+    return this.stepService.getStepType();
+  }
+
+  onStepTypeSelectionChange(stepType: StepType) {
+    if (this.selectedStep) {
+      this.selectedStep.stepType = stepType;
+    }
   }
 
   onReturn() {
