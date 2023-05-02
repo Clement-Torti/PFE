@@ -20,14 +20,6 @@ const StepSchema = new mongoose.Schema({
     minlength: 0
   },
 
-  params: {
-    type: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Param'
-    }],
-    default: []
-  },
-
   stepType: {
     type: String,
     enum: Object.values(StepType)
