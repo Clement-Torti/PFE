@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ParamType } from 'src/app/models/param';
 import { Step } from 'src/app/models/step';
 import { StepType } from 'src/app/models/stepType';
 import { StepService } from 'src/app/services/step.service';
@@ -12,6 +13,8 @@ import { TaskService } from 'src/app/services/task.service';
 export class StepCreationViewComponent {
   selectedStep: Step | null = null;
   selectedStepType: StepType | null = null;
+  paramName = '';
+  paramType: ParamType | null = null;
 
   constructor(
     private stepService: StepService,
@@ -23,7 +26,7 @@ export class StepCreationViewComponent {
     });
   }
 
-  getStepTypes() {
+  getStepTypes(): StepType[] {
     return this.stepService.getStepType();
   }
 
@@ -47,8 +50,22 @@ export class StepCreationViewComponent {
     }
   }
 
+  getParamTypes(): ParamType[] {
+    return Object.values(ParamType);
+  }
+
+  onParamTypeSelectionChange(paramType: ParamType) {
+    this.paramType = paramType;
+  }
+
   onAddParam() {
-    console.log('Param added');
+    if (this.selectedStep && this.paramType && this.paramName) {
+      this.selectedStep.code =
+        this.selectedStep.code + `\\~${this.paramName}: ${this.paramType}~\\`;
+
+      this.paramType = null;
+      this.paramName = '';
+    }
   }
 
   onDeleteStep() {

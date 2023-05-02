@@ -39,9 +39,23 @@
       placeholder="Write your code here"
       [(ngModel)]="selectedStep!.code"
     ></textarea>
-    <button class="element" (click)="onAddParam()" class="generateCodeButton">
-      Add param
-    </button>
+    <div class="addingParam">
+      <input type="text" placeholder="Param name" [(ngModel)]="paramName" />
+      <select
+        class="element"
+        id="combo"
+        name="combo"
+        [(ngModel)]="paramType"
+        (ngModelChange)="onParamTypeSelectionChange($event)"
+      >
+        <option *ngFor="let paramType of getParamTypes()" [value]="paramType">
+          {{ paramType }}
+        </option>
+      </select>
+      <button class="element" (click)="onAddParam()" class="generateCodeButton">
+        Add param
+      </button>
+    </div>
   </div>
 
   <button (click)="onDeleteStep()" class="deleteStepButton element">

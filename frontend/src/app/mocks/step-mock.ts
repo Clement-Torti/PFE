@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Step } from '../models/step';
 import { StepType } from '../models/stepType';
-import { Param_Type } from '../models/param';
+import { ParamType } from '../models/param';
 
 // Generate another mocked test here
 
@@ -13,7 +13,7 @@ export const MOCKED_STEP: Step = {
     stepType: StepType.LIFECYCLE_COMMANDS,
     params: [
         {
-            type: Param_Type.STRING,
+            type: ParamType.STRING,
             name: "HGO Serial number",
             value: "123456789"
         }
@@ -28,7 +28,7 @@ export const MOCKED_STEP_2: Step = {
     stepType: StepType.LIFECYCLE_COMMANDS,
     params: [
         {
-            type: Param_Type.STRING,
+            type: ParamType.STRING,
             name: "HGO Serial number",
             value: "123456789"
         }
