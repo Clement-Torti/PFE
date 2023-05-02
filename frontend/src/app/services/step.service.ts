@@ -16,7 +16,9 @@ export class StepService {
   private _selectedStep = new BehaviorSubject<Step | null>(null);
   public selectedStep$ = this._selectedStep.asObservable();
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService) {
+    this.getSteps();
+  }
 
   getStepType(): StepType[] {
     return Object.values(StepType);
@@ -29,7 +31,7 @@ export class StepService {
   }
 
   getStepsByType(stepType: StepType): Step[] {
-    return BOOT_STEPS.filter((step) => step.stepType === stepType);
+    return this._steps.value.filter((step) => step.stepType === stepType);
   }
 
   setSelectedStep(stepId: string) {
