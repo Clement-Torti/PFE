@@ -11,13 +11,13 @@ const StepSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    minlength: 3
+    minlength: 0
   },
 
   code: {
     type: String,
     trim: true,
-    minlength: 3
+    minlength: 0
   },
 
   params: {

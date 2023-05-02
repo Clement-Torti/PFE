@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 
 import { Step } from 'src/app/models/step';
+import { StepType } from 'src/app/models/stepType';
 import { StepService } from 'src/app/services/step.service';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-step-nav-bar',
@@ -11,7 +13,10 @@ import { StepService } from 'src/app/services/step.service';
 export class StepNavBarComponent {
   steps: Step[] = [];
 
-  constructor(private stepService: StepService) {
+  constructor(
+    private stepService: StepService,
+    private taskService: TaskService
+  ) {
     this.stepService.steps$.subscribe((steps) => {
       this.steps = steps;
     });
@@ -25,8 +30,10 @@ export class StepNavBarComponent {
 
   onAddStepClick() {
     console.log('Add step');
-    // this.taskService.postFile(folder._id, 'newFile', code).subscribe((file) => {
-    //   this.folderService.getFiles();
-    // });
+    this.taskService
+      .postStep(new Step('', 'new step', '', '', StepType.OTHER, []))
+      .subscribe((_) => {
+        this.stepService.getSteps();
+      });
   }
 }

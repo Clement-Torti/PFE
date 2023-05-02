@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebService } from './web.service';
+import { Step } from '../models/step';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,29 @@ export class TaskService {
   // Step methods
   getSteps() {
     return this.webService.get('steps');
+  }
+
+  // Post step
+  postStep(step: Step) {
+    const params = [];
+    for (const param of step.params) {
+      params.push({
+        name: param.name,
+        paramType: param.type.toString(),
+        value: param.value,
+      });
+    }
+
+    return this.webService.post(`steps`, {
+      title: step.title,
+      description: step.description,
+      code: step.code,
+      stepType: step.stepType.toString(),
+      params: params,
+    });
+  }
+
+  deleteStep(stepId: string) {
+    return this.webService.delete(`steps/${stepId}`);
   }
 }

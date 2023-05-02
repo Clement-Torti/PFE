@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Step } from 'src/app/models/step';
 import { StepService } from 'src/app/services/step.service';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-step-creation-view',
@@ -10,7 +11,10 @@ import { StepService } from 'src/app/services/step.service';
 export class StepCreationViewComponent {
   selectedStep: Step | null = null;
 
-  constructor(private stepService: StepService) {
+  constructor(
+    private stepService: StepService,
+    private taskService: TaskService
+  ) {
     this.stepService.selectedStep$.subscribe((step) => {
       this.selectedStep = step;
       console.log('Selected step', step);
@@ -30,6 +34,11 @@ export class StepCreationViewComponent {
   }
 
   onDeleteStep() {
-    console.log('Step deleted');
+    if (this.selectedStep) {
+      this.taskService.deleteStep(this.selectedStep._id).subscribe(() => {
+        this.selectedStep = null;
+        this.stepService.getSteps();
+      });
+    }
   }
 }
