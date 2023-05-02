@@ -87,4 +87,8 @@ export class FolderService {
       this._selectedFile.next(file);
     }
   }
+
+  getSelectedFile(): File | null {
+    return this._selectedFile.value;
+  }
 }

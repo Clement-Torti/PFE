@@ -19,6 +19,9 @@ export class StepNavBarComponent {
   ) {
     this.stepService.steps$.subscribe((steps) => {
       this.steps = steps;
+      if (this.steps.length > 0) {
+        this.stepService.setSelectedStep(this.steps[0]._id);
+      }
     });
 
     this.stepService.getSteps();
@@ -29,7 +32,6 @@ export class StepNavBarComponent {
   }
 
   onAddStepClick() {
-    console.log('Add step');
     this.taskService
       .postStep(new Step('', 'new step', '', '', StepType.OTHER, []))
       .subscribe((_) => {

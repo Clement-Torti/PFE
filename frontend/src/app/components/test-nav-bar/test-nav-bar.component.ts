@@ -22,6 +22,9 @@ export class TestNavBarComponent {
   ) {
     this.folderService.files$.subscribe((files) => {
       this.files = files;
+      if (this.files.length > 0 && !this.folderService.getSelectedFile()) {
+        this.folderService.setSelectedFile(this.files[0]._id);
+      }
     });
 
     this.folderService.getFiles();

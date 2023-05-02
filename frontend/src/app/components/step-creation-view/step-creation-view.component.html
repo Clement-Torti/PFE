@@ -1,7 +1,7 @@
 <app-step-nav-bar class="sidebar"></app-step-nav-bar>
 <div *ngIf="selectedStep" class="contentFrame">
   <div class="header element">
-    <button (click)="onReturn()" class="returnButton">return</button>
+    <a [routerLink]="['/edit']" routerLinkActive="defineClass">Return</a>
     <h3>Define your own reusable step</h3>
     <button (click)="onSave()" class="saveButton">Save</button>
   </div>
