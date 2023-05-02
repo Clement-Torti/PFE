@@ -17,7 +17,6 @@ export class StepCreationViewComponent {
   ) {
     this.stepService.selectedStep$.subscribe((step) => {
       this.selectedStep = step;
-      console.log('Selected step', step);
     });
   }
 
@@ -26,7 +25,13 @@ export class StepCreationViewComponent {
   }
 
   onSave() {
-    console.log('Save');
+    console.log('Save', this.selectedStep);
+
+    if (this.selectedStep) {
+      this.taskService.updateStep(this.selectedStep).subscribe(() => {
+        console.log('Step updated');
+      });
+    }
   }
 
   onAddParam() {

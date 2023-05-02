@@ -49,7 +49,6 @@ export class TaskService {
     return this.webService.get('steps');
   }
 
-  // Post step
   postStep(step: Step) {
     const params = [];
     for (const param of step.params) {
@@ -71,5 +70,17 @@ export class TaskService {
 
   deleteStep(stepId: string) {
     return this.webService.delete(`steps/${stepId}`);
+  }
+
+  updateStep(step: Step) {
+    console.log('params', step);
+
+    return this.webService.put(`steps/${step._id}`, {
+      title: step.title,
+      description: step.description,
+      code: step.code,
+      stepType: step.stepType,
+      params: [],
+    });
   }
 }

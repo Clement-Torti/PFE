@@ -6,6 +6,7 @@ const Param = require('../database/models/param')
 
 router.get('/steps', (req, res) => {
   Step.find({})
+    .populate('params')
     .then(steps => res.send(steps))
     .catch((error) => Logger.http(error))
 })
