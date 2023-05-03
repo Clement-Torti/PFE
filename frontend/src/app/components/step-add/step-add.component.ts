@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { Step } from 'src/app/models/step';
 import { StepType } from 'src/app/models/stepType';
 import { StepService } from 'src/app/services/step.service';
+import { StepParserService } from 'src/app/services/step-parser.service';
 
 @Component({
   selector: 'app-step-add',
@@ -14,7 +15,10 @@ export class StepAddComponent {
   selectedStep: Step | null = null;
   stepTypes: StepType[] = [];
 
-  constructor(private stepService: StepService) {
+  constructor(
+    private stepService: StepService,
+    private stepParserService: StepParserService
+  ) {
     this.stepTypes = this.stepService.getStepType();
   }
 
@@ -23,12 +27,12 @@ export class StepAddComponent {
   }
 
   onStepSelectionChange(e: Event) {
-    this.buttonClick.emit(this.selectedStep!);
+    const newStep = this.stepParserService.addParamToStep(this.selectedStep!);
+    this.buttonClick.emit(newStep);
     (e.target as HTMLInputElement).value = '';
   }
 
   onCreateStepClick() {
-    console.log('Create step');
     this.selectedStep = null;
   }
 }
