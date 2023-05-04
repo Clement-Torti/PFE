@@ -5,12 +5,14 @@ import { DeviceType } from '../models/deviceType';
 
 import { getEmptyTest } from '../mocks/test-mock';
 import { EMPTY_STEP } from '../mocks/step-mock';
+import { StepParserService } from './step-parser.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestParserService {
   PYTHON_INDENT = '    ';
+  constructor(private stepParserService: StepParserService) {}
 
   private parseNextLine(code: string[], nbLine = 1): string[] {
     if (nbLine == -1 && code.length > 0) {
@@ -201,17 +203,12 @@ export class TestParserService {
   private generateSteps(test: Test): string {
     let steps = '';
     for (let i = 0; i < test.steps.length; i++) {
-      const step = test.steps[i];
-
-      steps += `${this.PYTHON_INDENT}def step${i + 1}(self):
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Step ${
-        i + 1
-      }: ", "${step.title}", "${step.description}")
-
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}${step.code}
-
-
-`;
+      const code = this.stepParserService.generateStep(
+        test.steps[i],
+        i + 1,
+        this.PYTHON_INDENT
+      );
+      steps += code;
     }
 
     return steps;

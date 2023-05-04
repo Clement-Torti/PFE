@@ -3,6 +3,6 @@
   <p>{{ step.description }}</p>
   <div *ngFor="let param of step.params">
     {{ param.name }} ({{ param.type }}):
-    <input type="text" placeholder="Value" />
+    <input type="text" placeholder="Value" [(ngModel)]="param.value" />
   </div>
 </div>

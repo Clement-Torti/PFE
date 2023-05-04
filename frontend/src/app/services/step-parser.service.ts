@@ -23,7 +23,6 @@ export class StepParserService {
           'Bad format: Unexpected param format in step: ' + newStep
         );
       }
-      console.log(newStep);
 
       newStep.params.push({
         name: match[1],
@@ -32,5 +31,36 @@ export class StepParserService {
       });
     }
     return newStep;
+  }
+
+  generateStep(step: Step, stepNumber: number, PYTHON_INDENT: string): string {
+    // Populating the step code with the params values
+    let code = step.code;
+    for (const param of step.params) {
+      let value = param.value;
+      if (param.type === ParamType.STRING) {
+        value = `"${param.value}"`;
+      }
+      code = code.replace(
+        new RegExp(`\\\\~${param.name}: ${param.type}~\\\\`, 'g'),
+        value
+      );
+    }
+
+    // Add python indent to each line of code
+    code = code
+      .split('\n')
+      .map((line) => PYTHON_INDENT + PYTHON_INDENT + line)
+      .join('\n');
+
+    const stepCode = `${PYTHON_INDENT}def step${stepNumber}(self):
+${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}: ", "${step.title}", "${step.description}")
+    
+${code}
+    
+    
+    `;
+
+    return stepCode;
   }
 }

@@ -41,8 +41,6 @@ export class StepCreationViewComponent {
   }
 
   onSave() {
-    console.log('Save', this.selectedStep);
-
     if (this.selectedStep) {
       this.taskService.updateStep(this.selectedStep).subscribe(() => {
         console.log('Step updated');

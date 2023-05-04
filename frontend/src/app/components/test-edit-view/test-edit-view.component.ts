@@ -95,7 +95,6 @@ export class TestEditViewComponent {
 
   onTestNameChange(e: any) {
     this.test.title = e.target.value;
-    console.log(e.target.value);
   }
 
   onDeviceCheckboxSelectionChange(e: any) {
