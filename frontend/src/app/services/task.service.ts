@@ -49,6 +49,10 @@ export class TaskService {
     return this.webService.get('steps');
   }
 
+  getStep(stepId: string) {
+    return this.webService.get(`steps/${stepId}`);
+  }
+
   postStep(step: Step) {
     const params = [];
     for (const param of step.params) {
