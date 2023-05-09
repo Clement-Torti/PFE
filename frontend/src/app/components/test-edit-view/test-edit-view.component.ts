@@ -18,7 +18,7 @@ import { Step } from 'src/app/models/step';
 })
 export class TestEditViewComponent {
   selectedFile: File | null = null;
-  test!: Test;
+  test: Test | null = null;
   showCode = false;
   badFormat = false;
   errorMessage = '';
@@ -48,10 +48,14 @@ export class TestEditViewComponent {
 
   setupTest() {
     try {
-      this.test = this.testParserService.parseFile(this.selectedFile!.content);
-      this.isDeviceTypeTest = this.test.deviceType !== null;
-      this.selectedDeviceType = this.test.deviceType;
-      this.badFormat = false;
+      this.testParserService
+        .parseFile(this.selectedFile!.content)
+        .then((test) => {
+          this.test = test;
+          this.isDeviceTypeTest = this.test.deviceType !== null;
+          this.selectedDeviceType = this.test.deviceType;
+          this.badFormat = false;
+        });
     } catch (e) {
       this.badFormat = true;
       this.errorMessage = (e as Error).message;
@@ -75,7 +79,7 @@ export class TestEditViewComponent {
   onGenerateCodeClick() {
     const folder = this.folderService.getFolder();
 
-    if (folder && this.selectedFile) {
+    if (folder && this.selectedFile && this.test) {
       const content = this.testParserService.generateCode(this.test);
 
       this.taskService
@@ -94,13 +98,15 @@ export class TestEditViewComponent {
   }
 
   onTestNameChange(e: any) {
-    this.test.title = e.target.value;
+    if (this.test) {
+      this.test.title = e.target.value;
+    }
   }
 
   onDeviceCheckboxSelectionChange(e: any) {
     const checked = e.target.checked;
 
-    if (!checked) {
+    if (!checked && this.test) {
       this.selectedDeviceType = null;
       this.test.deviceType = null;
       this.test.deviceName = '';
@@ -108,7 +114,9 @@ export class TestEditViewComponent {
   }
 
   onDeviceTypeSelectionChange(deviceType: DeviceType) {
-    this.test.deviceType = deviceType;
+    if (this.test) {
+      this.test.deviceType = deviceType;
+    }
   }
 
   onDeleteTestClick() {
@@ -124,19 +132,19 @@ export class TestEditViewComponent {
   }
 
   onAddStepClick(step: any) {
-    this.test.steps.push(step as Step);
+    this.test?.steps.push(step as Step);
   }
 
   onMoveStepClick(index: number) {
-    if (index < this.test.steps.length - 1) {
-      const step = this.test.steps[index];
+    if (this.test && index < this.test.steps.length - 1) {
+      const step = this.test?.steps[index];
       this.test.steps[index] = this.test.steps[index + 1];
       this.test.steps[index + 1] = step;
     }
   }
 
   onDeleteStepClick(index: number) {
-    this.test.steps.splice(index, 1);
+    this.test?.steps.splice(index, 1);
   }
 
   onCloseCodeClick() {

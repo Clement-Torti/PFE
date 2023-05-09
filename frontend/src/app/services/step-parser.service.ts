@@ -10,6 +10,21 @@ import { firstValueFrom } from 'rxjs';
 export class StepParserService {
   constructor(private taskService: TaskService) {}
 
+  private parseNextLine(code: string[], nbLine = 1): string[] {
+    if (nbLine == -1 && code.length > 0) {
+      if (code[0].length == 0) {
+        return this.parseNextLine(code.slice(1), -1);
+      }
+      return code;
+    }
+
+    if (code.length > nbLine) {
+      return code.slice(nbLine);
+    } else {
+      throw new Error('Bad format: Unexpected end of file');
+    }
+  }
+
   // Parse the step code to add the params
   addParamToStep(step: Step): Step {
     const newStep = step;
@@ -45,11 +60,6 @@ export class StepParserService {
       description += `${param.name}(${param.type}):${val} `;
     }
 
-    // Parse the description to get the step
-    this.parseStepDescription(description).then((step) => {
-      console.log(step);
-    });
-
     return description;
   }
 
@@ -57,7 +67,6 @@ export class StepParserService {
     const components = description.split(' ');
     const id = components[1];
     const params = components.slice(2);
-    console.log(params);
 
     const step = (await firstValueFrom(this.taskService.getStep(id))) as Step;
     step.params = [];
@@ -73,10 +82,17 @@ export class StepParserService {
         );
       }
 
+      const paramName = match![1];
+      const paramType = match![2] as ParamType;
+      let paramValue = match![3];
+      if (paramType === ParamType.STRING) {
+        paramValue = paramValue.replace(/"/g, '');
+      }
+
       step.params.push({
-        name: match![1],
-        type: match![2] as ParamType,
-        value: match![3],
+        name: paramName,
+        type: paramType,
+        value: paramValue,
       });
     }
 
@@ -115,5 +131,41 @@ ${code}
     `;
 
     return stepCode;
+  }
+
+  async parseSteps(code: string[], PYTHON_INDENT: string): Promise<Step[]> {
+    const steps = [];
+    const stepRegex = /def step(\d+)\(self\):/g;
+    let stepMatch = stepRegex.exec(code[0]);
+
+    while (stepMatch) {
+      code = this.parseNextLine(code);
+
+      const step = await this.parseStepDescription(code[0].trim());
+      code = this.parseStepCode(code, step, PYTHON_INDENT); // Remove lines corresponding to the step
+
+      steps.push(step);
+
+      const stepRegex = /def step(\d+)\(self\):/g;
+      stepMatch = stepRegex.exec(code[0]);
+    }
+    return steps;
+  }
+
+  private parseStepCode(
+    code: string[],
+    step: Step,
+    PYTHON_INDENT: string
+  ): string[] {
+    let stepCode = '';
+
+    while (code[0].startsWith(PYTHON_INDENT.repeat(2)) || code[0] == '') {
+      stepCode += code[0] + '\n';
+      code = this.parseNextLine(code);
+    }
+
+    step.code = stepCode;
+
+    return code;
   }
 }

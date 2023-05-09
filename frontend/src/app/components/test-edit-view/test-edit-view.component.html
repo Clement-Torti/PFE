@@ -20,7 +20,7 @@
   </button>
 </div>
 
-<div *ngIf="selectedFile && !badFormat" class="contentFrame">
+<div *ngIf="selectedFile && !badFormat && test" class="contentFrame">
   <button (click)="onGenerateCodeClick()" class="generateCodeButton">
     Generate Code
   </button>
