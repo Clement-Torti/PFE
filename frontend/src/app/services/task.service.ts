@@ -77,8 +77,6 @@ export class TaskService {
   }
 
   updateStep(step: Step) {
-    console.log('params', step);
-
     return this.webService.put(`steps/${step._id}`, {
       title: step.title,
       description: step.description,

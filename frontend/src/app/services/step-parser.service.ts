@@ -51,20 +51,22 @@ export class StepParserService {
   }
 
   generateStepDescription(step: Step): string {
-    let description = '# ' + step._id + ' ';
+    let description = '#__' + step._id + '__';
     for (const param of step.params) {
       let val = param.value;
       if (param.type === ParamType.STRING) {
         val = `"${param.value}"`;
       }
-      description += `${param.name}(${param.type}):${val} `;
+      description += `${param.name}(${param.type}):${val}__`;
     }
+
+    description = description.slice(0, -2);
 
     return description;
   }
 
   async parseStepDescription(description: string): Promise<Step> {
-    const components = description.split(' ');
+    const components = description.split('__');
     const id = components[1];
     const params = components.slice(2);
 
@@ -74,7 +76,6 @@ export class StepParserService {
     for (const param of params) {
       const re = /(.+)\((.+)\):(.+)/;
       const match = param.match(re);
-      console.log(match);
 
       if (!match || match.length !== 4) {
         throw new Error(
@@ -128,7 +129,7 @@ ${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}: ", "${step
 ${code}
     
     
-    `;
+`;
 
     return stepCode;
   }
@@ -142,29 +143,25 @@ ${code}
       code = this.parseNextLine(code);
 
       const step = await this.parseStepDescription(code[0].trim());
-      code = this.parseStepCode(code, step, PYTHON_INDENT); // Remove lines corresponding to the step
+
+      code = this.parseStepCode(code, PYTHON_INDENT); // Remove lines corresponding to the step
 
       steps.push(step);
 
       const stepRegex = /def step(\d+)\(self\):/g;
       stepMatch = stepRegex.exec(code[0]);
     }
+    console.log('Stop matching: ', code);
     return steps;
   }
 
-  private parseStepCode(
-    code: string[],
-    step: Step,
-    PYTHON_INDENT: string
-  ): string[] {
-    let stepCode = '';
-
-    while (code[0].startsWith(PYTHON_INDENT.repeat(2)) || code[0] == '') {
-      stepCode += code[0] + '\n';
+  private parseStepCode(code: string[], PYTHON_INDENT: string): string[] {
+    while (
+      code[0].startsWith(PYTHON_INDENT.repeat(2)) ||
+      code[0].trim() == ''
+    ) {
       code = this.parseNextLine(code);
     }
-
-    step.code = stepCode;
 
     return code;
   }
