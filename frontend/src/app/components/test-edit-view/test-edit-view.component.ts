@@ -55,7 +55,7 @@ export class TestEditViewComponent {
         this.isDeviceTypeTest = this.test.deviceType !== null;
         this.selectedDeviceType = this.test.deviceType;
         this.badFormat = false;
-        this.setupTestGroup(this.test.steps);
+        this.stepToStepGroup(this.test.steps);
       })
       .catch((e) => {
         this.badFormat = true;
@@ -63,7 +63,7 @@ export class TestEditViewComponent {
       });
   }
 
-  private setupTestGroup(steps: Step[]): Step[][] {
+  private stepToStepGroup(steps: Step[]): Step[][] {
     const stepGroups: Step[][] = [];
 
     for (let i = 0; i < steps.length; i++) {
@@ -71,6 +71,21 @@ export class TestEditViewComponent {
     }
 
     return stepGroups;
+  }
+
+  private stepGroupToStep(stepGroups: Step[][]): Step[] {
+    const steps: Step[] = [];
+
+    for (let i = 0; i < stepGroups.length; i++) {
+      for (let j = 0; j < stepGroups[i].length; j++) {
+        const newStep = { ...stepGroups[i][j] };
+        newStep.groupIndex = i;
+        newStep.index = j;
+        steps.push(newStep as Step);
+      }
+    }
+
+    return steps;
   }
 
   onSaveCode() {
@@ -91,6 +106,10 @@ export class TestEditViewComponent {
     const folder = this.folderService.getFolder();
 
     if (folder && this.selectedFile && this.test) {
+      // Update the test's steps to match stepGroups
+      this.test.steps = this.stepGroupToStep(this.stepGroups);
+      console.log(this.test.steps);
+
       const content = this.testParserService.generateCode(this.test);
 
       this.taskService
@@ -145,6 +164,7 @@ export class TestEditViewComponent {
   onAddStepClick(step: any) {
     const newStep = { ...step }; // create a copy of the step object using the spread operator
     newStep.index = this.test?.steps.length;
+    // Group index is already defined in step
 
     if (!this.stepGroups[newStep.groupIndex]) {
       this.stepGroups[newStep.groupIndex] = [];
