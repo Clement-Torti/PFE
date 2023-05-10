@@ -18,6 +18,11 @@
   >
     Save
   </button>
+  <div class="deleteSection">
+    <button (click)="onDeleteTestClick()" class="deleteTestButton">
+      Delete Test
+    </button>
+  </div>
 </div>
 
 <div *ngIf="selectedFile && !badFormat && test" class="contentFrame">
