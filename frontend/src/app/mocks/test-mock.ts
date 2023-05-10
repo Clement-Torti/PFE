@@ -12,7 +12,7 @@ export const MOCKED_TEST: Test = {
     author: "fake Tester",
     deviceType: DeviceType.WeightScale,
     deviceName: "Fake device",
-    steps: [BOOT_STEPS[0], BOOT_STEPS[1], BOOT_STEPS[0], BOOT_STEPS[1], BOOT_STEPS[0], BOOT_STEPS[1]]
+    steps: [[BOOT_STEPS[0], BOOT_STEPS[1]],[ BOOT_STEPS[0], BOOT_STEPS[1], BOOT_STEPS[0], BOOT_STEPS[1]]]
 }
 
  

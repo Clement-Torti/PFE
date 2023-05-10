@@ -11,9 +11,9 @@ export class Test {
 
     deviceType: DeviceType | null = null;
     deviceName: string = '';
-    steps: Step[] = [];
+    steps: Step[][] = [];
 
-    constructor(_id: string, title: string, description: string, prerequisites: string, author: string, deviceType: DeviceType | null, deviceName: string, steps: Step[]) {
+    constructor(_id: string, title: string, description: string, prerequisites: string, author: string, deviceType: DeviceType | null, deviceName: string, steps: Step[][]) {
         this._id = _id;
         this.title = title;
         this.description = description;

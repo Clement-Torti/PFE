@@ -100,36 +100,44 @@ export class StepParserService {
     return step;
   }
 
-  generateStep(step: Step, stepNumber: number, PYTHON_INDENT: string): string {
-    const stepDescription = this.generateStepDescription(step);
+  generateStep(
+    steps: Step[],
+    stepNumber: number,
+    PYTHON_INDENT: string
+  ): string {
+    let stepCode = `${PYTHON_INDENT}def step${stepNumber}(self):
+`;
 
-    // Populating the step code with the params values
-    let code = step.code;
-    for (const param of step.params) {
-      let value = param.value;
-      if (param.type === ParamType.STRING) {
-        value = `"${param.value}"`;
+    for (const step of steps) {
+      const stepDescription = this.generateStepDescription(step);
+
+      // Populating the step code with the params values
+      let code = step.code;
+      for (const param of step.params) {
+        let value = param.value;
+        if (param.type === ParamType.STRING) {
+          value = `"${param.value}"`;
+        }
+        code = code.replace(
+          new RegExp(`\\\\~${param.name}: ${param.type}~\\\\`, 'g'),
+          value
+        );
       }
-      code = code.replace(
-        new RegExp(`\\\\~${param.name}: ${param.type}~\\\\`, 'g'),
-        value
-      );
-    }
 
-    // Add python indent to each line of code
-    code = code
-      .split('\n')
-      .map((line) => PYTHON_INDENT + PYTHON_INDENT + line)
-      .join('\n');
+      // Add python indent to each line of code
+      code = code
+        .split('\n')
+        .map((line) => PYTHON_INDENT + PYTHON_INDENT + line)
+        .join('\n');
 
-    const stepCode = `${PYTHON_INDENT}def step${stepNumber}(self):
-${PYTHON_INDENT}${PYTHON_INDENT}${stepDescription}
-${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}: ", "${step.title}", "${step.description}")
+      stepCode += `${PYTHON_INDENT}${PYTHON_INDENT}${stepDescription}
+${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}", "${step.title}", "${step.description}")
     
 ${code}
     
     
 `;
+    }
 
     return stepCode;
   }

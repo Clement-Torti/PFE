@@ -62,14 +62,14 @@ export class TestParserService {
     code = this.parseNextLine(code, 2);
 
     // Parse steps
-    test.steps = await this.stepParserService.parseSteps(
-      code,
-      this.PYTHON_INDENT
-    );
+    // test.steps = await this.stepParserService.parseSteps(
+    //   code,
+    //   this.PYTHON_INDENT
+    // );
 
-    test.steps.map((step, index) => {
-      step.index = index;
-    });
+    // test.steps.map((step, index) => {
+    //   step.index = index;
+    // });
 
     return test;
   }
@@ -182,7 +182,6 @@ ${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Initialization")
       const step = test.steps[i];
 
       main += `
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# ${step.title}
 ${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.step${i + 1}();
 `;
     }

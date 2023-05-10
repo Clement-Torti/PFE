@@ -17,7 +17,6 @@ import { Step } from 'src/app/models/step';
   styleUrls: ['./test-edit-view.component.css'],
 })
 export class TestEditViewComponent {
-  stepGroups: Step[][] = [];
   selectedFile: File | null = null;
   test: Test | null = null;
   showCode = false;
@@ -55,37 +54,11 @@ export class TestEditViewComponent {
         this.isDeviceTypeTest = this.test.deviceType !== null;
         this.selectedDeviceType = this.test.deviceType;
         this.badFormat = false;
-        this.stepToStepGroup(this.test.steps);
       })
       .catch((e) => {
         this.badFormat = true;
         this.errorMessage = (e as Error).message;
       });
-  }
-
-  private stepToStepGroup(steps: Step[]): Step[][] {
-    const stepGroups: Step[][] = [];
-
-    for (let i = 0; i < steps.length; i++) {
-      stepGroups[steps[i].groupIndex].push(steps[i]);
-    }
-
-    return stepGroups;
-  }
-
-  private stepGroupToStep(stepGroups: Step[][]): Step[] {
-    const steps: Step[] = [];
-
-    for (let i = 0; i < stepGroups.length; i++) {
-      for (let j = 0; j < stepGroups[i].length; j++) {
-        const newStep = { ...stepGroups[i][j] };
-        newStep.groupIndex = i;
-        newStep.index = j;
-        steps.push(newStep as Step);
-      }
-    }
-
-    return steps;
   }
 
   onSaveCode() {
@@ -106,10 +79,6 @@ export class TestEditViewComponent {
     const folder = this.folderService.getFolder();
 
     if (folder && this.selectedFile && this.test) {
-      // Update the test's steps to match stepGroups
-      this.test.steps = this.stepGroupToStep(this.stepGroups);
-      console.log(this.test.steps);
-
       const content = this.testParserService.generateCode(this.test);
 
       this.taskService
@@ -166,31 +135,47 @@ export class TestEditViewComponent {
     newStep.index = this.test?.steps.length;
     // Group index is already defined in step
 
-    if (!this.stepGroups[newStep.groupIndex]) {
-      this.stepGroups[newStep.groupIndex] = [];
+    if (!this.test) {
+      return;
     }
 
-    this.stepGroups[newStep.groupIndex].push(newStep as Step);
-    this.test?.steps.push(newStep as Step);
+    if (!this.test.steps[newStep.groupIndex]) {
+      this.test.steps[newStep.groupIndex] = [];
+    }
+
+    this.test.steps[newStep.groupIndex].push(newStep as Step);
   }
 
   onAddStepGroupClick() {
-    this.stepGroups.push([]);
+    if (!this.test) {
+      return;
+    }
+
+    this.test.steps.push([]);
   }
 
   onMoveStepClick(groupIndex: number, index: number) {
-    const step = this.stepGroups[groupIndex][index];
-    this.stepGroups[groupIndex][index] = this.stepGroups[groupIndex][index + 1];
-    this.stepGroups[groupIndex][index + 1] = step;
+    if (!this.test) {
+      return;
+    }
+
+    const step = this.test.steps[groupIndex][index];
+    this.test.steps[groupIndex][index] = this.test.steps[groupIndex][index + 1];
+    this.test.steps[groupIndex][index + 1] = step;
   }
 
   onDeleteStepGroupClick(index: number) {
-    this.stepGroups.splice(index, 1);
+    if (!this.test) {
+      return;
+    }
+    this.test.steps.splice(index, 1);
   }
 
   onDeleteStepClick(groupIndex: number, stepIndex: number) {
-    this.stepGroups[groupIndex].splice(stepIndex, 1);
-    // this.test?.steps.splice(index, 1);
+    if (!this.test) {
+      return;
+    }
+    this.test.steps[groupIndex].splice(stepIndex, 1);
   }
 
   onCloseCodeClick() {
