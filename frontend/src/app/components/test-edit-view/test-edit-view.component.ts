@@ -131,7 +131,11 @@ export class TestEditViewComponent {
   }
 
   onAddStepClick(step: any) {
-    this.test?.steps.push(step as Step);
+    const newStep = { ...step }; // create a copy of the step object using the spread operator
+    newStep.index = this.test?.steps.length;
+    console.log(this.test?.steps);
+
+    this.test?.steps.push(newStep as Step);
   }
 
   onMoveStepClick(index: number) {

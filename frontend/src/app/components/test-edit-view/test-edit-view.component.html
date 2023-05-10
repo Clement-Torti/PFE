@@ -94,7 +94,7 @@
     <h2>Scenario</h2>
 
     <div *ngFor="let step of test.steps; let i = index" class="stepElement">
-      <app-step-view class="flex-grow" [step]="step" [index]="i + 1" />
+      <app-step-view class="flex-grow" [step]="step" />
 
       <div class="stepActions">
         <button

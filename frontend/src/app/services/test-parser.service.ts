@@ -62,10 +62,14 @@ export class TestParserService {
     code = this.parseNextLine(code, 2);
 
     // Parse steps
-    const steps = (test.steps = await this.stepParserService.parseSteps(
+    test.steps = await this.stepParserService.parseSteps(
       code,
       this.PYTHON_INDENT
-    ));
+    );
+
+    test.steps.map((step, index) => {
+      step.index = index;
+    });
 
     return test;
   }

@@ -5,7 +5,7 @@ import { ParamType } from '../models/param';
 
 // Generate another mocked test here
 
-export const MOCKED_STEP: Step = {
+export const MOCKED_STEP = {
     _id: "1",
     title: "Fake step",
     description: "Description of the step of the fake product",
@@ -21,7 +21,7 @@ export const MOCKED_STEP: Step = {
     index: 0
 }
 
-export const MOCKED_STEP_2: Step = {
+export const MOCKED_STEP_2 = {
     _id: "2",
     title: "Second Fake step",
     description: "Description of the step of the fake product",
@@ -37,19 +37,24 @@ export const MOCKED_STEP_2: Step = {
     index: 1
 }
 
-export const EMPTY_STEP: Step = {
-    _id: "",
-    title: "",
-    description: "",
-    code: "",
-    stepType: StepType.OTHER,
-    params: [],
-    index: 0,
-}
+export const EMPTY_STEP: Step = new Step ("", "", "", "", StepType.OTHER, [], 0)
 
 
 // Original steps saved in the database
-export const BOOT_STEPS: Step[] = [
+const STEPS = [
     MOCKED_STEP,
-    MOCKED_STEP_2
+    MOCKED_STEP_2,
 ]
+
+export const BOOT_STEPS: Step[] = STEPS.map((step) => {
+    return new Step(
+      step._id,
+      step.title,
+      step.description,
+      step.code,
+      step.stepType,
+      step.params,
+      step.index,
+    );
+  });
+  

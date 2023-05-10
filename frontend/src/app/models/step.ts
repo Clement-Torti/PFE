@@ -23,5 +23,8 @@ export class Step {
         this.index = index;
     }
 
+    equals(other: Step): boolean {
+        return (this.index === other.index);
+    }
 }
   

@@ -151,7 +151,7 @@ ${code}
       const stepRegex = /def step(\d+)\(self\):/g;
       stepMatch = stepRegex.exec(code[0]);
     }
-    console.log('Stop matching: ', code);
+
     return steps;
   }
 

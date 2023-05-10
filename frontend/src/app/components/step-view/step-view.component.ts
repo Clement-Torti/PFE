@@ -9,6 +9,4 @@ import { Step } from 'src/app/models/step';
 export class StepViewComponent {
   @Input()
   step!: Step;
-  @Input()
-  index!: number;
 }
