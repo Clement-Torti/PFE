@@ -93,24 +93,45 @@
   <div class="scenarioSection">
     <h2>Scenario</h2>
 
-    <div *ngFor="let step of test.steps; let i = index" class="stepElement">
-      <app-step-view class="flex-grow" [step]="step" />
-
-      <div class="stepActions">
+    <div *ngFor="let stepGroup of stepGroups; let i = index">
+      <div class="stepElement">
+        <h3>Step {{ i + 1 }}</h3>
         <button
-          *ngIf="i !== test.steps.length - 1"
-          (click)="onMoveStepClick(i)"
-          class="moveStepButton"
+          (click)="onDeleteStepGroupClick(i)"
+          class="deleteStepGroupButton"
         >
-          Move Step
-        </button>
-        <button (click)="onDeleteStepClick(i)" class="deleteStepButton">
           Delete Step
         </button>
       </div>
+
+      <div *ngFor="let step of stepGroup; let j = index" class="stepElement">
+        <app-step-view class="flex-grow" [step]="step" />
+
+        <div class="stepActions">
+          <button
+            *ngIf="j !== stepGroup.length - 1"
+            (click)="onMoveStepClick(i, j)"
+            class="moveStepButton"
+          >
+            Move action
+          </button>
+          <button (click)="onDeleteStepClick(i, j)" class="deleteStepButton">
+            Delete action
+          </button>
+        </div>
+      </div>
+      <app-step-add
+        (buttonClick)="onAddStepClick($event)"
+        [groupIndex]="i"
+      ></app-step-add>
     </div>
 
-    <app-step-add (buttonClick)="onAddStepClick($event)"></app-step-add>
+    <button (click)="onAddStepGroupClick()" class="addStepGroupButton">
+      Add Step
+    </button>
+    <a [routerLink]="['/step-creation']" routerLinkActive="defineClass">
+      Edit steps
+    </a>
 
     <div class="deleteSection">
       <button (click)="onDeleteTestClick()" class="deleteTestButton">

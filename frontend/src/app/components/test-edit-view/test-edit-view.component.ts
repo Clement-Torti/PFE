@@ -17,6 +17,7 @@ import { Step } from 'src/app/models/step';
   styleUrls: ['./test-edit-view.component.css'],
 })
 export class TestEditViewComponent {
+  stepGroups: Step[][] = [];
   selectedFile: File | null = null;
   test: Test | null = null;
   showCode = false;
@@ -54,11 +55,22 @@ export class TestEditViewComponent {
         this.isDeviceTypeTest = this.test.deviceType !== null;
         this.selectedDeviceType = this.test.deviceType;
         this.badFormat = false;
+        this.setupTestGroup(this.test.steps);
       })
       .catch((e) => {
         this.badFormat = true;
         this.errorMessage = (e as Error).message;
       });
+  }
+
+  private setupTestGroup(steps: Step[]): Step[][] {
+    const stepGroups: Step[][] = [];
+
+    for (let i = 0; i < steps.length; i++) {
+      stepGroups[steps[i].groupIndex].push(steps[i]);
+    }
+
+    return stepGroups;
   }
 
   onSaveCode() {
@@ -133,21 +145,32 @@ export class TestEditViewComponent {
   onAddStepClick(step: any) {
     const newStep = { ...step }; // create a copy of the step object using the spread operator
     newStep.index = this.test?.steps.length;
-    console.log(this.test?.steps);
 
+    if (!this.stepGroups[newStep.groupIndex]) {
+      this.stepGroups[newStep.groupIndex] = [];
+    }
+
+    this.stepGroups[newStep.groupIndex].push(newStep as Step);
     this.test?.steps.push(newStep as Step);
   }
 
-  onMoveStepClick(index: number) {
-    if (this.test && index < this.test.steps.length - 1) {
-      const step = this.test?.steps[index];
-      this.test.steps[index] = this.test.steps[index + 1];
-      this.test.steps[index + 1] = step;
-    }
+  onAddStepGroupClick() {
+    this.stepGroups.push([]);
   }
 
-  onDeleteStepClick(index: number) {
-    this.test?.steps.splice(index, 1);
+  onMoveStepClick(groupIndex: number, index: number) {
+    const step = this.stepGroups[groupIndex][index];
+    this.stepGroups[groupIndex][index] = this.stepGroups[groupIndex][index + 1];
+    this.stepGroups[groupIndex][index + 1] = step;
+  }
+
+  onDeleteStepGroupClick(index: number) {
+    this.stepGroups.splice(index, 1);
+  }
+
+  onDeleteStepClick(groupIndex: number, stepIndex: number) {
+    this.stepGroups[groupIndex].splice(stepIndex, 1);
+    // this.test?.steps.splice(index, 1);
   }
 
   onCloseCodeClick() {

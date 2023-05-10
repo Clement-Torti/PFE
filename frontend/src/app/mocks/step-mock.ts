@@ -18,6 +18,7 @@ export const MOCKED_STEP = {
             value: "123456789"
         }
     ],
+    groupIndex: 0,
     index: 0
 }
 
@@ -34,10 +35,11 @@ export const MOCKED_STEP_2 = {
             value: "123456789"
         }
      ],
+    groupIndex: 0,
     index: 1
 }
 
-export const EMPTY_STEP: Step = new Step ("", "", "", "", StepType.OTHER, [], 0)
+export const EMPTY_STEP: Step = new Step ("", "", "", "", StepType.OTHER, [], 0, 0)
 
 
 // Original steps saved in the database
@@ -54,6 +56,7 @@ export const BOOT_STEPS: Step[] = STEPS.map((step) => {
       step.code,
       step.stepType,
       step.params,
+      step.groupIndex,
       step.index,
     );
   });

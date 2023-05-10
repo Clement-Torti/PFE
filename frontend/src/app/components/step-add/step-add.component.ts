@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Step } from 'src/app/models/step';
 import { StepType } from 'src/app/models/stepType';
 import { StepService } from 'src/app/services/step.service';
@@ -10,6 +10,7 @@ import { StepParserService } from 'src/app/services/step-parser.service';
   styleUrls: ['./step-add.component.css'],
 })
 export class StepAddComponent {
+  @Input() groupIndex = 0;
   @Output() buttonClick = new EventEmitter<Step>();
 
   selectedStep: Step | null = null;
@@ -28,6 +29,7 @@ export class StepAddComponent {
 
   onStepSelectionChange(e: Event) {
     const newStep = this.stepParserService.addParamToStep(this.selectedStep!);
+    newStep.groupIndex = this.groupIndex;
     this.buttonClick.emit(newStep);
     (e.target as HTMLInputElement).value = '';
   }
