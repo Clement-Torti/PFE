@@ -33,7 +33,7 @@ export class StepNavBarComponent {
 
   onAddStepClick() {
     this.taskService
-      .postStep(new Step('', 'new step', '', '', StepType.OTHER, []))
+      .postStep(new Step('', 'new step', '', '', StepType.OTHER, [], 0))
       .subscribe((_) => {
         this.stepService.getSteps();
       });

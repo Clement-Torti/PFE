@@ -11,14 +11,16 @@ export class Step {
     stepType: StepType;
     params: Param[];
 
+    index: number;
 
-    constructor (_id: string, title: string, description: string, code: string, stepType: StepType, params: Param[]) {
+    constructor (_id: string, title: string, description: string, code: string, stepType: StepType, params: Param[], index: number) {
         this._id = _id;
         this.title = title;
         this.description = description;
         this.code = code;
         this.stepType = stepType;
         this.params = params;
+        this.index = index;
     }
 
 }

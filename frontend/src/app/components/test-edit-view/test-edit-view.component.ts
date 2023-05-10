@@ -47,19 +47,18 @@ export class TestEditViewComponent {
   }
 
   setupTest() {
-    try {
-      this.testParserService
-        .parseFile(this.selectedFile!.content)
-        .then((test) => {
-          this.test = test;
-          this.isDeviceTypeTest = this.test.deviceType !== null;
-          this.selectedDeviceType = this.test.deviceType;
-          this.badFormat = false;
-        });
-    } catch (e) {
-      this.badFormat = true;
-      this.errorMessage = (e as Error).message;
-    }
+    this.testParserService
+      .parseFile(this.selectedFile!.content)
+      .then((test) => {
+        this.test = test;
+        this.isDeviceTypeTest = this.test.deviceType !== null;
+        this.selectedDeviceType = this.test.deviceType;
+        this.badFormat = false;
+      })
+      .catch((e) => {
+        this.badFormat = true;
+        this.errorMessage = (e as Error).message;
+      });
   }
 
   onSaveCode() {

@@ -17,7 +17,8 @@ export const MOCKED_STEP: Step = {
             name: "HGO Serial number",
             value: "123456789"
         }
-    ]
+    ],
+    index: 0
 }
 
 export const MOCKED_STEP_2: Step = {
@@ -32,7 +33,8 @@ export const MOCKED_STEP_2: Step = {
             name: "HGO Serial number",
             value: "123456789"
         }
-    ]
+     ],
+    index: 1
 }
 
 export const EMPTY_STEP: Step = {
@@ -41,7 +43,8 @@ export const EMPTY_STEP: Step = {
     description: "",
     code: "",
     stepType: StepType.OTHER,
-    params: []
+    params: [],
+    index: 0,
 }
 
 
