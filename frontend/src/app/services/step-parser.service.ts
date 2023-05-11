@@ -80,10 +80,12 @@ export class StepParserService {
         .map((line) => PYTHON_INDENT + PYTHON_INDENT + line)
         .join('\n');
 
-      stepCode += `${PYTHON_INDENT}${PYTHON_INDENT}${stepDescription}
+      stepCode += `${PYTHON_INDENT}${PYTHON_INDENT}
+${PYTHON_INDENT}${PYTHON_INDENT}${stepDescription}
 ${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}", "${step.title}", "${step.description}")
     
-${code}`;
+${code}
+${PYTHON_INDENT}${PYTHON_INDENT}`;
     }
 
     return stepCode;
