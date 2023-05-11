@@ -50,56 +50,6 @@ export class StepParserService {
     return newStep;
   }
 
-  generateStepDescription(step: Step): string {
-    let description = '#__' + step._id + '__';
-    for (const param of step.params) {
-      let val = param.value;
-      if (param.type === ParamType.STRING) {
-        val = `"${param.value}"`;
-      }
-      description += `${param.name}(${param.type}):${val}__`;
-    }
-
-    description = description.slice(0, -2);
-
-    return description;
-  }
-
-  async parseStepDescription(description: string): Promise<Step> {
-    const components = description.split('__');
-    const id = components[1];
-    const params = components.slice(2);
-
-    const step = (await firstValueFrom(this.taskService.getStep(id))) as Step;
-    step.params = [];
-
-    for (const param of params) {
-      const re = /(.+)\((.+)\):(.+)/;
-      const match = param.match(re);
-
-      if (!match || match.length !== 4) {
-        throw new Error(
-          'Bad format: Unexpected param format in step description: ' + param
-        );
-      }
-
-      const paramName = match![1];
-      const paramType = match![2] as ParamType;
-      let paramValue = match![3];
-      if (paramType === ParamType.STRING) {
-        paramValue = paramValue.replace(/"/g, '');
-      }
-
-      step.params.push({
-        name: paramName,
-        type: paramType,
-        value: paramValue,
-      });
-    }
-
-    return step;
-  }
-
   generateStep(
     steps: Step[],
     stepNumber: number,
@@ -133,44 +83,114 @@ export class StepParserService {
       stepCode += `${PYTHON_INDENT}${PYTHON_INDENT}${stepDescription}
 ${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}", "${step.title}", "${step.description}")
     
-${code}
-    
-    
-`;
+${code}`;
     }
 
     return stepCode;
   }
 
-  async parseSteps(code: string[], PYTHON_INDENT: string): Promise<Step[]> {
-    const steps = [];
+  generateStepDescription(step: Step): string {
+    let description = '#__' + step._id + '__';
+    for (const param of step.params) {
+      let val = param.value;
+      if (param.type === ParamType.STRING) {
+        val = `"${param.value}"`;
+      }
+      description += `${param.name}(${param.type}):${val}__`;
+    }
+
+    description = description.slice(0, -2);
+
+    return description;
+  }
+
+  async parseStepDescription(description: string): Promise<Step | null> {
+    const components = description.split('__');
+    if (components.length < 2) {
+      return null;
+    }
+
+    const id = components[1];
+    const params = components.slice(2);
+
+    const step = (await firstValueFrom(this.taskService.getStep(id))) as Step;
+    if (!step) {
+      console.log("Can't find Step with id: ", id);
+      return null;
+    }
+    step.params = [];
+
+    for (const param of params) {
+      const re = /(.+)\((.+)\):(.+)/;
+      const match = param.match(re);
+
+      if (!match || match.length !== 4) {
+        console.log(
+          'Bad format: Unexpected param format in step description: ' + param
+        );
+        return null;
+      }
+
+      const paramName = match![1];
+      const paramType = match![2] as ParamType;
+      let paramValue = match![3];
+      if (paramType === ParamType.STRING) {
+        paramValue = paramValue.replace(/"/g, '');
+      }
+
+      step.params.push({
+        name: paramName,
+        type: paramType,
+        value: paramValue,
+      });
+    }
+
+    return step;
+  }
+
+  async parseActions(code: string[], actions: any[]): Promise<string[]> {
+    while (code.length > 0 && code[0] !== '') {
+      const action = await this.parseStepDescription(code[0]);
+      if (action) {
+        actions.push(action);
+      }
+      code = this.parseNextLine(code);
+    }
+
+    return new Promise<string[]>((resolve, reject) => {
+      resolve(this.parseNextLine(code));
+    });
+  }
+
+  async parseSteps(code: string[]): Promise<Step[][]> {
+    const steps: Step[][] = [];
     const stepRegex = /def step(\d+)\(self\):/g;
     let stepMatch = stepRegex.exec(code[0]);
+    let groupIndex = 0;
+    let stepIndex = 0;
 
     while (stepMatch) {
+      steps.push([]);
       code = this.parseNextLine(code);
 
-      const step = await this.parseStepDescription(code[0].trim());
+      // eslint-disable-next-line prefer-const
+      let actions: any[] = [];
+      code = await this.parseActions(code, actions);
 
-      code = this.parseStepCode(code, PYTHON_INDENT); // Remove lines corresponding to the step
+      for (const action of actions) {
+        action.index = stepIndex;
+        action.groupIndex = groupIndex;
+        steps[groupIndex].push(action as Step);
 
-      steps.push(step);
+        stepIndex += 1;
+      }
 
       const stepRegex = /def step(\d+)\(self\):/g;
       stepMatch = stepRegex.exec(code[0]);
+      groupIndex += 1;
+      stepIndex = 0;
     }
 
     return steps;
-  }
-
-  private parseStepCode(code: string[], PYTHON_INDENT: string): string[] {
-    while (
-      code[0].startsWith(PYTHON_INDENT.repeat(2)) ||
-      code[0].trim() == ''
-    ) {
-      code = this.parseNextLine(code);
-    }
-
-    return code;
   }
 }

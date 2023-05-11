@@ -62,14 +62,7 @@ export class TestParserService {
     code = this.parseNextLine(code, 2);
 
     // Parse steps
-    // test.steps = await this.stepParserService.parseSteps(
-    //   code,
-    //   this.PYTHON_INDENT
-    // );
-
-    // test.steps.map((step, index) => {
-    //   step.index = index;
-    // });
+    test.steps = await this.stepParserService.parseSteps(code);
 
     return test;
   }
@@ -164,6 +157,7 @@ export class TestParserService {
         this.PYTHON_INDENT
       );
       steps += code;
+      steps += `\n\n`;
     }
 
     return steps;
