@@ -4,6 +4,7 @@ import { DeviceType } from '../models/deviceType';
 
 import { getEmptyTest } from '../mocks/test-mock';
 import { StepParserService } from './step-parser.service';
+import { formatTest } from '../parsage/testFormat';
 
 @Injectable({
   providedIn: 'root',
@@ -163,44 +164,22 @@ export class TestParserService {
     return steps;
   }
 
-  private generateMain(test: Test): string {
-    let main = `${this.PYTHON_INDENT}def test(self):
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# ----------- 
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# Init part
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# 
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Initialization")
-    
-`;
+  generateCode(test: Test): string {
+    const steps = this.generateSteps(test);
+    let periph = '';
 
-    for (let i = 0; i < test.steps.length; i++) {
-      const step = test.steps[i];
-
-      main += `
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.step${i + 1}();
-`;
+    if (test.deviceType) {
+      periph = `self.periphs = {
+${this.PYTHON_INDENT}${test.deviceName}: {
+${this.PYTHON_INDENT}"sensorType": "${DeviceType.getAbbreviation(
+        test.deviceType
+      )}",
+${this.PYTHON_INDENT}"deviceId": None,
+${this.PYTHON_INDENT}"kittingId": None,
+${this.PYTHON_INDENT}}
+}`;
     }
 
-    main += `
-
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# -----------
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# Factory reset
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}# 
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}self.logScenario("Factory reset")`;
-
-    return main;
-  }
-
-  generateCode(test: Test): string {
-    const header = this.generateHeader(test);
-
-    const className = `class HGMicro_Test(HGoMicro_Software_Verification_Base_Test):
-${this.PYTHON_INDENT}def __init__(self):
-${this.PYTHON_INDENT}${this.PYTHON_INDENT}super().__init__("${test.title}")\n\n`;
-
-    const steps = this.generateSteps(test);
-
-    const main = this.generateMain(test);
-
-    return header + className + steps + main;
+    return formatTest(this.PYTHON_INDENT, test, periph, steps);
   }
 }

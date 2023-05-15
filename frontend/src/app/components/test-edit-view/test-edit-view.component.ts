@@ -25,7 +25,7 @@ export class TestEditViewComponent {
 
   // Device combobox
   isDeviceTypeTest = false;
-  deviceTypes = Object.values(DeviceType);
+  deviceTypes;
   selectedDeviceType: DeviceType | null = null;
 
   constructor(
@@ -33,6 +33,8 @@ export class TestEditViewComponent {
     private taskService: TaskService,
     private testParserService: TestParserService
   ) {
+    this.deviceTypes = Object.values(DeviceType);
+    this.deviceTypes.pop(); // Remove the null value
     this.folderService.selectedFile$.subscribe((file) => {
       if (this.selectedFile !== file) {
         this.selectedFile = file;
