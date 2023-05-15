@@ -13,29 +13,6 @@ export class TestParserService {
   PYTHON_INDENT = '    ';
   constructor(private stepParserService: StepParserService) {}
 
-  private parseNextLine(code: string[], nbLine = 1): string[] {
-    if (nbLine == -1 && code.length > 0) {
-      if (code[0].length == 0) {
-        return this.parseNextLine(code.slice(1), -1);
-      }
-      return code;
-    }
-
-    if (code.length > nbLine) {
-      return code.slice(nbLine);
-    } else {
-      throw new Error('Bad format: Unexpected end of file');
-    }
-  }
-
-  private testFormat(toBeTested: string, expected: string) {
-    if (toBeTested !== expected) {
-      throw new Error(
-        "Bad format: \nExpected '" + expected + "'\nGot '" + toBeTested + "'"
-      );
-    }
-  }
-
   async parseFile(file: string): Promise<Test> {
     const test = this.parseHeader(file);
 
@@ -56,7 +33,7 @@ export class TestParserService {
   private parseHeader(code: string): Test {
     const test = getEmptyTest();
     const infoPattern =
-      /# Title: (.+)\n# Author: (.+)\n# Description: (.+)\n# Prerequisites: (.+)/;
+      /# Title: (.+)\n# Author: (.+) - using eTester\n# Description: (.+)\n# Prerequisites: (.+)/;
 
     let match = code.match(infoPattern);
     if (match) {
