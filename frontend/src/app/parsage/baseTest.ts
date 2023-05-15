@@ -1,4 +1,6 @@
-# -*- coding: cp1252 -*-
+/* eslint-disable */
+
+export const BASE_TEST = `# -*- coding: cp1252 -*-
 import sys
 import PyQt5
 from PyQt5 import QtCore
@@ -882,3 +884,4 @@ if __name__ == "__main__":
     myapp.show()
     #exit
     sys.exit(app.exec_())
+`;

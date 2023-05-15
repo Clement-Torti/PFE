@@ -33,7 +33,7 @@ from baseTest import testHGMicro_BaseTest
 # Author: ${test.author} - using eTester
 # Description: ${test.description}
 # Prerequisites: ${test.prerequisites}
-# Device : ${test.deviceName} (${test.deviceType})
+${test.deviceType ? `# Device : ${test.deviceName} (${test.deviceType})` : ''}
 
 class testHGMicro_SoftwareVerificationProtocolAppli(testHGMicro_BaseTest):
 
@@ -49,7 +49,6 @@ ${PYTHON_INDENT}${PYTHON_INDENT}self.thread1.start()
 
 
 ${indentedSteps}
-
 
 ${PYTHON_INDENT}def executeSteps(self):
 ${PYTHON_INDENT}${PYTHON_INDENT}steps = [
@@ -79,5 +78,4 @@ ${PYTHON_INDENT}#exit
 ${PYTHON_INDENT}sys.exit(app.exec_())
 `;
 }
-
 

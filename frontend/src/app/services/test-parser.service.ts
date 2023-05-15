@@ -37,30 +37,15 @@ export class TestParserService {
   }
 
   async parseFile(file: string): Promise<Test> {
-    const test = getEmptyTest();
+    const test = this.parseHeader(file);
 
-    let code = file.split('\n');
+    const code = file.split('\n');
 
-    // Parse header
-    code = this.parseHeader(code, test);
+    // Remove header so code[0] is the first step
+    const searchString = `def step1(self):`;
+    const index = code.findIndex((element) => element.includes(searchString));
 
-    // Parse class definition
-    this.testFormat(
-      code[0],
-      'class HGMicro_Test(HGoMicro_Software_Verification_Base_Test):'
-    );
-    code = this.parseNextLine(code);
-
-    // Parse init file
-    this.testFormat(code[0], `${this.PYTHON_INDENT}def __init__(self):`);
-    code = this.parseNextLine(code);
-
-    this.testFormat(
-      code[0],
-      `${this.PYTHON_INDENT}${this.PYTHON_INDENT}super().__init__("${test.title}")`
-    );
-
-    code = this.parseNextLine(code, 2);
+    code.splice(0, index);
 
     // Parse steps
     test.steps = await this.stepParserService.parseSteps(code);
@@ -68,85 +53,29 @@ export class TestParserService {
     return test;
   }
 
-  private parseHeader(code: string[], test: Test): string[] {
-    // Title
-    const titleRegex = /# Title: (.*)/g;
-    const titleMatch = titleRegex.exec(code[0]);
-    if (titleMatch) {
-      test.title = titleMatch[1];
+  private parseHeader(code: string): Test {
+    const test = getEmptyTest();
+    const infoPattern =
+      /# Title: (.+)\n# Author: (.+)\n# Description: (.+)\n# Prerequisites: (.+)/;
+
+    let match = code.match(infoPattern);
+    if (match) {
+      test.title = match[1];
+      test.author = match[2];
+      test.description = match[3];
+      test.prerequisites = match[4];
     } else {
-      throw new Error('Bad format: Title not found');
+      throw new Error('Bad format: Test info not found');
     }
 
-    code = this.parseNextLine(code);
-
-    // Author
-    const authorRegex = /# Author: (.*) - using eTester/g;
-    const authorMatch = authorRegex.exec(code[0]);
-    if (authorMatch) {
-      test.author = authorMatch[1];
-    } else {
-      throw new Error('Bad format: Author not found');
+    const devicePattern = /# Device : (.+) \((.+)\)/;
+    match = code.match(devicePattern);
+    if (match) {
+      test.deviceName = match[5];
+      test.deviceType = match[6] as DeviceType;
     }
 
-    code = this.parseNextLine(code);
-
-    // Description
-    const descriptionRegex = /# Description: (.*)/g;
-    const descriptionMatch = descriptionRegex.exec(code[0]);
-    if (descriptionMatch) {
-      test.description = descriptionMatch[1];
-    } else {
-      throw new Error('Bad format: Description not found');
-    }
-
-    code = this.parseNextLine(code);
-
-    // Same for prerequisites
-    const prerequisitesRegex = /# Prerequisites: (.*)/g;
-    const prerequisitesMatch = prerequisitesRegex.exec(code[0]);
-    if (prerequisitesMatch) {
-      test.prerequisites = prerequisitesMatch[1];
-    } else {
-      throw new Error('Bad format: Prerequisites not found');
-    }
-
-    code = this.parseNextLine(code);
-
-    // Same for device type
-    const deviceTypeRegex = /# Device : (.*) \((.*)\)/g;
-    const deviceTypeMatch = deviceTypeRegex.exec(code[0]);
-    if (deviceTypeMatch) {
-      code = this.parseNextLine(code);
-      test.deviceName = deviceTypeMatch[1];
-      if (
-        Object.values(DeviceType).includes(deviceTypeMatch[2] as DeviceType)
-      ) {
-        test.deviceType = deviceTypeMatch[2] as DeviceType;
-      } else {
-        throw new Error("Bad format: Device type don't exist");
-      }
-    } else {
-      test.deviceName = '';
-      test.deviceType = null;
-    }
-
-    // return code without the first element
-    return this.parseNextLine(code);
-  }
-
-  private generateHeader(test: Test): string {
-    const title = `# Title: ${test.title}\n`;
-    const author = `# Author: ${test.author} - using eTester\n`;
-    const description = `# Description: ${test.description}\n`;
-    const prerequisites = `# Prerequisites: ${test.prerequisites}\n`;
-    let deviceType = '';
-
-    if (test.deviceType) {
-      deviceType = `# Device : ${test.deviceName} (${test.deviceType})\n`;
-    }
-
-    return title + author + description + prerequisites + deviceType + '\n';
+    return test;
   }
 
   private generateSteps(test: Test): string {
