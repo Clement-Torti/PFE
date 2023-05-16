@@ -13,7 +13,28 @@ Logger.debug('This is a debug log')
 // eslint-disable-next-line
 const mongoose = require('./database/mongoose')
 
-// Model
+// Model: Add the predefined steps to the database when empty
+const Step = require('./database/models/step')
+const predefinedSteps = require('./database/fixtures/predefinedSteps')
+// Check if the steps collection is empty
+Step.countDocuments({}, (err, count) => {
+  if (err) {
+    console.error('Error checking steps collection:', err)
+    return
+  }
+
+  if (count === 0) {
+    // Insert predefined steps into the database
+    Step.insertMany(predefinedSteps, (err, insertedSteps) => {
+      if (err) {
+        console.error('Error inserting predefined steps:', err)
+        return
+      }
+
+      console.log('Predefined steps inserted:', insertedSteps)
+    })
+  }
+})
 
 // Access permissions
 app.use((req, res, next) => {

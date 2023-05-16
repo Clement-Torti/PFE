@@ -1,61 +1,107 @@
-/*
-  LIFECYCLE_COMMANDS: 'Lifecycle Commands',
-  MESSAGE_COMMANDS: 'Message Commands',
-  DEVICE_COMMANDS: 'Device Commands',
-  DATABASE_COMMANDS: 'Database Commands',
-  SERIAL_COMMANDS: 'Serial Commands',
-  OM2M_COMMANDS: 'OM2M Commands',
-  SSH_COMMANDS: 'SSH Commands',
-  OTHER: 'Other'
-*/
 const predefinedSteps = [
+  /* LIFECYCLE COMMANDS */
   {
-    title: 'Send Question',
-    description: 'Send a question to the user and wait for a response. Verify if the response is conform to specs.',
-    code: `message = \\~message: Text~\\
-spec =  \\~spec: Text~\\
-isYesOK = \\~shouldBeEqual: Boolean~\\
-newRes = self.sendQuestion(message, stepNumber, spec, isYesOK)
-result = self.updateResult(result, newRes)`,
-    stepType: 'Message Commands'
-  },
-  {
-    title: 'Restart HGo',
+    title: 'Restart HGoMicro',
     description: 'Restart HGo and wait for it to be ready.',
     code: `newRes = self.restartHGo()
 result = self.updateResult(result, newRes)`,
     stepType: 'Lifecycle Commands'
   },
   {
-    title: '',
-    description: '',
-    code: '',
-    stepType: ''
+    title: 'Sleep',
+    description: 'Make the HGoMicro sleep for a certain amount of time.',
+    code: `duration = \\~duration: Number~\\
+self.sleep(duration)`,
+    stepType: 'Lifecycle Commands'
   },
   {
-    title: '',
-    description: '',
-    code: '',
-    stepType: ''
+    title: 'Power off HGoMicro',
+    description: 'Power off HGoMicro undefinetly.',
+    code: 'self.powerOffHgo()',
+    stepType: 'Lifecycle Commands'
   },
   {
-    title: '',
-    description: '',
-    code: '',
-    stepType: ''
+    title: 'Power on HGoMicro',
+    description: 'Power on HGoMicro.',
+    code: 'self.powerOnHgo()',
+    stepType: 'Lifecycle Commands'
+  },
+
+  /* MESSAGE COMMANDS */
+  {
+    title: 'Prompt question',
+    description: 'Send a question to the user and wait for a response. Verify if the response is conform to specs.',
+    code: `message = \\~message: Text~\\
+spec = \\~specifications: Text~\\
+isYesOK = \\~should be equal: Boolean~\\
+newRes = self.sendQuestion(message, stepNumber, spec, isYesOK)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Message Commands'
+  },
+
+  {
+    title: 'Prompt order',
+    description: 'Send an order to the user',
+    code: `message = \\~message: Text~\\
+self.sendOrder(message)`,
+    stepType: 'Message Commands'
   },
   {
-    title: '',
-    description: '',
-    code: '',
-    stepType: ''
+    title: 'Disconnect and reconnect batteries',
+    description: 'Ask the user to disconnect and reconnect the batteries. Wait for the user to confirm.',
+    code: `periphName = \\~Name of peripheral: Text~\\
+newRes = self.disconnectAndReconnectBatteries(periphName)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Message Commands'
+  },
+
+  /* DATABASE COMMANDS */
+  {
+    title: 'Reset database',
+    description: 'Configure the HGMicro to use default parameter',
+    code: `newRes = self.resetDb()
+result = self.updateResult(result, newRes)`,
+    stepType: 'Database Commands'
+  },
+
+  /* DEVICE COMMANDS */
+  {
+    title: 'Remove peripheral',
+    description: 'Remove the peripheral so it does not exist anymore.',
+    code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
+self.removePeriph(deviceSerialNumber)`,
+    stepType: 'Device Commands'
   },
   {
-    title: '',
-    description: '',
-    code: '',
-    stepType: ''
+    title: 'Add peripheral',
+    description: 'Add a peripheral associated to the HGMicro.',
+    code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
+deviceSensorType = \\~Sensor type: Text~\\
+self.addPeriph(deviceSerialNumber, deviceSensorType, self.param.hgoMiniSerialNumber)`,
+    stepType: 'Device Commands'
+  },
+  {
+    title: 'Get measurements',
+    description: 'Get the measurements of a peripherala and store them so you can compare it later.',
+    code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
+deviceId = self.periphs[deviceSerialNumber]["deviceId"]
+oldMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)`,
+    stepType: 'Device Commands'
+  },
+  {
+    title: 'Get new measurements and compare.',
+    description: 'Warning: "Get measurements" must be called before in the same step. Get the measurements of a peripheral and compare them to the old ones.',
+    code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
+deviceId = self.periphs[deviceSerialNumber]["deviceId"]
+newMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)
+spec = \\~specifications: Text~\\
+shouldBeDifferent = \\~should be different: Boolean~\\
+
+newRes = self.compareMeasurements(spec, stepNumber, oldMeasurements, newMeasurements, shouldBeDifferent)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Device Commands'
   }
+  /* SERIAL COMMANDS */
 
 ]
 
