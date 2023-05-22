@@ -1,25 +1,29 @@
 <div class="homeDiv">
+  <h1>eTester</h1>
   <p>
     eTester can generate code and run tests.<br />
-    Open the folder containing tests and choose one.
+    Open the folder containing tests.
   </p>
-  <input
-    type="file"
-    name="folder"
-    id="folder"
-    multiple
-    webkitdirectory
-    (change)="selectDirectory(directory.files)"
-    #directory
-  />
 
-  <div>
-    <div
-      *ngFor="let folder of folders"
-      class="folderDiv"
-      (click)="onFolderSelected(folder)"
-    >
-      {{ folder.title }}
+  <div class="row">
+    <ng-container *ngFor="let folder of folders">
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="list-group">
+          <li
+            class="list-group-item folderDiv"
+            (click)="onFolderSelected(folder)"
+          >
+            {{ folder.title }}
+          </li>
+        </div>
+      </div>
+    </ng-container>
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="list-group">
+        <li class="list-group-item folderDiv" (click)="openFolderSelection()">
+          <i class="bi bi-plus"></i>
+        </li>
+      </div>
     </div>
   </div>
 </div>

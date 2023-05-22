@@ -1,18 +1,45 @@
+.homeDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    height: 100%; /* Set the height to 100% of the viewport height */
+  }
 
+  .row {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .folderDiv {
+    background-color: gray;
+    padding: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .folderDiv:hover {
+    background-color: rgb(30, 30, 30);
+    color: white;
+  }
+  
+  p {
+    margin-bottom: 20px;
+  }
+  
 
+  .bi {
+    font-size: 1.5rem;
+    color: white;
+    line-height: 1; /* Add this line to set line height to 1 */
 
-.folderDiv {
-/* Size */
-/* Position */
-text-align: center;
+  }
 
- /* Style */
- background-color: white;
- color: black;
- padding: 15px;
- margin: 15px;
-border-radius: 10px;
+  button {
+    border-style: none;
+  }
 
-/* Behavior */
-
-}

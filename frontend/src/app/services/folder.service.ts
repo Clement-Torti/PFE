@@ -56,16 +56,17 @@ export class FolderService {
         this.setFolder(theFolder._id);
 
         // Create files in local db
-        for (const i in files) {
+        for (const file of files) {
           const fileReader = new FileReader();
           fileReader.onload = (e) => {
             const content = fileReader.result as string;
             this.taskService
-              .postFile(theFolder._id, files[i]['name'], content)
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              .subscribe((file) => {});
+              .postFile(theFolder._id, file['name'], content)
+              .subscribe(() => {
+                // File uploaded successfully
+              });
           };
-          fileReader.readAsText(files[i]);
+          fileReader.readAsText(file);
         }
       });
     }

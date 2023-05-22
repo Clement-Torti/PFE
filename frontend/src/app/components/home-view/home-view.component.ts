@@ -32,4 +32,23 @@ export class HomeViewComponent implements OnInit {
     this.folderService.setFolder(folder._id);
     this.router.navigate([`/edit`]);
   }
+
+  openFolderSelection(): void {
+    const inputElement: HTMLInputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.multiple = false;
+    inputElement.webkitdirectory = true;
+    inputElement.addEventListener('change', (event) => {
+      const files = (event.target as HTMLInputElement).files;
+      if (files && files.length > 0) {
+        const fileReader = new FileReader();
+        fileReader.onload = (fileEvent) => {
+          const contents = fileEvent.target?.result as string;
+          this.selectDirectory(contents);
+        };
+        fileReader.readAsText(files[0]);
+      }
+    });
+    inputElement.click();
+  }
 }
