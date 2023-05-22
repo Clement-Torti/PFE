@@ -1,43 +1,27 @@
-.folderName {
-/* Size */
+.mainFrame {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+  }
+  
+  .icon-link {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
 
-/* Position */
-text-align: center;
+  .icon-link-small {
+    font-size: 1.9rem;
+  }
+  
 
- /* Style */
-
-/* Behavior */
-
-}
-
-
-.buttonsDiv {
-/* Size */
-
-
-/* Position */
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content:center;
-
- /* Style */
-
-/* Behavior */
-
-}
-
-
-button {
-    /* Size */
-    
-    /* Position */
-    
-     /* Style */
-     padding: 15px;
-     margin-top: 20px;
-    
-    /* Behavior */
-    
-}
-    
+  .folderName {
+    position: absolute;
+    top: 20px;
+  }
+  

@@ -1,8 +1,22 @@
 <div class="mainFrame">
-  <h3 class="folderName">{{ _folderName }}</h3>
+  <h3 class="folderName fs-5">{{ _folderName }}</h3>
   <div *ngIf="_folderOpen" class="buttonsDiv">
-    <a [routerLink]="['/']" routerLinkActive="defineClass">Home</a>
-    <a [routerLink]="['/edit']" routerLinkActive="defineClass">Edit</a>
-    <a [routerLink]="['/run']" routerLinkActive="defineClass">Run</a>
+    <a [routerLink]="['/']" routerLinkActive="defineClass" class="icon-link">
+      <i class="bi bi-house"></i>
+    </a>
+    <a
+      [routerLink]="['/edit']"
+      routerLinkActive="defineClass"
+      class="icon-link"
+    >
+      <i class="bi bi-pencil"></i>
+    </a>
+    <a
+      [routerLink]="['/run']"
+      routerLinkActive="defineClass"
+      class="icon-link icon-link-small"
+    >
+      <i class="bi bi-play"></i>
+    </a>
   </div>
 </div>
