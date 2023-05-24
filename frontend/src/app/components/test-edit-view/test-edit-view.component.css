@@ -3,17 +3,18 @@
 width: 70%;
 
 /* Position */
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   z-index: 2;
+  margin: 10px;
 
- /* Style */
- background-color: white;
- box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+/* Style */
+border-radius: 20px;
 
 /* Behavior */
 overflow-y: scroll;
+
 
 }
 
@@ -182,11 +183,9 @@ margin-top: 50px;
  }
  .moveStepButton, .deleteStepButton {
  /* Size */
- width: 50px;
- height: 50px;
  
  /* Position */
-margin: 10px;
+ margin-bottom: 10px;
 
   /* Style */
  
@@ -225,6 +224,30 @@ margin: 10px;
  display: flex;
  flex-direction: column;
  align-items: center;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
+ 
+ .addStepGroupButton {
+ /* Size */
+ 
+ /* Position */
+ margin-top: 30px;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
+ 
+ .editStepLink {
+ /* Size */
+ 
+ /* Position */
+ margin-top: 15px;
  
   /* Style */
  

@@ -14,7 +14,11 @@ import { TestNavBarComponent } from './components/test-nav-bar/test-nav-bar.comp
 import { StepViewComponent } from './components/step-view/step-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeViewComponent } from './components/code-view/code-view.component';
-import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import {
+  HighlightModule,
+  HIGHLIGHT_OPTIONS,
+  HighlightOptions,
+} from 'ngx-highlightjs';
 import { StepAddComponent } from './components/step-add/step-add.component';
 import { StepCreationViewComponent } from './components/step-creation-view/step-creation-view.component';
 import { StepNavBarComponent } from './components/step-nav-bar/step-nav-bar.component';
@@ -45,8 +49,13 @@ import { StepNavBarComponent } from './components/step-nav-bar/step-nav-bar.comp
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,
-      useValue: {
-        fullLibraryLoader: () => import('highlight.js'),
+      useValue: <HighlightOptions>{
+        lineNumbers: true,
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        languages: {
+          python: () => import('highlight.js/lib/languages/python'),
+          css: () => import('highlight.js/lib/languages/css'),
+        },
       },
     },
   ],

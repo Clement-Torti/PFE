@@ -1,3 +1,8 @@
+.mainFrame {
+    background-color: rgb(30, 30, 30);
+    padding: 50px 30px;
+}
+
 .codeViewButton {
     /* Size */
     
@@ -13,8 +18,7 @@
     
     .copyToClipboardButton, .closeCodeButton {
     /* Size */
-    width: 50px;
-    height: 50px;
+
     
     /* Position */
     margin-left: 10px;

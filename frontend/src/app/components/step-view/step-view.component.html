@@ -1,8 +1,19 @@
-<div class="mainFrame">
-  <h3>{{ step.index + 1 }}. {{ step.title }}</h3>
-  <p>{{ step.description }}</p>
-  <div *ngFor="let param of step.params">
-    {{ param.name }} ({{ param.type }}):
-    <input type="text" placeholder="Value" [(ngModel)]="param.value" />
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">{{ step.title }}</h4>
+    <p class="card-text">{{ step.description }}</p>
+    <div *ngFor="let param of step.params" class="card-param">
+      <label for="{{ param.name }}"
+        ><b
+          ><i>{{ param.name }} ({{ param.type }})</i></b
+        ></label
+      >
+      <textarea
+        id="{{ param.name }}"
+        class="form-control"
+        [(ngModel)]="param.value"
+        rows="{{ getRowCount(param.value) }}"
+      ></textarea>
+    </div>
   </div>
 </div>

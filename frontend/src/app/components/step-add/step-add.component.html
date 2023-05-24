@@ -1,10 +1,15 @@
-<div class="addStep">
-  <select [(ngModel)]="selectedStep" (change)="onStepSelectionChange($event)">
+<div class="addStep md-3">
+  <label class="form-label">Add action</label>
+
+  <select
+    class="form-select"
+    [(ngModel)]="selectedStep"
+    (change)="onStepSelectionChange($event)"
+  >
     <optgroup *ngFor="let stepType of stepTypes" [label]="stepType">
       <option *ngFor="let step of getStepsByType(stepType)" [ngValue]="step">
-        {{ step.title }} : "{{ step.description }}"
+        {{ step.title }}: "{{ step.description }}"
       </option>
     </optgroup>
   </select>
-  Add action
 </div>

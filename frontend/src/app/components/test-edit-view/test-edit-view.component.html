@@ -146,24 +146,32 @@
             *ngFor="let step of stepGroup; let j = index"
             class="stepElement"
           >
-            <app-step-view class="flex-grow" [step]="step" />
-
-            <div class="stepActions">
-              <button
-                *ngIf="j !== stepGroup.length - 1"
-                (click)="onMoveStepClick(i, j)"
-                class="moveStepButton"
-              >
-                Move action
-              </button>
-              <button
-                (click)="onDeleteStepClick(i, j)"
-                class="deleteStepButton"
-              >
-                Delete action
-              </button>
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="d-flex flex-grow-1 align-items-center">
+                  <app-step-view [step]="step" class="w-100"></app-step-view>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="stepActions">
+                  <button
+                    *ngIf="j !== stepGroup.length - 1"
+                    (click)="onMoveStepClick(i, j)"
+                    class="btn btn-light moveStepButton"
+                  >
+                    <i class="bi bi-arrow-down-square-fill"></i>
+                  </button>
+                  <button
+                    (click)="onDeleteStepClick(i, j)"
+                    class="btn btn-light deleteStepButton"
+                  >
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+
           <app-step-add
             (buttonClick)="onAddStepClick($event)"
             [groupIndex]="i"
@@ -171,16 +179,27 @@
         </div>
       </div>
 
-      <button (click)="onAddStepGroupClick()" class="addStepGroupButton">
-        Add Step
+      <button
+        (click)="onAddStepGroupClick()"
+        class="addStepGroupButton btn btn-primary"
+      >
+        <i class="bi bi-plus-square-dotted"></i> Add Step
       </button>
-      <a [routerLink]="['/step-creation']" routerLinkActive="defineClass">
+      <a
+        class="editStepLink"
+        [routerLink]="['/step-creation']"
+        routerLinkActive="defineClass"
+      >
         Edit steps
+        <i class="bi bi-arrow-up-right-square"></i>
       </a>
 
       <div class="deleteSection">
-        <button (click)="onDeleteTestClick()" class="deleteTestButton">
-          Delete Test
+        <button
+          (click)="onDeleteTestClick()"
+          class="deleteTestButton btn btn-danger"
+        >
+          <i class="bi bi-trash"></i> Delete Test
         </button>
       </div>
     </div>

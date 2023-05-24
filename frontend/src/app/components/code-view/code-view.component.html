@@ -1,9 +1,17 @@
 <div class="mainFrame">
   <h1>Generated Code</h1>
   <div class="codeViewButton">
-    <button (click)="onCloseCodeClick()" class="closeCodeButton">Close</button>
-    <button (click)="onCopyToClipboardClick()" class="copyToClipboardButton">
-      Copy
+    <button
+      (click)="onCloseCodeClick()"
+      class="closeCodeButton btn btn-primary"
+    >
+      Close
+    </button>
+    <button
+      (click)="onCopyToClipboardClick()"
+      class="copyToClipboardButton btn btn-primary"
+    >
+      Copy <i class="bi bi-save"></i>
     </button>
   </div>
   <pre><code [highlight]="code" [languages]="['python']"></code></pre>
