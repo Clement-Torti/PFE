@@ -14,6 +14,7 @@ import { getEmptyTest } from 'src/app/mocks/test-mock';
 })
 export class TestNavBarComponent {
   files: File[] = [];
+  selectedFile: File | null = null;
 
   constructor(
     private folderService: FolderService,
@@ -25,6 +26,10 @@ export class TestNavBarComponent {
       if (this.files.length > 0 && !this.folderService.getSelectedFile()) {
         this.folderService.setSelectedFile(this.files[0]._id);
       }
+    });
+
+    this.folderService.selectedFile$.subscribe((file) => {
+      this.selectedFile = file;
     });
 
     this.folderService.getFiles();

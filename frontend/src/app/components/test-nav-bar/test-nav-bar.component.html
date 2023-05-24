@@ -1,8 +1,15 @@
-<div class="mainFrame">
-  <button (click)="onAddFileClick()" class="addFileButton">Add File</button>
-  <div *ngFor="let file of files" class="fileDiv">
-    <button (click)="onFileClick(file)" class="fileButton">
-      {{ file.title }}
-    </button>
+<div class="sidebar">
+  <div class="mainFrame">
+    <button (click)="onAddFileClick()" class="btn btn-primary">Add File</button>
+    <div *ngFor="let file of files" class="fileDiv">
+      <button
+        (click)="onFileClick(file)"
+        class="fileButton"
+        [title]="file.title"
+        [ngClass]="{ selectedFile: file === selectedFile }"
+      >
+        {{ file.title }}
+      </button>
+    </div>
   </div>
 </div>

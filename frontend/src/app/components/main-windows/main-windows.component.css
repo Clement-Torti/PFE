@@ -55,7 +55,8 @@
   right: 0;
   /* Style */
   /* Behavior */
-  overflow-y: overlay;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 
