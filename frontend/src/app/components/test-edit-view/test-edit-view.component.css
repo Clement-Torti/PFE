@@ -103,8 +103,10 @@ margin-top: 50px;
    top: 30px;
    right: 40px;
    width: 50px;
+   height: 50px;
    
     /* Style */
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
    
    /* Behavior */
    
@@ -126,23 +128,44 @@ margin-top: 50px;
  /* Behavior */
  
  }
-
- .stepElement {
+ 
+ .stepGroup {
  /* Size */
  
  /* Position */
- display: flex;
- flex: 1;
- align-items: center;
+ margin-top: 30px;
  
   /* Style */
-  margin-bottom: 20px;
  
  /* Behavior */
  
  }
 
+ .subStepGroup {
+ /* Size */
+ 
+ /* Position */
+ 
+  /* Style */
+  border-left: 4px dashed darkgray;
+  padding-left: 20px;
 
+ 
+ /* Behavior */
+ 
+ }
+
+ .stepElement {
+ /* Size */
+ 
+ /* Position */
+ margin-bottom: 15px;
+ 
+  /* Style */
+ 
+ /* Behavior */
+ 
+ }
  .stepActions {
  /* Size */
  

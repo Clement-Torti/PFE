@@ -31,8 +31,11 @@
 
   <!-- TEST VIEW -->
   <div *ngIf="selectedFile && !badFormat && test" class="contentFrame col-md-9">
-    <button (click)="onGenerateCodeClick()" class="generateCodeButton">
-      Generate Code
+    <button
+      (click)="onGenerateCodeClick()"
+      class="btn btn-primary generateCodeButton"
+    >
+      <i class="bi bi-code-slash"></i>
     </button>
 
     <!-- Header section -->
@@ -123,37 +126,49 @@
     <div class="scenarioSection">
       <h1>Scenario</h1>
 
-      <div *ngFor="let stepGroup of test.steps; let i = index">
-        <div class="stepElement">
-          <h3>Step {{ i + 1 }}</h3>
-          <button
-            (click)="onDeleteStepGroupClick(i)"
-            class="deleteStepGroupButton"
-          >
-            Delete Step
-          </button>
-        </div>
-
-        <div *ngFor="let step of stepGroup; let j = index" class="stepElement">
-          <app-step-view class="flex-grow" [step]="step" />
-
-          <div class="stepActions">
-            <button
-              *ngIf="j !== stepGroup.length - 1"
-              (click)="onMoveStepClick(i, j)"
-              class="moveStepButton"
-            >
-              Move action
-            </button>
-            <button (click)="onDeleteStepClick(i, j)" class="deleteStepButton">
-              Delete action
+      <div
+        class="stepGroup"
+        *ngFor="let stepGroup of test.steps; let i = index"
+      >
+        <div class="stepElement row">
+          <div class="col">
+            <h3>Step {{ i + 1 }}</h3>
+          </div>
+          <div class="col d-flex justify-content-end">
+            <button (click)="onDeleteStepGroupClick(i)" class="btn btn-danger">
+              <i class="bi bi-trash"></i>
             </button>
           </div>
         </div>
-        <app-step-add
-          (buttonClick)="onAddStepClick($event)"
-          [groupIndex]="i"
-        ></app-step-add>
+
+        <div class="subStepGroup">
+          <div
+            *ngFor="let step of stepGroup; let j = index"
+            class="stepElement"
+          >
+            <app-step-view class="flex-grow" [step]="step" />
+
+            <div class="stepActions">
+              <button
+                *ngIf="j !== stepGroup.length - 1"
+                (click)="onMoveStepClick(i, j)"
+                class="moveStepButton"
+              >
+                Move action
+              </button>
+              <button
+                (click)="onDeleteStepClick(i, j)"
+                class="deleteStepButton"
+              >
+                Delete action
+              </button>
+            </div>
+          </div>
+          <app-step-add
+            (buttonClick)="onAddStepClick($event)"
+            [groupIndex]="i"
+          ></app-step-add>
+        </div>
       </div>
 
       <button (click)="onAddStepGroupClick()" class="addStepGroupButton">
