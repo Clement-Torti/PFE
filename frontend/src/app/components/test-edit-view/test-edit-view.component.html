@@ -4,204 +4,227 @@
 </div>
 
 <div class="mainContainer row">
-  <!-- SIDEBAR -->
-  <app-test-nav-bar class="sidebar col-md-3"></app-test-nav-bar>
-
-  <!-- ERROR VIEW -->
-  <div *ngIf="selectedFile && badFormat" class="errorFrame col-md-9">
-    <h2 class="errorMessage">This file could not be parsed</h2>
-    <i class="errorMessage">{{ errorMessage }}</i>
-    <textarea
-      [(ngModel)]="selectedFile!.content"
-      style="width: 100%; height: 100%"
-    ></textarea>
-
-    <button
-      (click)="onSaveCode()"
-      style="width: 100pt; height: 50pt; margin-top: 10pt"
-    >
-      Save
-    </button>
-    <div class="deleteSection">
-      <button (click)="onDeleteTestClick()" class="deleteTestButton">
-        Delete Test
-      </button>
+  <div class="sidebarContainer col-md-3">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <app-test-nav-bar></app-test-nav-bar>
     </div>
   </div>
 
-  <!-- TEST VIEW -->
-  <div *ngIf="selectedFile && !badFormat && test" class="contentFrame col-md-9">
-    <button
-      (click)="onGenerateCodeClick()"
-      class="btn btn-primary generateCodeButton"
-    >
-      <i class="bi bi-code-slash"></i>
-    </button>
-
-    <!-- Header section -->
-    <div class="headersSection row">
-      <h1>Meta Data</h1>
-      <div class="mb-3">
-        <label class="form-label">Name</label>
-
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Name"
-          [(ngModel)]="selectedFile!.title"
-          (change)="onTestNameChange($event)"
-        />
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Description</label>
+  <div class="contentContainer col-md-9">
+    <!-- ERROR VIEW -->
+    <div *ngIf="selectedFile && badFormat" class="errorFrame">
+      <!-- ERROR VIEW -->
+      <div *ngIf="selectedFile && badFormat" class="errorFrame">
+        <h2 class="errorMessage">This file could not be parsed</h2>
+        <i class="errorMessage">{{ errorMessage }}</i>
         <textarea
-          class="form-control"
-          [(ngModel)]="test.description"
-          rows="3"
+          [(ngModel)]="selectedFile!.content"
+          style="width: 100%; height: 100%"
         ></textarea>
-      </div>
 
-      <div class="md-3">
-        <label class="form-label">Prerequisites</label>
-        <textarea
-          class="form-control"
-          [(ngModel)]="test.prerequisites"
-          rows="3"
-        ></textarea>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Author</label>
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Author"
-          [(ngModel)]="test.author"
-        />
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="checkbox">Test a device</label>
-        <input
-          class="form-check"
-          type="checkbox"
-          id="checkbox"
-          name="checkbox"
-          [(ngModel)]="isDeviceTypeTest"
-          (change)="onDeviceCheckboxSelectionChange($event)"
-        />
-      </div>
-
-      <div *ngIf="isDeviceTypeTest">
-        <div class="mb-3">
-          <label class="form-label">Device Type</label>
-          <select
-            class="form-select"
-            id="combo"
-            name="combo"
-            [(ngModel)]="selectedDeviceType"
-            (ngModelChange)="onDeviceTypeSelectionChange($event)"
-          >
-            <option *ngFor="let deviceType of deviceTypes" [value]="deviceType">
-              {{ deviceType }}
-            </option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="text">Device name</label>
-          <input
-            class="form-control"
-            type="text"
-            id="text"
-            name="text"
-            [(ngModel)]="test.deviceName"
-          />
+        <button
+          (click)="onSaveCode()"
+          style="width: 100pt; height: 50pt; margin-top: 10pt"
+        >
+          Save
+        </button>
+        <div class="deleteSection">
+          <button (click)="onDeleteTestClick()" class="deleteTestButton">
+            Delete Test
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Scenario -->
-    <div class="scenarioSection">
-      <h1>Scenario</h1>
+    <!-- TEST VIEW -->
+    <div *ngIf="selectedFile && !badFormat && test" class="contentFrame">
+      <!-- test view content -->
+      <div *ngIf="selectedFile && !badFormat && test" class="contentFrame">
+        <button
+          (click)="onGenerateCodeClick()"
+          class="btn btn-primary generateCodeButton"
+        >
+          <i class="bi bi-code-slash"></i>
+        </button>
 
-      <div
-        class="stepGroup"
-        *ngFor="let stepGroup of test.steps; let i = index"
-      >
-        <div class="stepElement row">
-          <div class="col">
-            <h3>Step {{ i + 1 }}</h3>
+        <!-- Header section -->
+        <div class="headersSection row">
+          <h1>Meta Data</h1>
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Name"
+              [(ngModel)]="selectedFile!.title"
+              (change)="onTestNameChange($event)"
+            />
           </div>
-          <div class="col d-flex justify-content-end">
-            <button (click)="onDeleteStepGroupClick(i)" class="btn btn-danger">
-              <i class="bi bi-trash"></i>
-            </button>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              [(ngModel)]="test.description"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="md-3">
+            <label class="form-label">Prerequisites</label>
+            <textarea
+              class="form-control"
+              [(ngModel)]="test.prerequisites"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Author"
+              [(ngModel)]="test.author"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="checkbox">Test a device</label>
+            <input
+              class="form-check"
+              type="checkbox"
+              id="checkbox"
+              name="checkbox"
+              [(ngModel)]="isDeviceTypeTest"
+              (change)="onDeviceCheckboxSelectionChange($event)"
+            />
+          </div>
+
+          <div *ngIf="isDeviceTypeTest">
+            <div class="mb-3">
+              <label class="form-label">Device Type</label>
+              <select
+                class="form-select"
+                id="combo"
+                name="combo"
+                [(ngModel)]="selectedDeviceType"
+                (ngModelChange)="onDeviceTypeSelectionChange($event)"
+              >
+                <option
+                  *ngFor="let deviceType of deviceTypes"
+                  [value]="deviceType"
+                >
+                  {{ deviceType }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="text">Device name</label>
+              <input
+                class="form-control"
+                type="text"
+                id="text"
+                name="text"
+                [(ngModel)]="test.deviceName"
+              />
+            </div>
           </div>
         </div>
 
-        <div class="subStepGroup">
+        <!-- Scenario -->
+        <div class="scenarioSection">
+          <h1>Scenario</h1>
+
           <div
-            *ngFor="let step of stepGroup; let j = index"
-            class="stepElement"
+            class="stepGroup"
+            *ngFor="let stepGroup of test.steps; let i = index"
           >
-            <div class="row align-items-center">
+            <div class="stepElement row">
               <div class="col">
-                <div class="d-flex flex-grow-1 align-items-center">
-                  <app-step-view [step]="step" class="w-100"></app-step-view>
+                <h3>Step {{ i + 1 }}</h3>
+              </div>
+              <div class="col d-flex justify-content-end">
+                <button
+                  (click)="onDeleteStepGroupClick(i)"
+                  class="btn btn-danger"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="subStepGroup">
+              <div
+                *ngFor="let step of stepGroup; let j = index"
+                class="stepElement"
+              >
+                <div class="row align-items-center">
+                  <div class="col">
+                    <div class="d-flex flex-grow-1 align-items-center">
+                      <app-step-view
+                        [step]="step"
+                        class="w-100"
+                      ></app-step-view>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <div class="stepActions">
+                      <button
+                        *ngIf="j !== stepGroup.length - 1"
+                        (click)="onMoveStepClick(i, j)"
+                        class="btn btn-light moveStepButton"
+                      >
+                        <i class="bi bi-arrow-down-square-fill"></i>
+                      </button>
+                      <button
+                        (click)="onDeleteStepClick(i, j)"
+                        class="btn btn-light deleteStepButton"
+                      >
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-auto">
-                <div class="stepActions">
-                  <button
-                    *ngIf="j !== stepGroup.length - 1"
-                    (click)="onMoveStepClick(i, j)"
-                    class="btn btn-light moveStepButton"
-                  >
-                    <i class="bi bi-arrow-down-square-fill"></i>
-                  </button>
-                  <button
-                    (click)="onDeleteStepClick(i, j)"
-                    class="btn btn-light deleteStepButton"
-                  >
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </div>
-              </div>
+
+              <app-step-add
+                (buttonClick)="onAddStepClick($event)"
+                [groupIndex]="i"
+              ></app-step-add>
             </div>
           </div>
 
-          <app-step-add
-            (buttonClick)="onAddStepClick($event)"
-            [groupIndex]="i"
-          ></app-step-add>
+          <button
+            (click)="onAddStepGroupClick()"
+            class="addStepGroupButton btn btn-primary"
+          >
+            <i class="bi bi-plus-square-dotted"></i> Add Step
+          </button>
+          <a
+            class="editStepLink"
+            [routerLink]="['/step-creation']"
+            routerLinkActive="defineClass"
+          >
+            Edit steps
+            <i class="bi bi-arrow-up-right-square"></i>
+          </a>
+
+          <div class="deleteSection">
+            <button
+              (click)="onDeleteTestClick()"
+              class="deleteTestButton btn btn-danger"
+            >
+              <i class="bi bi-trash"></i> Delete Test
+            </button>
+          </div>
         </div>
       </div>
-
-      <button
-        (click)="onAddStepGroupClick()"
-        class="addStepGroupButton btn btn-primary"
-      >
-        <i class="bi bi-plus-square-dotted"></i> Add Step
-      </button>
-      <a
-        class="editStepLink"
-        [routerLink]="['/step-creation']"
-        routerLinkActive="defineClass"
-      >
-        Edit steps
-        <i class="bi bi-arrow-up-right-square"></i>
-      </a>
-
-      <div class="deleteSection">
-        <button
-          (click)="onDeleteTestClick()"
-          class="deleteTestButton btn btn-danger"
-        >
-          <i class="bi bi-trash"></i> Delete Test
-        </button>
-      </div>
     </div>
+
+    <!-- TEST VIEW -->
   </div>
 </div>

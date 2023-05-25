@@ -15,8 +15,20 @@ border-radius: 20px;
 /* Behavior */
 overflow-y: scroll;
 
-
 }
+
+.mainContainer {
+  position: relative;
+}
+
+
+.sidebarContainer {
+  /* sidebar container styles */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
 
 .errorMessage {
 /* Size */
@@ -31,21 +43,14 @@ overflow-y: scroll;
 }
 
 .sidebar {
-    /* Size */
+   /* sidebar styles */
+   position: relative;
+   background-color: rgb(30, 30, 30);
+   color: white;
+   height: 100%;
+   overflow-y: auto;
+}
 
-    /* Position */
-    position: relative;
-    top: 0;
-    bottom: 0;
-
-
-    /* Style */
-    background-color: rgb(30, 30, 30); /* Set the background color of the sidebar */
-    color: white;
-
-    /* Behavior */
-    overflow-y: auto;
-  }
 
  
   .errorFrame {
@@ -69,7 +74,7 @@ overflow-y: scroll;
     /* Size */
 
     /* Position */
-    padding: 20px;
+    padding: 10px;
 
     /* Style */
 
