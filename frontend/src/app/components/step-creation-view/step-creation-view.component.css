@@ -1,46 +1,46 @@
-.sidebar {
-    /* Size */
-    width: 250px; 
-    height: 750px;
-
-    /* Position */
-    position: absolute;
-
-    /* Style */
-    background-color: black; /* Set the background color of the sidebar */
-    color: white;
-    /* Behavior */
+.mainContainer {
+    position: relative;
+  }
+  
+  
+.sidebarContainer {
+/* sidebar container styles */
+position: sticky;
+top: 0;
+height: 100vh;
 }
 
-.contentFrame {
+.sidebar {
+    /* sidebar styles */
+    position: relative;
+    background-color: rgb(30, 30, 30);
+    color: white;
+    height: 100%;
+    overflow-y: auto;
+ }
+
+ .contentFrame {
     /* Size */
 
     /* Position */
-    margin-left: 250px;
-    padding: 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 30px;
 
     /* Style */
-    background-color: lightgray;
 
     /* Behavior */
-    
+    overflow-y: auto;
+    overflow-x: hidden;
+
+ }
+ 
+ .paramContainer {
+    margin: 10px 0px;
  }
 
- .element {
- /* Size */
- 
- /* Position */
- margin: 5px;
- 
-  /* Style */
- 
- /* Behavior */
- 
+ .paramElement {
+    margin-right: 10px;
  }
+
 
  .header {
     /* Size */
@@ -59,28 +59,9 @@
     
 }
 
-.codeArea {
-/* Size */
-width: 100%;
-
-/* Position */
-display: flex;
-flex-direction: column;
-
- /* Style */
-
-/* Behavior */
-
+.deleteButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
-
-.codeEditor {
-/* Size */
-min-height: 200px;
-
-/* Position */
-
- /* Style */
-
-/* Behavior */
-
-}
+  

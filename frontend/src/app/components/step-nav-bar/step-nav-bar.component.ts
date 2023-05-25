@@ -12,6 +12,7 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class StepNavBarComponent {
   steps: Step[] = [];
+  selectedStep: Step | null = null;
 
   constructor(
     private stepService: StepService,
@@ -22,6 +23,10 @@ export class StepNavBarComponent {
       if (this.steps.length > 0) {
         this.stepService.setSelectedStep(this.steps[0]._id);
       }
+    });
+
+    this.stepService.selectedStep$.subscribe((step) => {
+      this.selectedStep = step;
     });
 
     this.stepService.getSteps();

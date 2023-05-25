@@ -1,8 +1,15 @@
-<div class="mainFrame">
-  <button (click)="onAddStepClick()" class="addStepButton">Add Step</button>
-  <div *ngFor="let step of steps" class="stepDiv">
-    <button (click)="onStepClick(step)" class="stepButton">
-      {{ step.title }}
-    </button>
+<div class="sidebar">
+  <div class="mainFrame">
+    <button (click)="onAddStepClick()" class="btn btn-primary">Add Step</button>
+    <div *ngFor="let step of steps" class="stepDiv">
+      <button
+        (click)="onStepClick(step)"
+        class="stepButton"
+        [title]="step.title"
+        [ngClass]="{ selectedStep: step === selectedStep }"
+      >
+        {{ step.title }}
+      </button>
+    </div>
   </div>
 </div>

@@ -29,6 +29,15 @@ overflow-y: scroll;
   height: 100vh;
 }
 
+.sidebar {
+  /* sidebar styles */
+  position: relative;
+  background-color: rgb(30, 30, 30);
+  color: white;
+  height: 100%;
+  overflow-y: auto;
+}
+
 
 .errorMessage {
 /* Size */
@@ -42,13 +51,19 @@ overflow-y: scroll;
 
 }
 
-.sidebar {
-   /* sidebar styles */
-   position: relative;
-   background-color: rgb(30, 30, 30);
-   color: white;
-   height: 100%;
-   overflow-y: auto;
+.contentContainer
+{
+   /* Size */
+
+   /* Position */
+   padding: 20px;
+
+   /* Style */
+
+   /* Behavior */
+   overflow-y: scroll;
+   overflow-x: hidden;
+
 }
 
 
@@ -69,19 +84,8 @@ overflow-y: scroll;
   /* Behavior */
   
   }
-  
- .contentFrame {
-    /* Size */
 
-    /* Position */
-    padding: 10px;
 
-    /* Style */
-
-    /* Behavior */
-    overflow: scroll;
-
- }
 
  #checkbox {
   width: 30px;
