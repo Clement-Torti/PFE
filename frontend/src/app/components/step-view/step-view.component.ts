@@ -11,7 +11,7 @@ export class StepViewComponent {
   step!: Step;
 
   getRowCount(text: string): number {
-    const maxCharsPerRow = 50; // Maximum number of characters per row
+    const maxCharsPerRow = 75; // Maximum number of characters per row
     const defaultRowCount = 1; // Default number of rows
 
     const textLength = text.length;

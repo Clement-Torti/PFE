@@ -56,6 +56,9 @@ export class StepParserService {
     PYTHON_INDENT: string
   ): string {
     let stepCode = `${PYTHON_INDENT}def step${stepNumber}(self):
+${PYTHON_INDENT}${PYTHON_INDENT}print("Step${stepNumber}:\\n")
+${PYTHON_INDENT}${PYTHON_INDENT}result = 0
+${PYTHON_INDENT}${PYTHON_INDENT}stepNumber = ${stepNumber}
 `;
 
     for (const step of steps) {
@@ -85,8 +88,11 @@ ${PYTHON_INDENT}${PYTHON_INDENT}${stepDescription}
 ${PYTHON_INDENT}${PYTHON_INDENT}self.logScenario("Step ${stepNumber}", "${step.title}", "${step.description}")
     
 ${code}
-${PYTHON_INDENT}${PYTHON_INDENT}`;
+${PYTHON_INDENT}${PYTHON_INDENT}
+`;
     }
+
+    stepCode += `${PYTHON_INDENT}${PYTHON_INDENT}return result`;
 
     return stepCode;
   }

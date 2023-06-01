@@ -33,7 +33,7 @@ self.sleep(duration)`,
     description: 'Send a question to the user and wait for a response. Verify if the response is conform to specs.',
     code: `message = \\~message: Text~\\
 spec = \\~specifications: Text~\\
-isYesOK = \\~should be equal: Boolean~\\
+isYesOK = \\~should be true: Boolean~\\
 newRes = self.sendQuestion(message, stepNumber, spec, isYesOK)
 result = self.updateResult(result, newRes)`,
     stepType: 'Message Commands'
@@ -89,7 +89,7 @@ oldMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)`,
     stepType: 'Device Commands'
   },
   {
-    title: 'Get new measurements and compare.',
+    title: 'Get new measurements and compare',
     description: 'Warning: "Get measurements" must be called before in the same step. Get the measurements of a peripheral and compare them to the old ones.',
     code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
 deviceId = self.periphs[deviceSerialNumber]["deviceId"]
@@ -100,9 +100,29 @@ shouldBeDifferent = \\~should be different: Boolean~\\
 newRes = self.compareMeasurements(spec, stepNumber, oldMeasurements, newMeasurements, shouldBeDifferent)
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
-  }
+  },
   /* SERIAL COMMANDS */
+  {
+    title: 'Send serial command',
+    description: 'Send a serial command and sleep 2 seconds.',
+    code: `command = \\~command: Text~\\
+newRes = SendSerial(command, self.param.ser, self.queue, 10)
+self.sleep(2)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Serial Commands'
+  },
+  {
+    title: 'Send serial and wait answer.',
+    description: 'Send a serial command and wait for an answer.',
+    code: `command = \\~serial command: Text~\\
+answer = \\~searched string: Text~\\
+spec = \\~specifications: Text~\\
+timeToWait = \\~time to wait: Number~\\
 
+newRes = self.sendSerialAndWaitAns(command, answer, spec, timeToWait)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Serial Commands'
+  }
 ]
 
 module.exports = predefinedSteps

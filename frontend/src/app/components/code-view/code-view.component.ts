@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { HighlightLoader, HighlightAutoResult } from 'ngx-highlightjs';
 import { Test } from 'src/app/models/test';
 import { TestParserService } from 'src/app/services/test-parser.service';
 
@@ -12,12 +11,8 @@ export class CodeViewComponent implements OnInit {
   @Input() test: Test | null = null;
   @Output() closeClick = new EventEmitter();
   code = '';
-  response: HighlightAutoResult | undefined;
 
-  constructor(
-    private hljsLoader: HighlightLoader,
-    private testParserService: TestParserService
-  ) {}
+  constructor(private testParserService: TestParserService) {}
 
   ngOnInit(): void {
     if (this.test) {

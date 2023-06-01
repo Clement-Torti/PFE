@@ -27,6 +27,7 @@ from PyQt5.QtCore import QLocale, QTranslator, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.Qt import QLibraryInfo
 import threading
+from testsUtils import *
 from baseTest import testHGMicro_BaseTest
 
 # Title: ${test.title}
