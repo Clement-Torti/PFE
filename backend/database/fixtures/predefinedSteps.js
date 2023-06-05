@@ -26,6 +26,15 @@ self.sleep(duration)`,
     code: 'self.powerOnHgo()',
     stepType: 'Lifecycle Commands'
   },
+  {
+    title: 'Restart HGo with special boot message',
+    description: 'Restart HGo and wait until receiving the provided boot message.',
+    code: `bootMessage = \\~boot message: Text~\\
+spec =  \\~specifications: Text~\\
+newRes = self.restartHGo(bootMessage, stepNumber, spec)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Lifecycle Commands'
+  },
 
   /* MESSAGE COMMANDS */
   {
@@ -101,6 +110,17 @@ newRes = self.compareMeasurements(spec, stepNumber, oldMeasurements, newMeasurem
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
+  {
+    title: 'Get measurements and compare',
+    description: 'Get the measurements of a device and provide a condition it has to comply.',
+    code: `deviceId = \\~device serial number: Text~\\
+spec = \\~specifications: Text~\\
+comparison = \\~comparison (ex: >1): Text~\\
+
+newRes = self.compareOneMeasurement(spec, stepNumber, measurements, comparison, deviceId)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Device Commands'
+  },
   /* SERIAL COMMANDS */
   {
     title: 'Send serial command',
@@ -122,6 +142,27 @@ timeToWait = \\~time to wait: Number~\\
 newRes = self.sendSerialAndWaitAns(command, answer, spec, timeToWait)
 result = self.updateResult(result, newRes)`,
     stepType: 'Serial Commands'
+  },
+  {
+    title: 'Wait boot linux',
+    description: 'Reading the logs of HGo and waiting for "Hub successfully initialized" to be received.',
+    code: 'self.WaitBootLinux(self.param.ser,self.queue, self.param.hgoMiniLogin, self.param.hgoMiniPassword)',
+    stepType: 'Serial Commands'
+  },
+  /* OM2M COMMANDS */
+  {
+    title: 'Reboot now request',
+    description: 'Post to the HGC frontend a message for the hub to reboot now.',
+    code: `data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": self.param.customer}
+self.httpPostHgcFrontend("/postOm2mRequestRebootNowConnection", data)`,
+    stepType: 'OM2M Commands'
+  },
+  /* OTHERS */
+  {
+    title: 'Custom code',
+    description: 'Write any custom valid python code.',
+    code: '\\~custom code: Text~\\',
+    stepType: 'Other'
   }
 ]
 
