@@ -66,6 +66,16 @@ result = self.updateResult(result, newRes)`,
 
   /* DATABASE COMMANDS */
   {
+    title: 'Send SQL commands',
+    description: "Send sql commands to the database. Write each commands in one line without forgetting ';'",
+    code: `textCommands = \\~commands: Text~\\
+commands = [el + ';' for el in textCommands.split(';')]
+    
+newRes = self.sendSQLCommands(commands)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Database Commands'
+  },
+  {
     title: 'Reset database',
     description: 'Configure the HGMicro to use default parameter',
     code: `newRes = self.resetDb()
@@ -111,13 +121,21 @@ result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
   {
-    title: 'Get measurements and compare',
-    description: 'Get the measurements of a device and provide a condition it has to comply.',
+    title: 'Get measurements and compare length',
+    description: 'Get the measurements of a device and provide a condition it length has to comply.',
     code: `deviceId = \\~device serial number: Text~\\
 spec = \\~specifications: Text~\\
 comparison = \\~comparison (ex: >1): Text~\\
 
 newRes = self.compareOneMeasurement(spec, stepNumber, measurements, comparison, deviceId)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Device Commands'
+  },
+  {
+    title: 'Measurement Time',
+    description: 'Verify that measurements time correspond or not to today.',
+    code: `shouldBeToday = \\~should be today: Boolean~\\
+newRes = self.measurementTimeIsToday(self, stepNumber,self.param.idBp_Transteck, !shouldBeToday )
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
