@@ -67,11 +67,11 @@ result = self.updateResult(result, newRes)`,
   /* DATABASE COMMANDS */
   {
     title: 'Send SQL commands',
-    description: "Send sql commands to the database. Write each commands in one line without forgetting ';'",
-    code: `textCommands = \\~commands: Text~\\
-commands = [el + ';' for el in textCommands.split(';')]
-    
-newRes = self.sendSQLCommands(commands)
+    description: "Configure the database using sqlite3 cli. Separate each commands using '=>'. Add an expected answer for a command after ';' and providing the answer.",
+    code: `textCommands = \\~sql commands: Text~\\
+spec = \\~specifications: Text~\\
+
+newRes = self.sendSQLCommands(stepNumber, textCommands, spec)
 result = self.updateResult(result, newRes)`,
     stepType: 'Database Commands'
   },
@@ -108,7 +108,7 @@ oldMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)`,
     stepType: 'Device Commands'
   },
   {
-    title: 'Get new measurements and compare',
+    title: 'Get new measurements and compare to old ones',
     description: 'Warning: "Get measurements" must be called before in the same step. Get the measurements of a peripheral and compare them to the old ones.',
     code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
 deviceId = self.periphs[deviceSerialNumber]["deviceId"]
@@ -122,20 +122,36 @@ result = self.updateResult(result, newRes)`,
   },
   {
     title: 'Get measurements and compare length',
-    description: 'Get the measurements of a device and provide a condition it length has to comply.',
+    description: 'Get the measurements of a device and provide a condition it length has to comply. (ex: >1)',
     code: `deviceId = \\~device serial number: Text~\\
 spec = \\~specifications: Text~\\
-comparison = \\~comparison (ex: >1): Text~\\
+comparison = \\~comparison: Text~\\
 
-newRes = self.compareOneMeasurement(spec, stepNumber, measurements, comparison, deviceId)
+newRes = self.compareOneMeasurement(spec, stepNumber, comparison, deviceId)
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
   {
     title: 'Measurement Time',
     description: 'Verify that measurements time correspond or not to today.',
-    code: `shouldBeToday = \\~should be today: Boolean~\\
-newRes = self.measurementTimeIsToday(self, stepNumber,self.param.idBp_Transteck, !shouldBeToday )
+    code: `deviceSN = \\~peripheral serial number: Text~\\ 
+shouldBeToday = \\~should be today: Boolean~\\
+    
+newRes = self.measurementTimeIsToday(self, deviceSN , not shouldBeToday )
+result = self.updateResult(result, newRes)`,
+    stepType: 'Device Commands'
+  },
+  {
+    title: 'Change peripheral unit and test',
+    description: 'Change the peripheral unit and test that it is taken into account in the peripheral.',
+    code: `deviceSerialNumber = \\~peripheral serial number: Text~\\
+unit = \\~unit: Text~\\
+hasUnit = \\~has unit: Boolean~\\
+measureMessage = \\~message displayed to take a measure: Text~\\
+peripheralSpecMessage = \\~HGo unit support specification: Text~\\
+measureSpecMessage = \\~measure received specification: Text~\\
+
+newRes = self.changePeriphUnitAndTest(self, stepNumber, deviceSerialNumber, unit if hasUnit else "", measureMessage, peripheralSpecMessage, measureSpecMessage)
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
@@ -167,13 +183,66 @@ result = self.updateResult(result, newRes)`,
     code: 'self.WaitBootLinux(self.param.ser,self.queue, self.param.hgoMiniLogin, self.param.hgoMiniPassword)',
     stepType: 'Serial Commands'
   },
+  {
+    title: 'Wait serial',
+    description: 'Read the standard ouput and wait for a string to be read.',
+    code: `expectedStr = \\~expected string: Text~\\
+timeToWait = \\~time to wait: Number~\\
+newRes = WaitSerial(expectedStr, self.param.ser, self.queue, timeToWait)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Serial Commands'
+  },
+  {
+    title: 'Microcom configuration',
+    description: "Configure the cellular module using microcom cli. Separate each commands using '=>'. Add an expected answer for a command after ';' and providing the answer.",
+    code: `commands = \\~commands: Text~\\
+spec = \\~specifications: Text~\\
+
+newRes = self.configureMicrocom(stepNumber, commands, spec)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Serial Commands'
+  },
+
   /* OM2M COMMANDS */
   {
     title: 'Reboot now request',
-    description: 'Post to the HGC frontend a message for the hub to reboot now.',
+    description: 'Post to the HGC frontend a message for the hub to reboot now. Run /postOm2mRequestRebootNowConnection',
     code: `data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": self.param.customer}
 self.httpPostHgcFrontend("/postOm2mRequestRebootNowConnection", data)`,
     stepType: 'OM2M Commands'
+  },
+  {
+    title: 'Post OM2M add hub',
+    description: 'Add hub to a certain customer using /postOm2mAddHub',
+    code: `customerId = \\~customer id: Text~\\
+data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": customerId}
+
+self.httpPostHgcFrontend("/postOm2mAddHub", data)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: 'Request SSH Connection',
+    description: 'Run the HGC Frontend /postOm2mRequestSshConnection',
+    code: `data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": self.param.customer}
+self.httpPostHgcFrontend("/postOm2mRequestSshConnection", data )`,
+    stepType: 'OM2M Commands'
+  },
+  /* SSH Commands */
+  {
+    title: 'Waiting for SSH tunnel',
+    description: "Typically run after /postOm2mRequestSshConnection. Wait for a long time the presence of 'tun0' using 'ifconfig'.",
+    code: 'self.waitingForSSHConnection(stepNumber)',
+    stepType: 'SSH Commands'
+  },
+  {
+    title: 'Run SSH command',
+    description: "Run an SSH Command. You have access to the 'sshResult' as well as the 'result' variable in your completion code.",
+    code: `sshCommand = \\~ssh command: Text~\\
+completionCode = \\~completion code: Text~\\
+
+newRes = self.runSSHCommand(self, command, completionCode)
+result = self.updateResult(result, newRes)`,
+    stepType: 'SSH Commands'
   },
   /* OTHERS */
   {
