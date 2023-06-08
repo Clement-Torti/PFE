@@ -8,7 +8,7 @@
   >
     <optgroup *ngFor="let stepType of stepTypes" [label]="stepType">
       <option *ngFor="let step of getStepsByType(stepType)" [ngValue]="step">
-        {{ step.title }}: "{{ step.description }}"
+        {{ step.title }} ---- {{ step.description }}
       </option>
     </optgroup>
   </select>
