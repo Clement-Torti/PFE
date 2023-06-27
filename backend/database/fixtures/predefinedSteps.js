@@ -227,6 +227,28 @@ self.httpPostHgcFrontend("/postOm2mAddHub", data)`,
 self.httpPostHgcFrontend("/postOm2mRequestSshConnection", data )`,
     stepType: 'OM2M Commands'
   },
+  {
+    title: 'Request factory reset',
+    description: 'Configure the OM2M to send to the Hub a factory reset. Run /postOm2mRequestFactoryReset',
+    code: `data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": self.param.customer}
+self.httpPostHgcFrontend("/postOm2mRequestFactoryReset", data)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: 'Post data',
+    description: 'Send data to OM2M server',
+    code: `data = \\~data: Text~\\
+chemin = \\~chemin: Text~\\
+self.httpPostOm2mServer(chemin, data)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: ' Application Start Stop',
+    description: 'Run /postNetworkApplicationStartStop',
+    code: `isStart = \\~start?: Boolean~\\
+self.applicationStartStop(isStart)`,
+    stepType: 'OM2M Commands'
+  },
   /* SSH Commands */
   {
     title: 'Waiting for SSH tunnel',
@@ -240,7 +262,7 @@ self.httpPostHgcFrontend("/postOm2mRequestSshConnection", data )`,
     code: `sshCommand = \\~ssh command: Text~\\
 completionCode = \\~completion code: Text~\\
 
-newRes = self.runSSHCommand(self, command, completionCode)
+newRes = self.runSSHCommand(self, sshCommand, completionCode)
 result = self.updateResult(result, newRes)`,
     stepType: 'SSH Commands'
   },
