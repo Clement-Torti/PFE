@@ -1,7 +1,7 @@
 const predefinedSteps = [
   /* LIFECYCLE COMMANDS */
   {
-    title: 'Restart HGoMicro',
+    title: 'Restart HGo',
     description: 'Restart HGo and wait for it to be ready.',
     code: `newRes = self.restartHGo()
 result = self.updateResult(result, newRes)`,
@@ -9,20 +9,20 @@ result = self.updateResult(result, newRes)`,
   },
   {
     title: 'Sleep',
-    description: 'Make the HGoMicro sleep for a certain amount of time.',
+    description: 'Make the HGo sleep for a certain amount of time.',
     code: `duration = \\~duration: Number~\\
 self.sleep(duration)`,
     stepType: 'Lifecycle Commands'
   },
   {
-    title: 'Power off HGoMicro',
-    description: 'Power off HGoMicro undefinetly.',
+    title: 'Power off HGo',
+    description: 'Power off HGo undefinetly.',
     code: 'self.powerOffHgo()',
     stepType: 'Lifecycle Commands'
   },
   {
-    title: 'Power on HGoMicro',
-    description: 'Power on HGoMicro.',
+    title: 'Power on HGo',
+    description: 'Power on HGo.',
     code: 'self.powerOnHgo()',
     stepType: 'Lifecycle Commands'
   },
@@ -202,6 +202,14 @@ newRes = self.configureMicrocom(stepNumber, commands, spec)
 result = self.updateResult(result, newRes)`,
     stepType: 'Serial Commands'
   },
+  {
+    title: 'Send serial return answer',
+    description: "Send a serial command, wait for a string to appear and return the result in the variable 'serialRes'",
+    code: `serialCommand = \\~serialCommand: Text~\\
+searchedString = \\~searchedString: Text~\\
+serialRes= SendSerialRAns(serialCommand, searchedString ,  self.param.ser, self.queue, 30)`,
+    stepType: 'Serial Commands'
+  },
 
   /* OM2M COMMANDS */
   {
@@ -243,10 +251,47 @@ self.httpPostOm2mServer(chemin, data)`,
     stepType: 'OM2M Commands'
   },
   {
-    title: ' Application Start Stop',
-    description: 'Run /postNetworkApplicationStartStop',
-    code: `isStart = \\~start?: Boolean~\\
+    title: 'Application Start Stop',
+    description: 'Send /postNetworkApplicationStartStop',
+    code: `isStart = \\~start: Boolean~\\
 self.applicationStartStop(isStart)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: 'Get Container data',
+    description: 'Retrieve the data from <<container name>> as json and provide them in a variable "containerData". Send /getOm2mContainer',
+    code: `containerName = \\~container name: Text~\\
+containerData = self.getContainerData(containerName)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: 'Update path',
+    description: 'Send /postOm2mUpdatePath to tell HGo how to update itself',
+    code: `updatePath = \\~update path: Text~\\
+data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": "edevice", "updatePath": updatePath }
+self.httpPostHgcFrontend("/postOm2mUpdatePath", data)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: 'OTA Request',
+    description: 'Send /postOm2mOtaRequest',
+    code: `data = {"hubId": self.param.hgoMiniSerialNumber,"customerId": "edevice"}
+self.httpPostHgcFrontend("/postOm2mOtaRequest", data)`,
+    stepType: 'OM2M Commands'
+  },
+  {
+    title: 'Settings',
+    description: 'Send /postOm2mSettings',
+    code: `logs = \\~logs: Number~\\
+cloudRetransmissionPeriod = \\~cloud retransmission period: Number~\\
+cloudConnectPeriod = \\~cloud connect period: Number~\\
+smsPhoneNumber = \\~sms phone number: Text~\\
+smsPassword = \\~sms password: Text~\\
+pstTimeout = \\~pst timeout: Number~\\
+rtcTimeout = \\~rtc timeout: Number~\\
+
+settings = {"hubId": self.param.hgoMiniSerialNumber, "customerId": self.param.customer, "logs": logs, "cloudRetransmissionPeriod": cloudRetransmissionPeriod, "cloudConnectPeriod": cloudConnectPeriod, "smsPhoneNumber": smsPhoneNumber, "smsPassword": smsPassword, "interviewId": "", "pstTimeout": pstTimeout, "rtcTimeout": rtcTimeout}
+self.httpPostHgcFrontend("/postOm2mSettings", settings)`,
     stepType: 'OM2M Commands'
   },
   /* SSH Commands */
@@ -271,6 +316,31 @@ result = self.updateResult(result, newRes)`,
     title: 'Custom code',
     description: 'Write any custom valid python code.',
     code: '\\~custom code: Text~\\',
+    stepType: 'Other'
+  },
+  {
+    title: 'IF Statement',
+    description: 'Do conditionnal actions with custom code',
+    code: `condition= \\~if: Text~\\
+thenStatement = \\~then: Text~\\
+elseStatement = \\~else: Text~\\
+
+newRes = self.ifStatement(condition, thenStatement, elseStatement)
+result = self.updateResult(result, newRes)`,
+    stepType: 'Other'
+  },
+  {
+    title: 'Log',
+    description: 'Log message in the log file',
+    code: `message = \\~message: Text~\\
+self.queue.put(message)`,
+    stepType: 'Other'
+  },
+  {
+    title: 'Print',
+    description: 'Print message in the console',
+    code: `message = \\~message: Text~\\
+print(message)`,
     stepType: 'Other'
   }
 ]
