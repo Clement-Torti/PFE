@@ -34,8 +34,6 @@ export class HomeViewComponent implements OnInit {
   }
 
   openFolderSelection(): void {
-    console.log('openFolderSelection');
-
     const inputElement: HTMLInputElement = document.createElement('input');
     inputElement.type = 'file';
     inputElement.multiple = false;
