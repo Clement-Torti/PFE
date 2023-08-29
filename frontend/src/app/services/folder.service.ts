@@ -48,6 +48,8 @@ export class FolderService {
   }
 
   importFolder(files: any[]) {
+    console.log('importFolder', files);
+
     if (files.length > 0) {
       const folderTitle = files[0].webkitRelativePath.split('/')[0] + '/';
       // Create the folder in local db

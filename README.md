@@ -1,6 +1,11 @@
 # PFE
 Code of the final study project at Enseeiht/edevice. A javascript MEAN app. Allow to generate the python code associated with a test define at high level.. 
 
+Run:
+`npm update`
+Version recommandée:
+node: v16.14.2
+npm: latest (>8.5.0)
 
 
 
@@ -13,11 +18,10 @@ localhost:3000
 `npm install express mongoose`<br/>
 `npm install -g nodemon`<br/>
 nodemon is an unsigned script blocked by windows, to allow it to run: <br/>
-`$Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force`
+`Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force`
 
 ### Mongo
-https://www.google.com/search?q=install+mongodb&rlz=1C1CHBD_frFR1001FR1001&oq=install+mongo&aqs=chrome.0.0i512j69i57j0i512l8.3543j0j7&sourceid=chrome&ie=UTF-8#fpstate=ive&vld=cid:2300b704,vid:PmjTR5FvnuE
-
+https://www.mongodb.com/try/download/community
 my directory where data is saved: C:\Program Files\MongoDB\Server\6.0\data\
 
 ### Postman
@@ -57,11 +61,11 @@ localhost:4200
 ### Angular cli
 `npm install -g @angular/cli` <br/>
 `ng version` (check if angular cli is installed) <br/>
-`ng new frontend --directory ./` (yes for Router, CSS)
+(to create a new project: `ng new frontend --directory ./`) (yes for Router, CSS)
 
 ### Launch front-end server 
-`cd frontend && ng serve` <br/>
 `cd frontend && npm install bootstrap-css`
+`ng serve` <br/>
 
 ### Useful commands
 `cd frontend/src/app && ng generate component component/<name>` <br/>

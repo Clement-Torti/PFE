@@ -34,20 +34,21 @@ export class HomeViewComponent implements OnInit {
   }
 
   openFolderSelection(): void {
+    console.log('openFolderSelection');
+
     const inputElement: HTMLInputElement = document.createElement('input');
     inputElement.type = 'file';
     inputElement.multiple = false;
     inputElement.webkitdirectory = true;
     inputElement.addEventListener('change', (event) => {
       const files = (event.target as HTMLInputElement).files;
-      if (files && files.length > 0) {
-        const fileReader = new FileReader();
-        fileReader.onload = (fileEvent) => {
-          const contents = fileEvent.target?.result as string;
-          this.selectDirectory(contents);
-        };
-        fileReader.readAsText(files[0]);
-      }
+      if (!files) return;
+
+      const pyFiles = Array.from(files).filter((file) =>
+        file.name.endsWith('.py')
+      );
+
+      this.selectDirectory(pyFiles);
     });
     inputElement.click();
   }

@@ -137,7 +137,7 @@ result = self.updateResult(result, newRes)`,
     code: `deviceSN = \\~peripheral serial number: Text~\\ 
 shouldBeToday = \\~should be today: Boolean~\\
     
-newRes = self.measurementTimeIsToday(self, deviceSN , not shouldBeToday )
+newRes = self.measurementTimeIsToday(stepNumber, deviceSN , not shouldBeToday )
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
@@ -151,7 +151,7 @@ measureMessage = \\~message displayed to take a measure: Text~\\
 peripheralSpecMessage = \\~HGo unit support specification: Text~\\
 measureSpecMessage = \\~measure received specification: Text~\\
 
-newRes = self.changePeriphUnitAndTest(self, stepNumber, deviceSerialNumber, unit if hasUnit else "", measureMessage, peripheralSpecMessage, measureSpecMessage)
+newRes = self.changePeriphUnitAndTest(stepNumber, deviceSerialNumber, unit if hasUnit else "", measureMessage, peripheralSpecMessage, measureSpecMessage)
 result = self.updateResult(result, newRes)`,
     stepType: 'Device Commands'
   },
@@ -268,14 +268,14 @@ containerData = self.getContainerData(containerName)`,
     title: 'Update path',
     description: 'Send /postOm2mUpdatePath to tell HGo how to update itself',
     code: `updatePath = \\~update path: Text~\\
-data = {"hubId": self.param.hgoMiniSerialNumber, "customerId": "edevice", "updatePath": updatePath }
+data = { "hubId": self.param.hgoMiniSerialNumber, "customerId": "edevice", "updatePath": updatePath }
 self.httpPostHgcFrontend("/postOm2mUpdatePath", data)`,
     stepType: 'OM2M Commands'
   },
   {
     title: 'OTA Request',
     description: 'Send /postOm2mOtaRequest',
-    code: `data = {"hubId": self.param.hgoMiniSerialNumber,"customerId": "edevice"}
+    code: `data = { "hubId": self.param.hgoMiniSerialNumber, "customerId": "edevice" }
 self.httpPostHgcFrontend("/postOm2mOtaRequest", data)`,
     stepType: 'OM2M Commands'
   },
@@ -307,7 +307,7 @@ self.httpPostHgcFrontend("/postOm2mSettings", settings)`,
     code: `sshCommand = \\~ssh command: Text~\\
 completionCode = \\~completion code: Text~\\
 
-newRes = self.runSSHCommand(self, sshCommand, completionCode)
+newRes = self.runSSHCommand(sshCommand, completionCode)
 result = self.updateResult(result, newRes)`,
     stepType: 'SSH Commands'
   },
