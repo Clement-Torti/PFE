@@ -207,7 +207,15 @@ result = self.updateResult(result, newRes)`,
     description: "Send a serial command, wait for a string to appear and return the result in the variable 'serialRes'",
     code: `serialCommand = \\~serialCommand: Text~\\
 searchedString = \\~searchedString: Text~\\
-serialRes= SendSerialRAns(serialCommand, searchedString ,  self.param.ser, self.queue, 30)`,
+serialRes= SendSerialRAns(serialCommand, searchedString, self.param.ser, self.queue, 30)`,
+    stepType: 'Serial Commands'
+  },
+  {
+    title: 'Send serial read until is answered',
+    description: "Send a serial command, save the logs in variable 'serialRes' until getting the answer",
+    code: `serialCommand = \\~serialCommand: Text~\\
+searchedString = \\~searchedString: Text~\\
+serialRes = SendSerialRUntilIsAns(serialCommand, searchedString, self.param.ser, self.queue, 30)`,
     stepType: 'Serial Commands'
   },
 
@@ -341,6 +349,15 @@ self.queue.put(message)`,
     description: 'Print message in the console',
     code: `message = \\~message: Text~\\
 print(message)`,
+    stepType: 'Other'
+  },
+  {
+    title: 'AT command',
+    description: 'Send an AT command and receive the answer in variable "atResult"',
+    code: `command = \\~commmand: Text~\\
+answer = \\~answer: Text~\\
+timeout = \\~timeout: Number~\\
+atResult = ATcmd(command, answer, self.param.ser, self.queue, timeout)`,
     stepType: 'Other'
   }
 ]

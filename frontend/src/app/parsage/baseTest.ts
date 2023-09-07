@@ -27,7 +27,7 @@ import select
 import requests
 import json
 import re
-import datetime
+from datetime import datetime
 import paramiko
 
 
@@ -36,7 +36,7 @@ class ScriptHGMicro_BaseTestParam (ScriptParamGeneral):
     def __init__(self, testName):
         ScriptParamGeneral.__init__(self)
         #Param perso script
-        self._logPath="C:\\Temp\\" + testName + str(date.today())+ '_' + str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + ".txt"
+        self._logPath="C:\\\\Temp\\\\" + testName + str(date.today())+ '_' + str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + ".txt"
 
 
 class testHGMicro_BaseTest(QGroupBox): 
@@ -180,7 +180,7 @@ class testHGMicro_BaseTest(QGroupBox):
     def at_exit(self, code):
         try:
             if self.client:
-                stdin, stdout, stderr = self.client.exec_command("kill $(pidof python2.7)\n\r")
+                stdin, stdout, stderr = self.client.exec_command("kill $(pidof python2.7)\\n\\r")
                 self.client.close()
         except:
             pass
@@ -304,7 +304,7 @@ class testHGMicro_BaseTest(QGroupBox):
 
     #Configuration du Medical Server
     def MedicalServerConfig(self):
-        print("In medicalServerConfig\n")
+        print("In medicalServerConfig\\n")
 
         # Cleaning before adding 
         periphs = self.periphs
@@ -316,7 +316,7 @@ class testHGMicro_BaseTest(QGroupBox):
 
 
         # Adding hub
-        res = self.addHub(self.param.hgoMiniSerialNumber, self.param.ccaUserId)
+        res = self.addHub(self.param.hgoMiniSerialNumber, self.param.ccaUserId, self.param.ccaCustomerId)
 
         if res:
             return 1
@@ -367,16 +367,16 @@ class testHGMicro_BaseTest(QGroupBox):
         self.httpPostHgcFrontend("/postOm2mSettings", settings )
         settings = {"hubId": self.param.hgoMiniSerialNumber,"customerId": self.param.customer}
         self.httpPostHgcFrontend("/postOm2mClearLogs", settings )
-        print("postNetworkApplicationStartStop:\n")
+        print("postNetworkApplicationStartStop:\\n")
         settings = {"id":self.param.networkApplicationName,"status": "true"}
         self.httpPostHgcFrontend("/postNetworkApplicationStartStop", settings )
-        print("postOm2mStartStop:\n")
+        print("postOm2mStartStop:\\n")
         settings = {"status": "true"}
         self.httpPostHgcFrontend("/postOm2mStartStop", settings )
-        print("Enable Medical Server:\n")
+        print("Enable Medical Server:\\n")
         data = {"EnableServer": True}
         # self.httpRequestMedicalServer("POST", "/enableServer", data )
-        print("Medical Server reject readings:\n")
+        print("Medical Server reject readings:\\n")
         data = {"RejectReadings": False}
         # self.httpRequestMedicalServer("POST", "/rejectReadings", data )
         # self.httpRequestMedicalServer("DELETE", "/reading?hubId=" + self.param.hgoMiniSerialNumber)
@@ -389,13 +389,17 @@ class testHGMicro_BaseTest(QGroupBox):
         #########
         ###Step1
         #########
-        print("No steps cause in base test\n")
+        print("No steps cause in base test\\n")
 
 
-
+    def logScenario(self, stepNumber, actionName, actionDescription):
+        self.queue.put("STEP_" + str(stepNumber) + ": " + actionName + ": " + actionDescription)
+        print("STEP_" + str(stepNumber) + ": " + actionName + ": " + actionDescription)
+        
     #######################################
     ## Message Commands
     #######################################
+
     def sendOrder(self, message):
         self.mutex.lock()
         self.DisplayMessageSignal.emit(message)
@@ -417,9 +421,12 @@ class testHGMicro_BaseTest(QGroupBox):
             self.queue.put("STEP_" + str(stepNumber) + ": " + spec + ": KO")
             return 1
 
+
+
     #######################################
     ## Lifecycle Commands
     #######################################
+
     def powerOffHgo(self):
         self.phiphi.PowerOff(0)
         time.sleep(2)
@@ -427,7 +434,7 @@ class testHGMicro_BaseTest(QGroupBox):
     def powerOnHgo(self):
         self.phiphi.PowerOn(0)
 
-    def restartHGo(self):
+    def restartHGo(self, bootMessage=None, stepNumber=None, spec=None):
         result = 0
         self.powerOffHgo()
         self.powerOnHgo()
@@ -435,16 +442,21 @@ class testHGMicro_BaseTest(QGroupBox):
         self.WaitBootLinux(self.param.ser,self.queue, self.param.hgoMiniLogin, self.param.hgoMiniPassword)
         
         # variante: r6=SendSerialAns('tail -f messages|grep "Hub state: normal"','hub_normal: Hub state: normal"', self.param.ser, self.queue,1800)      
+        newRes = 0
+        if bootMessage:
+            newRes = SendSerialAns('tail -f /var/log/messages|grep "' + bootMessage + '"', bootMessage, self.param.ser, self.queue, 600) 
+            answer = "STEP_" + stepNumber + ": " + spec  
+        else:
+            newRes = SendSerialAns('tail -f /var/log/messages|grep "successfully initialized"','Hub successfully initialized', self.param.ser, self.queue, 600)      
         
-        newRes = SendSerialAns('tail -f /var/log/messages|grep "successfully initialized"','Hub successfully initialized', self.param.ser, self.queue,600)      
         result = self.updateResult(result, newRes)
         if result != 0:
-            self.queue.put("Demarrage ko")
+            self.queue.put(answer + ": KO" if spec else "Demarrage: KO")
             return result
         else:
-            self.queue.put("Demarrage OK")
+            self.queue.put(answer + ": OK" if spec else "Demarrage: OK")
 
-        r7=SendSerial('\03', self.param.ser, self.queue, 10)
+        r7=SendSerial('\\03', self.param.ser, self.queue, 10)
         time.sleep(2)
 
         return result
@@ -452,6 +464,7 @@ class testHGMicro_BaseTest(QGroupBox):
 
     def sleep(self, seconds):
         time.sleep(seconds)
+
 
     def disconnectAndReconnectBatteries(self, periphName):
         result = 0
@@ -481,11 +494,9 @@ class testHGMicro_BaseTest(QGroupBox):
     ## Device Commands
     #######################################
     
-    # Patient creation: A faire
-
 
     # Ajout Hub: Fait
-    def addHub(self, hgoMiniSerialNumber, ccaUserId):
+    def addHub(self, hgoMiniSerialNumber, ccaUserId, customerId):
         hubsensorlink = self.httpRequestCcaTest("GET", "/hubs")
         response_json = json.loads(hubsensorlink.text)
         hubListMedicalServer = []
@@ -496,16 +507,18 @@ class testHGMicro_BaseTest(QGroupBox):
         if self.param.hgoMiniSerialNumber not in hubListMedicalServer:
             print("Add hub in Medical Server")
 
-            newHub = '{"id": ' + hgoMiniSerialNumber + ', \
-            "serialNumber": "' + hgoMiniSerialNumber + '", \
-            "UserId": "' + ccaUserId + '", \
-            "CustomerId": "a30b28d0-8275-4ee3-b6c3-b64cfad6dd4b", \
-            "latestHeartbeatDateTime": "2022-02-22T13:47:38.000Z", \
-            "dateStart": "2022-02-22T13:47:38.000Z", \
-            "dateEnd": null, \
-            "kit": true, \
-            "debug": false \
+            newHub = '{"id": ' + str(hgoMiniSerialNumber) + ', \\
+            "serialNumber": "' + str(hgoMiniSerialNumber) + '", \\
+            "UserId": "' + str(ccaUserId) + '", \\
+            "CustomerId":"' + str(customerId) + '", \\
+            "latestHeartbeatDateTime": "2022-02-22T13:47:38.000Z", \\
+            "dateStart": "2022-02-22T13:47:38.000Z", \\
+            "dateEnd": null, \\
+            "kit": true, \\
+            "debug": false \\
             }'
+
+
     
             data = newHub 
             
@@ -517,11 +530,13 @@ class testHGMicro_BaseTest(QGroupBox):
             else:
                 self.queue.put("Error: Hub " + hgoMiniSerialNumber + " not added. " + result.text + "(" + str(result.status_code) + ")")
                 return 1
+        else:
+            print("Hub already in Medical Server")
             
 
 
     # Ajout Device: Fait
-    def addDevice(self, deviceSerialNumber, sensorType):
+    def addDevice(self, deviceSerialNumber, sensorType, unitName=None):
         # get the sensorTypeId based on the sensorType
         sensorTypeId = 0
         for sensor in self.param.sensorTypes:
@@ -532,14 +547,34 @@ class testHGMicro_BaseTest(QGroupBox):
             self.queue.put("Can't retrieve sensorTypeId for sensorType " + sensorType)
             return 1
 
-        newDevice = '''{
-            "macAddress": "''' + str(deviceSerialNumber) + '''",
-            "SensorTypeId": ''' + str(sensorTypeId) + ''',
-            "DeviceModelId": 1,
-            "UserId": "34fcb17f-8c2d-419d-b438-980de0a8d123",
-            "dateStart": "2020-07-15T06:36:59.000Z",
-            "dateEnd": null
-        }'''
+        newDevice = ''
+
+        if unitName == None:
+            newDevice = '''{
+                "macAddress": "''' + str(deviceSerialNumber) + '''",
+                "SensorTypeId": ''' + str(sensorTypeId) + ''',
+                "DeviceModelId": 1,
+                "UserId": "''' + self.param.ccaUserId + '''",
+                "dateStart": "2020-07-15T06:36:59.000Z",
+                "dateEnd": null
+            }'''
+        else:
+            newDevice = '''{
+                "macAddress": "''' + str(deviceSerialNumber) + '''",
+                "SensorTypeId": ''' + str(sensorTypeId) + ''',
+                "DeviceModelId": 1,
+                "UserId": "''' + self.param.ccaUserId + '''",
+                "parameters":
+                [
+                    {
+                        "name":"unit",
+                        "value":"''' + str(unitName) + '''"
+                    }
+                ],
+                "dateStart": "2020-07-15T06:36:59.000Z",
+                "dateEnd": null
+            }'''
+
 
         result = self.httpRequestCcaTest("POST", "/devices/add", newDevice)
 
@@ -562,11 +597,11 @@ class testHGMicro_BaseTest(QGroupBox):
         deviceId = self.periphs[deviceSerialNumber]["deviceId"]
 
         # ... pour le préciser dans l'association kittings
-        data =  '{ \
-            "dateStart": "2022-02-23T09:08:05.000Z", \
-            "DeviceId": ' + str(deviceId) + ', \
-            "DeviceModelId": 1, \
-            "HubId":  ' + str(hubId) + '\
+        data =  '{ \\
+            "dateStart": "2022-02-23T09:08:05.000Z", \\
+            "DeviceId": ' + str(deviceId) + ', \\
+            "DeviceModelId": 1, \\
+            "HubId":  ' + str(hubId) + '\\
         }'
 
         """ Return value
@@ -670,12 +705,30 @@ class testHGMicro_BaseTest(QGroupBox):
 
 
     def compareMeasurements(self, spec, stepNumber, oldMeasurements, newMeasurements, shouldBeDifferent, numNewMeasurements = 1):
-        if (len(newMeasurements) - len(oldMeasurements) >= numNewMeasurements) and shouldBeDifferent \
+        if (len(newMeasurements) - len(oldMeasurements) >= numNewMeasurements) and shouldBeDifferent \\
             or oldMeasurements == newMeasurements and not shouldBeDifferent:
             self.queue.put("STEP_" + str(stepNumber) + ": " + spec + ": OK")
             return 0
         else :
             self.queue.put("STEP_" + str(stepNumber) + ": HGMicro send data: KO")
+            return 1
+
+
+
+    def compareOneMeasurement(self, spec, stepNumber, comparison, deviceId):
+        try:
+            measurements = self.getMeasurements(self, self.param.ccaUserId, deviceId)
+
+            if eval(f"{len(measurements)} {comparison}"):
+                self.queue.put("STEP_" + str(stepNumber) + ": " + spec + ": OK")
+                return 0
+            else:
+                self.queue.put("STEP_" + str(stepNumber) + ": " + spec + ": KO")
+                return 1
+            
+        except (SyntaxError, NameError, TypeError):
+            self.queue.put("in baseTest 'compareOneMeasurement', '{measurements} {comparison}' is not a valid comparison")
+            self.queue.put("STEP_" + str(stepNumber) + ": " + spec + ": KO")
             return 1
 
 
@@ -741,14 +794,14 @@ class testHGMicro_BaseTest(QGroupBox):
     
 
 
-    def addPeriph(self, deviceSerialNumber, sensorType, hubId):
+    def addPeriph(self, deviceSerialNumber, sensorType, hubId, unitName=None):
         self.periphs[deviceSerialNumber] = {
             "sensorType": sensorType,
             "deviceId": None,
             "kittingId": None,
         }
 
-        res1 = self.addDevice(deviceSerialNumber, sensorType)
+        res1 = self.addDevice(deviceSerialNumber, sensorType, unitName)
 
         if not res1:
             # Associer le device au Patient (kitting). Pas grave si l'association est déjà faite
@@ -764,8 +817,9 @@ class testHGMicro_BaseTest(QGroupBox):
     # Delete Hub
     def removeHub(self, hubId):
         result = self.httpRequestCcaTest("DELETE", "/hubs/delete/" + str(hubId))
+
         if result.status_code == 201 or result.status_code == 404:
-            self.queue.put("Hub " + str(hubId) + " deleted")
+            self.queue.put("Hub " + str(hubId) + " deleted or not found (" + str(result.status_code) + ")")
             return 0
         else:
             self.queue.put("Error: Hub " + str(hubId) + " not deleted. " + result.text + "(" + str(result.status_code) + ")")
@@ -775,7 +829,7 @@ class testHGMicro_BaseTest(QGroupBox):
 
     # Clean up the kittings, devices and the hub itself
     def cleanup(self, hubId):
-        # Retrive all info for deletion
+        # Retreive all info for deletion
         result = self.httpRequestCcaTest("GET", "/kittings/DevicesByKittedHubs/" + str(hubId))
         if result.status_code == 200:
             data = json.loads(result.text)
@@ -786,22 +840,124 @@ class testHGMicro_BaseTest(QGroupBox):
                 res1 = self.removeKitting(kitting["id"])
                 res2 = self.removeDevice(kitting["Device"]["id"])
             
-            if not res1 and not res2:
-                res3 = self.removeHub(hubId)
+            res3 = self.removeHub(hubId)
 
-                if not res3:
-                    self.queue.put("Cleanup of Hub " + str(hubId) + " done")
-                    return 0
+            if not res3:
+                self.queue.put("Cleanup of Hub " + str(hubId) + " done")
+                return 0
             
         self.queue.put("Error: Cleanup of Hub " + str(hubId) + " not done. ")
         return 1
 
             
+    # Change periph unit
+    def changePeriphUnitAndTest(self, stepNumber, deviceSerialNumber, unit, measureMessage, peripheralSpecMessage, measureSpecMessage):
+        result = 0
+
+        # Take old measurements
+        deviceId = self.periphs[deviceSerialNumber]["deviceId"]
+        oldMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)
+
+        # Remove periph
+        sensorType = self.periphs[deviceSerialNumber]["sensorType"]
+        newRes = self.removePeriph(deviceSerialNumber)
+        result = self.updateResult(result, newRes)
+        self.sendOrder("Appuyer sur le bouton TOP et attendre que la LED 'HealthGO Cloud Communication' devienne verte fixe.")
+
+
+        # Add new periph back again
+        self.addPeriph(deviceSerialNumber, sensorType, self.param.hgoMiniSerialNumber, unit)
+        self.sendOrder("Appuyer sur le bouton TOP et attendre que la LED 'HealthGO Cloud Communication' devienne verte fixe.")
+
+
+        # Take measure
+        newRes = self.sendQuestion(measureMessage, stepNumber, peripheralSpecMessage, True)
+        result = self.updateResult(result, newRes)
+
+
+        # Compare measures
+        message = "Attendre que la LED 'HealthGO Cloud Communication' devienne verte fixe"
+        self.sendOrder(message)
+        deviceId = self.periphs[deviceSerialNumber]["deviceId"]
+        newMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)
+        shouldBeDifferent = True
+
+        newRes = self.compareMeasurements(measureSpecMessage, stepNumber, oldMeasurements, newMeasurements, shouldBeDifferent)
+        result = self.updateResult(result, newRes)
+
+        return result
+
+
+
+    
+    # Verify that the time of the measurements is okay
+    def measurementTimeIsToday(self, stepNumber, deviceSerialNumber, shouldBeDifferent):
+        result = 0
+
+        deviceId = self.periphs[deviceSerialNumber]["deviceId"]
+        sensorType = self.periphs[deviceSerialNumber]["sensorType"]
+        newMeasurements = self.getMeasurements(self.param.ccaUserId, deviceId)
+        date_format = "%Y-%m-%d"
+
+        measurementTime = datetime.strptime(newMeasurements[0]['dateTimeTaken'][:10], date_format)
+        current_date = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+
+        print("measurementTime: " + str(measurementTime))
+        print("current_date: " + str(current_date))
+
+        if shouldBeDifferent:
+            spec = "STEP_" + str(stepNumber) + ": Internal time of " + str(sensorType) + " '" + str(deviceSerialNumber) + "' is not updated"
+
+            if measurementTime != current_date:
+                self.queue.put(spec + ": OK")
+            else :
+                self.queue.put(spec + ": KO")
+                result=1
+        else:
+            spec = "STEP_" + str(stepNumber) + ": Internal time of " + str(sensorType) + " '" + str(deviceSerialNumber) + "' is updated after the first connection with the HGMicro"
+
+            if measurementTime ==  current_date:
+                self.queue.put(spec + ": OK")
+            else :
+                self.queue.put(spec + ": KO")
+                result=1
+
+        
+        return result
+    
+
+    def getAllHubDevices(self, hubId):
+        devices = {}
+        result = self.httpRequestCcaTest("GET", "/kittings/DevicesByKittedHubs/:hubId?=" + hubId)
+
+        if result.status_code == 200:
+            data = json.loads(result)
+    
+            for item in data:
+                devices.update({
+                    item['Device']['macAddress']: {
+                        'kittingId': item['id'],
+                        'deviceId': item['Device']['id'],
+                        'sensorType': [el["sensorType"] for el in self.param.sensorTypes if el["name"] == item['Device']['SensorType']['name']][0] 
+                    }
+                })
+                    
+    
+            return devices
+            
+        
+        self.queue.put('getAllHubDevices: Can\\'t retrieve devices: ' + result.status_code + ": " + result.text)
+        return devices
+
+
 
 
     #######################################
     ## Database Commands
     #######################################
+
     def resetDb(self):
         result = 0 
         print("Configure the HGMicro to use default parameter")
@@ -813,23 +969,192 @@ class testHGMicro_BaseTest(QGroupBox):
         time.sleep(2)
 
         return result
+    
+    
+    # Example of commandsStr: "request1; response1 => request2;"
+    # What will be run:
+    # SendSerialAns(request1, response1, self.param.ser, self.queue, 30)
+    # self.sleep(2)
+    # SendSerial(request2, self.param.ser, self.queue, 30)
+    # self.sleep(2)
+    def sendSQLCommands(self, stepNumber, commandsStr, spec):
+        result = 0
+
+        # Enter sqlite3 cli
+        newRes = SendSerial('sqlite3 /var/lib/edevice/hub_db.db', self.param.ser, self.queue,10)
+        time.sleep(2)
+
+        newRes = WaitSerial('sqlite>', self.param.ser, self.queue, 10)
+        if newRes != 0:
+            self.queue.put("SQLITE CONNECT FAILURE")
+            return 1
+        time.sleep(2)
+
+        # Extract commands
+        commands  = commandsStr.split('=>')
+
+
+        # Run commands
+        for commandStr in commands:
+            command = commandStr.split(";")
+            command = [el for el in command if el.strip() != '']
+
+            if len(command) == 1:
+                SendSerial(command[0] + ';', self.param.ser, self.queue, 10)        
+            elif len(command) == 2:
+                newRes = SendSerialAns(command[0] + ';', command[1], self.param.ser, self.queue, 30)
+                if newRes != 0:
+                    self.queue.put(command[0], " KO (expected: " + command[1] + ")")
+                    result = 1
+            time.sleep(2)
+
+        
+        if result == 0:
+            self.queue.put("STEP " + stepNumber + ": " + spec + ": OK")
+        else:
+            self.queue.put("STEP " + stepNumber + ": " + spec + ": KO")
+
+        # Close cli
+        newRes = SendSerial('\\04', self.param.ser, self.queue, 10)
+        time.sleep(2)
+        newRes = WaitSerial('root@healthgomicro:~#', self.param.ser, self.queue, 10)
+        if newRes != 0:
+            self.queue.put("Config FAILURE : escape of sqlite KO")
+            result = 1
+        else:
+            self.queue.put("Config OK")
+        
+        newRes = SendSerial('sync', self.param.ser, self.queue,10)        
+        time.sleep(5)
+
+        return result
+
 
 
     #######################################
     ## Serial Commands
     #######################################
 
+    def sendSerialAndWaitAns(self, command, answer, spec, timeToWait):
+        r = SendSerialAns(command, answer, self.param.ser, self.queue, timeToWait)      
+        if r != 0:
+            self.queue.put(spec + ": KO")
+            r = 1
+        else:
+            self.queue.put(spec + ": OK")
+        
+        SendSerial('\\03', self.param.ser, self.queue, 10)
+        time.sleep(2)
+        
+        return r
+    
+    # Example of commandsStr: "AT+CGDCONT=1,'IP', 'aaa.bbb.com' => ATE1 ; OK"
+    # What will be run:
+    # SendSerial("AT+CGDCONT=1,'IP', 'aaa.bbb.com'", self.param.ser, self.queue, 30)
+    # self.sleep(5)
+    # SendSerialAns("ATE1", "OK", self.param.ser, self.queue, 30)
+    def configureMicrocom(self, stepNumber, commandsStr, spec):
+        result = 0
+
+        # Enter microcom cli
+        SendSerial("microcom -s 115200 /dev/ttymxc3", self.param.ser, self.queue, 30)
+        self.sleep(5)
+
+        # Extract commands
+        commands = commandsStr.split("=>")
+
+        # Run commands
+        for commandStr in commands:
+            command = commandStr.split(";")
+            if len(command) == 1:
+                SendSerial(command[0], self.param.ser, self.queue, 10)
+            elif len(command) == 2:
+                newRes = SendSerialAns(command[0], command[1], self.param.ser, self.queue, 30)
+                if newRes != 0:
+                    self.queue.put(command[0], " KO (expected: " + command[1] + ")")
+                    result = 1
+            self.sleep(5)
+            
+
+        # Close cli
+        SendSerial('\\x18', self.param.ser, self.queue, 10)
+        self.sleep(5)
+        WaitSerial('root@healthgomicro:~#', self.param.ser, self.queue, 10)
+
+        if result == 0:
+            self.queue.put("STEP " + stepNumber + ": " + spec + ": OK")
+        else:
+            self.queue.put("STEP " + stepNumber + ": " + spec + ": KO")
+
+        return result
+    
+
     #######################################
     ## OM2M Commands
     #######################################
+
+    def applicationStartStop(self, isStart):
+        data = {}
+        if isStart:
+            data = {"id":"eDevice","status":"true"}
+        else:
+            data = {"id":"eDevice","status":"false"}  
+
+        self.httpPostHgcFrontend("/postNetworkApplicationStartStop", data)
+
+
+    def getContainerData(self, containerName):
+        data = {"hubId": self.param.hgoMiniSerialNumber, "customerId":"edevice", "container": containerName}
+        container = self.httpPostHgcFrontend("/getOm2mContainer", data)
+        return json.loads(container)
+
+
 
     #######################################
     ## SSH Commands
     #######################################
 
+    def waitingForSSHConnection(self, stepNumber):
+        i = 0
+        while i >= 20:
+            newRes = SendSerialAns('ifconfig', 'tun0', self.param.ser, self.queue, 10)
+            if newRes == 0:
+                self.queue.put("STEP " + stepNumber + ": HGMicro available for Remote Control: OK")
+                return True
+            else :
+                self.queue.put("Remote Control still not ready")
+            
+            i += 1
+            self.sleep(30) 
+        
+
+        self.queue.put("STEP " + stepNumber + ": HGMicro available for Remote Control: KO")
+
+        return False
+
+
+    def runSSHCommand(self, command, completionCode):
+        result = 0
+        resultSsh = SSHExecCmd(self.param.vpnServerIp, self.param.vpnServerLogin, self.param.vpnServerPassword,  command)
+        exec(completionCode, {'resultSsh': resultSsh, 'result': result})
+
+        return result
+
+
+
     #######################################
     ## Other Commands
     #######################################
+    def ifStatement(self, condition, thenStatement, elseStatement):
+
+        if eval(condition):
+            exec(thenStatement)
+            return 0
+        else:
+            exec(elseStatement)
+            return 1
+
+
 
     #Scenario du test
     def runtest(self):
@@ -884,4 +1209,5 @@ if __name__ == "__main__":
     myapp.show()
     #exit
     sys.exit(app.exec_())
+
 `;
